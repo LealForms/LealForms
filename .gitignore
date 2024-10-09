@@ -1,2 +1,6 @@
-LForms/obj/*
-LForms/bin/*
+# Visual Studio Files
+/.vs/
+
+# Build files
+/LForms/obj/
+/LForms/bin/
