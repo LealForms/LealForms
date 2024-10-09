@@ -1,0 +1,15 @@
+C:\Projects\OpenSource\LealForms\LealForms\LForms\bin\Debug\net8.0-windows\LForms.exe
+C:\Projects\OpenSource\LealForms\LealForms\LForms\bin\Debug\net8.0-windows\LForms.deps.json
+C:\Projects\OpenSource\LealForms\LealForms\LForms\bin\Debug\net8.0-windows\LForms.runtimeconfig.json
+C:\Projects\OpenSource\LealForms\LealForms\LForms\bin\Debug\net8.0-windows\LForms.dll
+C:\Projects\OpenSource\LealForms\LealForms\LForms\bin\Debug\net8.0-windows\LForms.pdb
+C:\Projects\OpenSource\LealForms\LealForms\LForms\obj\Debug\net8.0-windows\LForms.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projects\OpenSource\LealForms\LealForms\LForms\obj\Debug\net8.0-windows\LForms.AssemblyInfoInputs.cache
+C:\Projects\OpenSource\LealForms\LealForms\LForms\obj\Debug\net8.0-windows\LForms.AssemblyInfo.cs
+C:\Projects\OpenSource\LealForms\LealForms\LForms\obj\Debug\net8.0-windows\LForms.csproj.CoreCompileInputs.cache
+C:\Projects\OpenSource\LealForms\LealForms\LForms\obj\Debug\net8.0-windows\LForms.sourcelink.json
+C:\Projects\OpenSource\LealForms\LealForms\LForms\obj\Debug\net8.0-windows\LForms.dll
+C:\Projects\OpenSource\LealForms\LealForms\LForms\obj\Debug\net8.0-windows\refint\LForms.dll
+C:\Projects\OpenSource\LealForms\LealForms\LForms\obj\Debug\net8.0-windows\LForms.pdb
+C:\Projects\OpenSource\LealForms\LealForms\LForms\obj\Debug\net8.0-windows\LForms.genruntimeconfig.cache
+C:\Projects\OpenSource\LealForms\LealForms\LForms\obj\Debug\net8.0-windows\ref\LForms.dll
