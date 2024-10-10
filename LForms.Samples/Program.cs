@@ -1,14 +1,11 @@
-namespace LForms;
+namespace LForms.Samples;
 
 internal static class Program
 {
-    /// <summary>
-    ///  The main entry point for the application.
-    /// </summary>
     [STAThread]
     internal static void Main()
     {
         ApplicationConfiguration.Initialize();
-        Application.Run(new Form1());
+        Application.Run();
     }    
 }

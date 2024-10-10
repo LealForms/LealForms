@@ -4,3 +4,5 @@
 # Build files
 /LForms/obj/
 /LForms/bin/
+/LForms.Samples/obj
+/LForms.Samples/bin
