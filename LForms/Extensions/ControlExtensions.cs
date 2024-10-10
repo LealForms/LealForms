@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -226,23 +227,41 @@ public static class ControlExtensions
     #endregion
 
     /// <summary>
-    /// Recursively searches up the control hierarchy to find the first parent that is a Form.
+    /// Recursively searches for and returns the closest parent control of the specified type.
     /// </summary>
-    /// <param name="parent">The starting control for the search.</param>
-    /// <returns>The first parent Form found in the control hierarchy; null if none is found.</returns>
-    public static Control? FindParentForm(this Control parent)
+    /// <typeparam name="T">The type of the parent control to search for, which must inherit from <see cref="Control"/>.</typeparam>
+    /// <param name="control">The control from which to begin the search.</param>
+    /// <returns>The closest parent control of type <typeparamref name="T"/> if found; otherwise, <c>null</c>.</returns>
+    public static T? GetClosestParentOfType<T>(this Control control) where T : Control
     {
-        // Check if the current control is a Form.
-        // If so, return it as the topmost parent Form has been found.
-        if (parent is Form)
-            return parent;
+        if (control is T target)
+            return target;
 
-        // If the current control is not a Form but has a parent,
-        // recursively call the method with the parent control to continue searching up the hierarchy.
-        if (parent.Parent != null)
-            return parent.Parent.FindParentForm();
+        if (control.Parent != null)
+            return control.Parent.GetClosestParentOfType<T>();
 
-        // If the current control has no parent, return null indicating no parent Form was found in the hierarchy.
         return null;
     }
+
+    /// <summary>
+    /// Retrieves all child controls of the specified type from the given <see cref="Control.ControlCollection"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of control to search for, which must inherit from <see cref="Control"/>.</typeparam>
+    /// <param name="collection">The collection of controls to search through.</param>
+    /// <returns>An <see cref="IEnumerable{T}"/> containing all child controls of the specified type.</returns>
+    public static IEnumerable<T> GetChildOfType<T>(this Control.ControlCollection collection) where T : Control
+    {
+        foreach (var control in collection)
+            if (control is T target)
+                yield return target;
+    }
+
+    /// <summary>
+    /// Retrieves all child controls of the specified type from the given <see cref="Control"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of control to search for, which must inherit from <see cref="Control"/>.</typeparam>
+    /// <param name="control">The control whose children are to be searched.</param>
+    /// <returns>An <see cref="IEnumerable{T}"/> containing all child controls of the specified type.</returns>
+    public static IEnumerable<T> GetChildOfType<T>(this Control control) where T : Control
+        => GetChildOfType<T>(control.Controls);
 }
