@@ -6,6 +6,6 @@ internal static class Program
     internal static void Main()
     {
         ApplicationConfiguration.Initialize();
-        Application.Run();
-    }    
+        Application.Run(new Form1());
+    }
 }
