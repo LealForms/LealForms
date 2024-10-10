@@ -35,4 +35,20 @@ public static class ExternalExtensions
     /// <returns>Handle to the created region.</returns>
     [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
     public static extern IntPtr CreateRoundRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect, int nWidthEllipse, int nHeightEllipse);
+
+    /// <summary>
+    /// Enables or disables the immersive dark mode for a window.
+    /// </summary>
+    /// <param name="handle">The handle to the window for which to set the immersive dark mode.</param>
+    /// <param name="enabled">A boolean value indicating whether to enable or disable dark mode.</param>
+    /// <returns>True if the operation was successful, false otherwise.</returns>
+    [DllImport("dwmapi.dll")]
+    public static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int attrValue, int attrSize);
+
+    /// <summary>
+    /// Checks if the system's theme is set to dark mode.
+    /// </summary>
+    /// <returns>True if the system is using dark mode; otherwise, false.</returns>
+    [DllImport("UXTheme.dll", SetLastError = true, EntryPoint = "#138")]
+    public static extern bool ShouldSystemUseDarkMode();
 }

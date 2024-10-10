@@ -12,7 +12,7 @@ public static class ControlExtensions
     /// </summary>
     /// <param name="control">The control to hide or show.</param>
     /// <param name="hide">Whether to show the control (true) or hide it (false).</param>
-    public static void SetVisibility(this Control control, bool show = true)
+    public static void ToggleVisibility(this Control control, bool show = true)
     {
         control.Visible = show;
         control.Enabled = show;
