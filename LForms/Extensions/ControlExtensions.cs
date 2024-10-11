@@ -35,6 +35,19 @@ public static class ControlExtensions
         => control.Controls.Add(childControl);
 
     /// <summary>
+    /// Removes a child control from the specified control.
+    /// </summary>
+    /// <param name="control">The parent control.</param>
+    /// <param name="childControl">The child control to remove.</param>
+    public static void Remove(this Control control, Control? childControl)
+    {
+        if (childControl == null)
+            return;
+
+        control.Controls.Remove(childControl);
+    }
+
+    /// <summary>
     /// Handles mouse down events and allows for window dragging, restricted to a specific mouse button.
     /// </summary>
     /// <param name="handle">Handle to the window to be dragged.</param>

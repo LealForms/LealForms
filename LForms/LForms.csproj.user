@@ -8,5 +8,8 @@
     <Compile Update="Controls\Buttons\LealSelectableButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="Controls\Mischellaneous\LealSeparator.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
 </Project>
