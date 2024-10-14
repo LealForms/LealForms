@@ -1,4 +1,5 @@
 ﻿using LForms.Controls.Base;
+using LForms.Controls.Buttons;
 using LForms.Controls.Mischellaneous;
 using LForms.Controls.Panels;
 using LForms.Extensions;
@@ -20,7 +21,7 @@ internal sealed class MyCustomFormExample : LealBaseForm
             TabName = "Tab1",
             BackColor = Color.AntiqueWhite,
         };
-        var labelTab1 = new LealGradientPanel()
+        var gradientPanel = new LealGradientPanel()
         {
             Dock = DockStyle.Fill,
             TopLeftGradientColor = Color.AliceBlue,
@@ -28,9 +29,10 @@ internal sealed class MyCustomFormExample : LealBaseForm
             BottomLeftGradientColor = Color.Black,
             BottomRightGradientColor = Color.Black,
         };
-        tab1.Add(labelTab1);
+        tab1.Add(gradientPanel);
 
-        lealTabManager.Add(tab1);
+        var lealBtn = new LealButton();
+        gradientPanel.Add(lealBtn);
 
         var tab2 = new LealTab()
         {
@@ -45,6 +47,9 @@ internal sealed class MyCustomFormExample : LealBaseForm
             TextAlign = ContentAlignment.MiddleCenter,
         };
         tab2.Add(labelTab2);
+
+        lealTabManager.Add(tab1);
         lealTabManager.Add(tab2);
+        lealBtn.Centralize();
     }
 }

@@ -71,6 +71,17 @@ public static class ControlExtensions
 
     #region [ Positional ]
     /// <summary>
+    /// Centralizes the control relative to the parent.
+    /// </summary>
+    /// <param name="control">The control to centralize.</param>
+    public static void Centralize(this Control control)
+    {
+        if (control.Parent == null) return;
+
+        CentralizeRelativeTo(control, control.Parent);
+    }
+
+    /// <summary>
     /// Centralizes the control relative to the specified reference control.
     /// </summary>
     /// <param name="control">The control to centralize.</param>
