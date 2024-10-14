@@ -5,10 +5,22 @@
     <Compile Update="Controls\Base\LealBaseButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="Controls\Base\LealBasePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\Base\LealBaseTab.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="Controls\Buttons\LealSelectableButton.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Update="Controls\Mischellaneous\LealSeparator.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\Mischellaneous\LealTab.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\Mischellaneous\LealTabManager.cs">
       <SubType>Component</SubType>
     </Compile>
   </ItemGroup>

@@ -46,16 +46,16 @@ public static class FormExtensions
     /// and should be used with caution as it may change or be removed in future versions of Windows.
     /// </summary>
     /// <returns>True if the system is using dark mode; otherwise, false. Also returns false if there's an error calling the API.</returns>
-    public static bool TryGetDarkMode(out bool darkMode)
+    public static bool TrySetDarkMode(this Form form)
     {
         try
         {
-            darkMode = ExternalExtensions.ShouldSystemUseDarkMode();
+            var darkMode = ExternalExtensions.ShouldSystemUseDarkMode();
+            form.Handle.UseImmersiveDarkMode(darkMode);
             return true;
         }
         catch
         {
-            darkMode = false;
             return false;
         }
     }
