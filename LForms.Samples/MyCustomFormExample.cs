@@ -1,5 +1,6 @@
 ﻿using LForms.Controls.Base;
 using LForms.Controls.Mischellaneous;
+using LForms.Controls.Panels;
 using LForms.Extensions;
 
 namespace LForms.Samples;
@@ -19,12 +20,13 @@ internal sealed class MyCustomFormExample : LealBaseForm
             TabName = "Tab1",
             BackColor = Color.AntiqueWhite,
         };
-        var labelTab1 = new Label()
+        var labelTab1 = new LealGradientPanel()
         {
-            Text = "tab1",
-            AutoSize = false,
             Dock = DockStyle.Fill,
-            TextAlign = ContentAlignment.MiddleCenter,
+            TopLeftGradientColor = Color.AliceBlue,
+            TopRightGradientColor = Color.AliceBlue,
+            BottomLeftGradientColor = Color.Black,
+            BottomRightGradientColor = Color.Black,
         };
         tab1.Add(labelTab1);
 

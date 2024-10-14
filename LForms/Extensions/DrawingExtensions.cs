@@ -2,6 +2,7 @@
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing;
+using System.Collections.Generic;
 
 namespace LForms.Extensions;
 
@@ -34,38 +35,130 @@ public static class DrawingExtensions
     }
 
     /// <summary>
-    /// Resizes an image to the specified width and height while maintaining high quality.
+    /// Resizes the given image to the specified dimensions, optionally using high-quality rendering settings.
     /// </summary>
     /// <param name="image">The source <see cref="Image"/> to resize.</param>
-    /// <param name="newWidth">The target width of the resized image.</param>
-    /// <param name="newHeight">The target height of the resized image.</param>
-    /// <returns>A new <see cref="Bitmap"/> instance of the resized image.</returns>
+    /// <param name="newWidth">The desired width of the resized image.</param>
+    /// <param name="newHeight">The desired height of the resized image.</param>
+    /// <param name="highQuality">
+    /// A boolean value that indicates whether to use high-quality rendering settings. 
+    /// If <c>true</c>, the method applies high-quality settings; otherwise, it uses faster, lower-quality settings.
+    /// </param>
+    /// <returns>A resized <see cref="Bitmap"/> with the specified dimensions.</returns>
     /// <remarks>
-    /// This method applies high-quality settings for smoothing, pixel offset, and interpolation to ensure
-    /// the resized image maintains visual quality. The <see cref="WrapMode.TileFlipXY"/> wrap mode is used to
-    /// prevent the appearance of seams when tiles are flipped both horizontally and vertically.
+    /// The method maintains the original image's resolution and uses different graphics settings based on 
+    /// the <paramref name="highQuality"/> parameter to either prioritize quality or performance.
     /// </remarks>
-    public static Bitmap ResizeImage(this Image image, int newWidth, int newHeight)
+    public static Bitmap ResizeImage(this Image image, int newWidth, int newHeight, bool highQuality = true)
     {
         var destRect = new Rectangle(0, 0, newWidth, newHeight);
-        var targetImage = new Bitmap(newWidth, newHeight);
+        var destImage = new Bitmap(newWidth, newHeight);
 
-        targetImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+        destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
-        using (var g = Graphics.FromImage(targetImage))
+        using var graphics = Graphics.FromImage(destImage);
+
+        graphics.CompositingMode = CompositingMode.SourceCopy;
+
+        if (highQuality)
         {
-            g.SmoothingMode = SmoothingMode.HighQuality;
-            g.CompositingMode = CompositingMode.SourceCopy;
-            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            g.CompositingQuality = CompositingQuality.HighQuality;
-            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-
-            using var wrapMode = new ImageAttributes();
-
-            wrapMode.SetWrapMode(WrapMode.TileFlipXY);
-            g.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+            graphics.CompositingQuality = CompositingQuality.HighQuality;
+            graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            graphics.SmoothingMode = SmoothingMode.HighQuality;
+            graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+        }
+        else
+        {
+            graphics.CompositingQuality = CompositingQuality.HighSpeed;
+            graphics.InterpolationMode = InterpolationMode.Low;
+            graphics.SmoothingMode = SmoothingMode.None;
+            graphics.PixelOffsetMode = PixelOffsetMode.None;
         }
 
-        return targetImage;
+        using var wrapMode = new ImageAttributes();
+        wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+        graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+
+        return destImage;
+    }
+
+    /// <summary>
+    /// Generates a 2D gradient bitmap for a given rectangle by blending four corner colors using a PathGradientBrush.
+    /// </summary>
+    /// <param name="rect">The rectangle area to fill with the gradient.</param>
+    /// <param name="colorTopLeft">Color at the top-left corner.</param>
+    /// <param name="colorTopRight">Color at the top-right corner.</param>
+    /// <param name="colorBottomRight">Color at the bottom-right corner.</param>
+    /// <param name="colorBottomLeft">Color at the bottom-left corner.</param>
+    /// <returns>A Bitmap containing the gradient.</returns>
+    public static Bitmap Gradient2D(this Rectangle rect, Color colorTopLeft, Color colorTopRight, Color colorBottomRight, Color colorBottomLeft)
+    {
+        if (rect.Width == 0)
+            rect.Width = 1;
+
+        if (rect.Height == 0)
+            rect.Height = 1;
+
+        var colors = new List<Color> { colorTopLeft, colorTopRight, colorBottomRight, colorBottomLeft };
+        var bmp = new Bitmap(rect.Width, rect.Height);
+
+        using var g = Graphics.FromImage(bmp);
+        using var pgb = new PathGradientBrush(GetCorners(rect).ToArray())
+        {
+            CenterColor = CalculateCentralColor(colors),
+            SurroundColors = [.. colors]
+        };
+
+        g.FillRectangle(pgb, rect);
+
+        return bmp;
+    }
+
+    /// <summary>
+    /// Blends two colors together based on a specified blend ratio.
+    /// </summary>
+    /// <param name="firstColor">The starting color.</param>
+    /// <param name="secondColor">The ending color.</param>
+    /// <param name="blendRatio">A float between 0 and 1 representing the blend weight.</param>
+    /// <returns>The blended Color.</returns>
+    public static Color BlendColors(this Color firstColor, Color secondColor, float blendRatio)
+    {
+        blendRatio = Math.Clamp(blendRatio, 0f, 1f);
+        byte a = (byte)(firstColor.A + (secondColor.A - firstColor.A) * blendRatio);
+        byte r = (byte)(firstColor.R + (secondColor.R - firstColor.R) * blendRatio);
+        byte g = (byte)(firstColor.G + (secondColor.G - firstColor.G) * blendRatio);
+        byte b = (byte)(firstColor.B + (secondColor.B - firstColor.B) * blendRatio);
+
+        return Color.FromArgb(a, r, g, b);
+    }
+
+    /// <summary>
+    /// Retrieves a list of the four corner points of a rectangle in a specific order.
+    /// </summary>
+    /// <param name="rect">The rectangle from which to get the corners.</param>
+    /// <returns>A list of PointF representing the corners of the rectangle.</returns>
+    public static List<PointF> GetCorners(this RectangleF rect) =>
+    [
+        rect.Location,
+        new PointF(rect.Right, rect.Top),
+        new PointF(rect.Right, rect.Bottom),
+        new PointF(rect.Left, rect.Bottom)
+    ];
+
+    /// <summary>
+    /// Calculates the average (central) color from a list of colors by averaging their ARGB components.
+    /// </summary>
+    /// <param name="colors">A list of Colors to average.</param>
+    /// <returns>The averaged Color.</returns>
+    public static Color CalculateCentralColor(this List<Color> colors)
+    {
+        if (colors.Count != 4)
+            throw new ArgumentException("Exactly four colors are required.");
+
+        var avgColor1 = BlendColors(colors[0], colors[2], 0.5f); // Top-left and bottom-right
+        var avgColor2 = BlendColors(colors[1], colors[3], 0.5f); // Top-right and bottom-left
+
+        // Blend the two averages to get the central color
+        return BlendColors(avgColor1, avgColor2, 0.5f);
     }
 }

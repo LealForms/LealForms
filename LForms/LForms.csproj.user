@@ -26,5 +26,8 @@
     <Compile Update="Controls\Mischellaneous\LealTabManager.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="Controls\Panels\LealGradientPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
 </Project>
