@@ -5,6 +5,10 @@
 /// </summary>
 public static class Constants
 {
+    public static readonly int DEFAULT_WIDTH = 1600;
+
+    public static readonly int DEFAULT_HEIGHT = 900;
+
     /// <summary>
     /// The default curve radius (in pixels) used for creating rounded regions in a <see cref="Region"/>.
     /// This value determines the smoothness of the corner rounding.

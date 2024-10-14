@@ -226,15 +226,37 @@ public static class ControlExtensions
     #endregion
 
     #region [ Round Region ]
+    /// <summary>
+    /// Sets a rounded rectangular region for the specified <see cref="Control"/> with a custom curve radius.
+    /// </summary>
+    /// <param name="control">The control to apply the rounded region to.</param>
+    /// <param name="curve">The radius of the curve for the rounded corners.</param>
     public static void GenerateRoundRegion(this Control control, int curve)
         => control.Region = GenerateRoundRegion(control.Width, control.Height, curve);
 
+    /// <summary>
+    /// Sets a default rounded rectangular region for the specified <see cref="Control"/>.
+    /// </summary>
+    /// <param name="control">The control to apply the rounded region to.</param>
     public static void GenerateRoundRegion(this Control control)
         => control.Region = GenerateRoundRegion(control.Width, control.Height);
 
+    /// <summary>
+    /// Creates a default rounded rectangular <see cref="Region"/> with pre-defined curve radius.
+    /// </summary>
+    /// <param name="width">The width of the region.</param>
+    /// <param name="height">The height of the region.</param>
+    /// <returns>A <see cref="Region"/> with rounded corners.</returns>
     public static Region GenerateRoundRegion(int width, int height)
         => GenerateRoundRegion(width, height, Constants.ELIPSE_CURVE);
 
+    /// <summary>
+    /// Creates a rounded rectangular <see cref="Region"/> based on specified width, height, and curve radius.
+    /// </summary>
+    /// <param name="width">The width of the region.</param>
+    /// <param name="height">The height of the region.</param>
+    /// <param name="curve">The radius of the curve for the rounded corners.</param>
+    /// <returns>A <see cref="Region"/> with rounded corners.</returns>
     public static Region GenerateRoundRegion(int width, int height, int curve)
         => Region.FromHrgn(ExternalExtensions.CreateRoundRectRgn(0, 0, width, height, curve, curve));
     #endregion
