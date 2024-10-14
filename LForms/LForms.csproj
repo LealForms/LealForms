@@ -6,7 +6,38 @@
     <Nullable>enable</Nullable>
     <OutputType>Library</OutputType>
     <UseWindowsForms>True</UseWindowsForms>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>LealForms.LForms</Title>
+    <PackageId>LealForms.LForms</PackageId>
+    <Authors>Eduardo Ribeiro Leal</Authors>
+    <PackageProjectUrl>https://github.com/LealForms</PackageProjectUrl>
+    <PackageIcon>LealForms_Icon.png</PackageIcon>
+    <RepositoryUrl>https://github.com/LealForms/LealForms</RepositoryUrl>
+    <Description>LealForms.LForms is a powerful .NET package designed for WindowsForms</Description>
+    <Product>LealForms.LForms</Product>
+    <PackageTags>forms, ui, winforms, gui, lib</PackageTags>
+    <PackageReleaseNotes>first release</PackageReleaseNotes>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Copyright>Swellshinider</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LealForms_Icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
