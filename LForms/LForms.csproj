@@ -23,6 +23,7 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageOutputPath>..\</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
