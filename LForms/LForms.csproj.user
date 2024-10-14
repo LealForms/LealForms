@@ -5,6 +5,9 @@
     <Compile Update="Controls\Base\LealBaseButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="Controls\Base\LealBaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Controls\Base\LealBasePanel.cs">
       <SubType>Component</SubType>
     </Compile>
