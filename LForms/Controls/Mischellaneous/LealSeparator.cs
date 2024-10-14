@@ -1,4 +1,5 @@
-﻿using LForms.Extensions;
+﻿using LForms.Controls.Base;
+using LForms.Extensions;
 using System;
 using System.ComponentModel;
 using System.Drawing;
@@ -9,7 +10,7 @@ namespace LForms.Controls.Mischellaneous;
 /// <summary>
 /// Represents a custom panel control that draws a separating line with configurable spacing, thickness, color, and orientation.
 /// </summary>
-public class LealSeparator : Panel
+public class LealSeparator : LealBasePanel
 {
     private readonly Panel _linedPanel;
 
@@ -98,10 +99,7 @@ public class LealSeparator : Panel
         }
     }
 
-    /// <summary>
-    /// Redraws the separating line based on the current properties (spacing, thickness, color, and orientation).
-    /// </summary>
-    private void ReDraw()
+    protected override void ReDraw()
     {
         if (Orientation == Orientation.Horizontal)
         {

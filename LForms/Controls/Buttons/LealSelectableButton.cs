@@ -17,7 +17,8 @@ public class LealSelectableButton : LealBaseButton
     /// </summary>
     /// <param name="button">The <see cref="LealSelectableButton"/> instance that was selected.</param>
     /// <param name="eventArgs">The <see cref="MouseEventArgs"/> associated with the selection.</param>
-    public delegate void OnSelected(LealSelectableButton button, MouseEventArgs eventArgs);
+    /// /// <param name="objectRef">The optional value associated with the selection.</param>
+    public delegate void OnSelected(LealSelectableButton button, MouseEventArgs? eventArgs, object? objectRef);
 
     /// <summary>
     /// Occurs when the button is selected.
@@ -26,7 +27,7 @@ public class LealSelectableButton : LealBaseButton
 
     private bool _selected = false;
     private Color _selectedColor = Color.Blue;
-    private Color _unSelectedColor = Color.White;
+    private Color _unselectedColor = Color.White;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="LealSelectableButton"/> class and subscribes to the <see cref="MouseClick"/> event.
@@ -35,6 +36,21 @@ public class LealSelectableButton : LealBaseButton
     {
         MouseClick += LealSelectableButton_MouseClick;
     }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="LealSelectableButton"/> class and subscribes to the <seealso cref="MouseClick"/> event.
+    /// Also assign a object reference passed into the <see cref="OnSelectButton"/> event.
+    /// </summary>
+    public LealSelectableButton(object? objectReference)
+    {
+        ObjectRef = objectReference;
+        MouseClick += LealSelectableButton_MouseClick;
+    }
+
+    /// <summary>
+    /// Gets a object reference that will be passed into the <see cref="OnSelectButton"/> event.
+    /// </summary>
+    public object? ObjectRef { get; }
 
     /// <summary>
     /// Gets or sets a value indicating whether the button should automatically deselect other <see cref="LealSelectableButton"/> controls in its parent.
@@ -51,10 +67,10 @@ public class LealSelectableButton : LealBaseButton
     [Description("The background color of the button when it is not selected.")]
     public Color UnSelectedColor
     {
-        get => _unSelectedColor;
+        get => _unselectedColor;
         set
         {
-            _unSelectedColor = value;
+            _unselectedColor = value;
             ReDraw();
         }
     }
@@ -94,9 +110,9 @@ public class LealSelectableButton : LealBaseButton
     /// <summary>
     /// Redraws the button based on its selected state, updating the background color and invalidating the control.
     /// </summary>
-    private void ReDraw()
+    protected override void ReDraw()
     {
-        BackColor = Selected ? _selectedColor : _unSelectedColor;
+        BackColor = Selected ? _selectedColor : _unselectedColor;
         Invalidate();
     }
 
@@ -113,10 +129,13 @@ public class LealSelectableButton : LealBaseButton
             var selectableButtons = Parent?.GetChildOfType<LealSelectableButton>()!;
 
             foreach (var selectableBtn in selectableButtons)
-                selectableBtn.Selected = false;
+            {
+                if (selectableBtn.AutoSearch)
+                    selectableBtn.Selected = false;
+            }
         }
 
         Selected = true;
-        OnSelectButton?.Invoke(this, e);
+        OnSelectButton?.Invoke(this, e, ObjectRef);
     }
 }
