@@ -9,7 +9,14 @@ namespace LForms.Controls.Base;
 /// </summary>
 public abstract class LealBaseButton : Button
 {
+    /// <summary>
+    /// Set if the region is rounded
+    /// </summary>
     protected bool _roundedRegion = false;
+
+    /// <summary>
+    /// Set the smootheness of the region
+    /// </summary>
     protected int _regionSmoothness = Constants.ELIPSE_CURVE;
 
     /// <summary>

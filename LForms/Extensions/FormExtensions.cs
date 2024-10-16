@@ -3,6 +3,9 @@ using System.Windows.Forms;
 
 namespace LForms.Extensions;
 
+/// <summary>
+/// Custom extensions functions for <see cref="Form"/>s
+/// </summary>
 public static class FormExtensions
 {
     /// <summary>

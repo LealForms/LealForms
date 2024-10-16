@@ -1,12 +1,20 @@
-﻿namespace LForms;
+﻿using System.Drawing;
+
+namespace LForms;
 
 /// <summary>
 /// This class defines constants used in the Extensions classes for window messages, parameters etc.
 /// </summary>
 public static class Constants
 {
+    /// <summary>
+    /// Default width
+    /// </summary>
     public static readonly int DEFAULT_WIDTH = 1600;
 
+    /// <summary>
+    /// Default Height
+    /// </summary>
     public static readonly int DEFAULT_HEIGHT = 900;
 
     /// <summary>

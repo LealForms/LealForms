@@ -3,6 +3,9 @@ using System.Runtime.InteropServices;
 
 namespace LForms.Extensions;
 
+/// <summary>
+/// Custom extensions functions for extern DllImport callers
+/// </summary>
 public static class ExternalExtensions
 {
     /// <summary>
@@ -35,13 +38,15 @@ public static class ExternalExtensions
     /// <returns>Handle to the created region.</returns>
     [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
     public static extern IntPtr CreateRoundRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect, int nWidthEllipse, int nHeightEllipse);
-
+    
     /// <summary>
-    /// Enables or disables the immersive dark mode for a window.
+    /// Sets the value of a specified attribute for a window using the Desktop Window Manager (DWM) API.
     /// </summary>
-    /// <param name="handle">The handle to the window for which to set the immersive dark mode.</param>
-    /// <param name="enabled">A boolean value indicating whether to enable or disable dark mode.</param>
-    /// <returns>True if the operation was successful, false otherwise.</returns>
+    /// <param name="hwnd">A handle to the window for which the attribute will be set.</param>
+    /// <param name="attr">The attribute to set. This is specified as an integer and corresponds to a DWM attribute.</param>
+    /// <param name="attrValue">A reference to the value of the attribute to set.</param>
+    /// <param name="attrSize">The size, in bytes, of the <paramref name="attrValue"/>.</param>
+    /// <returns>Returns an integer indicating the success or failure of the function. Zero indicates success, while a non-zero value indicates an error.</returns>
     [DllImport("dwmapi.dll")]
     public static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int attrValue, int attrSize);
 
