@@ -2,6 +2,9 @@
 
 namespace LForms.Extensions;
 
+/// <summary>
+/// Custom extension functions for <see cref="Button"/>s
+/// </summary>
 public static class ButtonExtensions
 {
     /// <summary>

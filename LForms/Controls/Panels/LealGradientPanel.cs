@@ -8,6 +8,10 @@ using System.Windows.Forms;
 
 namespace LForms.Controls.Panels;
 
+/// <summary>
+/// This control displays a gradient background by blending the specified corner colors.
+/// Generating the gradient can be resource-intensive; frequent updates (e.g., resizing) may affect performance.
+/// </summary>
 public class LealGradientPanel : LealBasePanel
 {
     private Color _colorTopLeft = Color.White;
@@ -173,5 +177,8 @@ public class LealGradientPanel : LealBasePanel
         }
     }
 
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
     protected override void ReDraw() { }
 }

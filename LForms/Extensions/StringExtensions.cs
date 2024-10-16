@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace LForms.Extensions;
 
+/// <summary>
+/// Custom extensions functions for <see cref="string"/>s
+/// </summary>
 public static class StringExtensions
 {
     /// <summary>

@@ -2,8 +2,14 @@
 
 namespace LForms.Controls.Base;
 
+/// <summary>
+/// Basic implementation for a panel, enables double buffering
+/// </summary>
 public abstract class LealBasePanel : Panel
 {
+    /// <summary>
+    /// Initialize a new instance of <see cref="LealBasePanel"/>
+    /// </summary>
     protected LealBasePanel()
     {
         DoubleBuffered = true;

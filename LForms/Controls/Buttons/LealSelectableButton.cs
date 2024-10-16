@@ -30,7 +30,7 @@ public class LealSelectableButton : LealBaseButton
     private Color _unselectedColor = Color.White;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="LealSelectableButton"/> class and subscribes to the <see cref="MouseClick"/> event.
+    /// Initializes a new instance of the <see cref="LealSelectableButton"/> class and subscribes to the MouseClick event.
     /// </summary>
     public LealSelectableButton()
     {
@@ -38,7 +38,7 @@ public class LealSelectableButton : LealBaseButton
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="LealSelectableButton"/> class and subscribes to the <seealso cref="MouseClick"/> event.
+    /// Initializes a new instance of the <see cref="LealSelectableButton"/> class and subscribes to the MouseClick event.
     /// Also assign a object reference passed into the <see cref="OnSelectButton"/> event.
     /// </summary>
     public LealSelectableButton(object? objectReference)
@@ -117,7 +117,7 @@ public class LealSelectableButton : LealBaseButton
     }
 
     /// <summary>
-    /// Handles the <see cref="MouseClick"/> event. Selects the button and triggers the <see cref="OnSelectButton"/> event.
+    /// Handles the MouseClick event. Selects the button and triggers the <see cref="OnSelectButton"/> event.
     /// If <see cref="AutoSearch"/> is enabled, deselects all other <see cref="LealSelectableButton"/> controls in the parent container.
     /// </summary>
     /// <param name="sender">The source of the event, typically the button itself.</param>

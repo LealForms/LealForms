@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace LForms.Extensions;
 
+/// <summary>
+/// Custom extension functions for <see cref="Control"/>s
+/// </summary>
 public static class ControlExtensions
 {
     /// <summary>
     /// Hides or shows the control, toggling its visibility and enabling or disabling its functionality.
     /// </summary>
     /// <param name="control">The control to hide or show.</param>
-    /// <param name="hide">Whether to show the control (true) or hide it (false).</param>
+    /// <param name="show">Whether to show the control (true) or hide it (false).</param>
     public static void ToggleVisibility(this Control control, bool show = true)
     {
         control.Visible = show;
@@ -215,8 +219,9 @@ public static class ControlExtensions
     /// </summary>
     /// <typeparam name="T">The type of controls to arrange, derived from Control.</typeparam>
     /// <param name="collection">The collection of controls to be arranged.</param>
+    /// <param name="initialY">initial Y position</param>
     /// <param name="offSet">The vertical offset between each control.</param>
-    public static void WaterFallControlsOfType<T>(this Control.ControlCollection collection, int offSet) where T : Control
+    public static void WaterFallControlsOfType<T>(this Control.ControlCollection collection, int initialY, int offSet) where T : Control
     {
         T? last = null;
 
@@ -224,11 +229,11 @@ public static class ControlExtensions
         {
             if (control is T ctr)
             {
-                ctr.CentralizeRelativeTo(ctr.Parent!);
+                ctr.SetYAbsolute(initialY);
 
                 // If there's a "last" control defined, position the current control a certain offset below it.
                 if (last != null)
-                    ctr.SetYOffsetBottom(last, offSet);
+                    ctr.SetYOffSetNext(last, offSet);
 
                 last = ctr;
             }
@@ -270,6 +275,76 @@ public static class ControlExtensions
     /// <returns>A <see cref="Region"/> with rounded corners.</returns>
     public static Region GenerateRoundRegion(int width, int height, int curve)
         => Region.FromHrgn(ExternalExtensions.CreateRoundRectRgn(0, 0, width, height, curve, curve));
+
+    /// <summary>
+    /// Sets a rounded rectangular region for the specified <see cref="Control"/> with custom corner options.
+    /// </summary>
+    /// <param name="control">The control to apply the rounded region to.</param>
+    /// <param name="curve">The radius of the curve for the rounded corners.</param>
+    /// <param name="topLeft">Whether to round the top-left corner.</param>
+    /// <param name="topRight">Whether to round the top-right corner.</param>
+    /// <param name="bottomLeft">Whether to round the bottom-left corner.</param>
+    /// <param name="bottomRight">Whether to round the bottom-right corner.</param>
+    public static void GenerateCustomRoundRegion(this Control control, int curve, bool topLeft, bool topRight, bool bottomLeft, bool bottomRight)
+        => control.Region = GenerateCustomRoundRegion(control.Width, control.Height, curve, topLeft, topRight, bottomLeft, bottomRight);
+
+    /// <summary>
+    /// Creates a rounded rectangular <see cref="Region"/> based on specified width, height, curve radius, and corner options.
+    /// </summary>
+    /// <param name="width">The width of the region.</param>
+    /// <param name="height">The height of the region.</param>
+    /// <param name="radius">The radius of the curve for the rounded corners.</param>
+    /// <param name="topLeft">Whether to round the top-left corner.</param>
+    /// <param name="topRight">Whether to round the top-right corner.</param>
+    /// <param name="bottomLeft">Whether to round the bottom-left corner.</param>
+    /// <param name="bottomRight">Whether to round the bottom-right corner.</param>
+    /// <returns>A <see cref="Region"/> with specified rounded corners.</returns>
+    public static Region GenerateCustomRoundRegion(int width, int height, int radius, bool topLeft, bool topRight, bool bottomLeft, bool bottomRight)
+    {
+        var path = new GraphicsPath();
+        int arcWidth = radius * 2;
+        int arcHeight = radius * 2;
+
+        // Start at the top-left corner
+        if (topLeft)
+            path.AddArc(0, 0, arcWidth, arcHeight, 180, 90);
+        else
+            path.AddLine(0, 0, 0, 0);
+
+        // Top edge
+        path.AddLine(topLeft ? radius : 0, 0, width - (topRight ? radius : 0), 0);
+
+        // Top-right corner
+        if (topRight)
+            path.AddArc(width - arcWidth, 0, arcWidth, arcHeight, 270, 90);
+        else
+            path.AddLine(width, 0, width, 0);
+
+        // Right edge
+        path.AddLine(width, topRight ? radius : 0, width, height - (bottomRight ? radius : 0));
+
+        // Bottom-right corner
+        if (bottomRight)
+            path.AddArc(width - arcWidth, height - arcHeight, arcWidth, arcHeight, 0, 90);
+        else
+            path.AddLine(width, height, width, height);
+
+        // Bottom edge
+        path.AddLine(width - (bottomRight ? radius : 0), height, (bottomLeft ? radius : 0), height);
+
+        // Bottom-left corner
+        if (bottomLeft)
+            path.AddArc(0, height - arcHeight, arcWidth, arcHeight, 90, 90);
+        else
+            path.AddLine(0, height, 0, height);
+
+        // Left edge
+        path.AddLine(0, height - (bottomLeft ? radius : 0), 0, topLeft ? radius : 0);
+
+        path.CloseFigure();
+
+        return new Region(path);
+    }
     #endregion
 
     /// <summary>

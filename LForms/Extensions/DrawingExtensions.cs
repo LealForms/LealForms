@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace LForms.Extensions;
 
+/// <summary>
+/// Custom extensions functions for everything related to <see cref="System.Drawing"/>
+/// </summary>
 public static class DrawingExtensions
 {
     /// <summary>

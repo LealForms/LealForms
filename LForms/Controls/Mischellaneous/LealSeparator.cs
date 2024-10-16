@@ -99,6 +99,9 @@ public class LealSeparator : LealBasePanel
         }
     }
 
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
     protected override void ReDraw()
     {
         if (Orientation == Orientation.Horizontal)

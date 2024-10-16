@@ -1,13 +1,12 @@
 ﻿using LForms.Enums;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace LForms.Extensions;
 
+/// <summary>
+/// Custom extensions functions for <see cref="Exception"/>s
+/// </summary>
 public static class ExceptionsExtensions
 {
     /// <summary>
