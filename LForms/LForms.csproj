@@ -23,8 +23,11 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageOutputPath>..\</PackageOutputPath>
+    <PackageOutputPath>bin\Debug\net8.0-windows</PackageOutputPath>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AssemblyVersion>1.0.1</AssemblyVersion>
+    <FileVersion>1.0.1.1</FileVersion>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
