@@ -118,7 +118,7 @@ public class LealTabManager : LealPanel
     protected override void ReDraw()
     {
         var alignmentTopBottom = _alignment == TabAlignment.Top || TabAlignment == TabAlignment.Bottom;
-        var selectableButtons = _buttonsPanel.GetChildOfType<LealSelectableButton>().ToList();
+        var selectableButtons = _buttonsPanel.GetChildsOfType<LealSelectableButton>().ToList();
 
         foreach (var button in selectableButtons)
         {
@@ -194,7 +194,7 @@ public class LealTabManager : LealPanel
         _buttonsPanel.Add(newButton);
         newButton.BringToFront();
 
-        var firstButton = _buttonsPanel.GetChildOfType<LealSelectableButton>().Last();
+        var firstButton = _buttonsPanel.GetChildsOfType<LealSelectableButton>().Last();
         TabSelected(firstButton, null, firstButton.ObjectRef);
         ReDraw();
     }
@@ -237,7 +237,7 @@ public class LealTabManager : LealPanel
         }
 
         var tabIndex = _tabs.FindIndex(tab => tab.GetHashCode() == lbt.GetHashCode());
-        var buttonIndex = _buttonsPanel.GetChildOfType<LealSelectableButton>().ToList().FindIndex(btn => btn.ObjectRef is int ob && ob == tabIndex);
+        var buttonIndex = _buttonsPanel.GetChildsOfType<LealSelectableButton>().ToList().FindIndex(btn => btn.ObjectRef is int ob && ob == tabIndex);
 
         if (tabIndex == -1 || buttonIndex == -1)
             throw new Exception($"<{typeof(LealSelectableButton)}> has no reference to a <{typeof(LealBaseTab)}>. Unexpected Error!");

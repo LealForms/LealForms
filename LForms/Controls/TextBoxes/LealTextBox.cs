@@ -1,5 +1,6 @@
 ﻿using LForms.Controls.Panels;
 using LForms.Extensions;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -37,7 +38,7 @@ public class LealTextBox : LealPanel
             Width = 200,
             WordWrap = false,
             BorderStyle = BorderStyle.None,
-            Font = new Font("", 12,  FontStyle.Regular),
+            Font = new Font("", 12, FontStyle.Regular),
         };
         this.Add(_input);
 
@@ -61,10 +62,32 @@ public class LealTextBox : LealPanel
     /// <summary>
     /// Gets or sets the placeholder text associated with the control.
     /// </summary>
-    public string PlaceHolder
+    public string Placeholder
     {
         get => _input.PlaceholderText;
         set => _input.PlaceholderText = value;
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether this is a multiline text box control.
+    /// </summary>
+    public bool Multiline
+    {
+        get => _input.Multiline;
+        set
+        {
+            _input.Multiline = value;
+            ReDraw();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets how text is aligned in a <see cref="TextBox"/> control.
+    /// </summary>
+    public HorizontalAlignment TextAlign
+    {
+        get => _input.TextAlign;
+        set => _input.TextAlign = value;
     }
 
     /// <summary>
@@ -95,13 +118,37 @@ public class LealTextBox : LealPanel
     }
 
     /// <summary>
+    /// Gets or sets which scroll bars should appear in a multiline <see cref="LealTextBox"/> control.
+    /// </summary>
+    public ScrollBars ScrollBars
+    {
+        get => _input.ScrollBars;
+        set => _input.ScrollBars = value;
+    }
+
+    /// <summary>
+    ///  Gets or sets a value indicating whether the following shortcuts should be enabled or not.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// <c>Example:</c>
+    ///  Ctrl-Z, Ctrl-C, Ctrl-X, Ctrl-V, Ctrl-A, Ctrl-L, Ctrl-R, Ctrl-E, Ctrl-I, Ctrl-Y,
+    ///  Ctrl-BackSpace, Ctrl-Del, Shift-Del, Shift-Ins.
+    /// </remarks>
+    public bool ShortcutsEnabled
+    {
+        get => _input.ShortcutsEnabled;
+        set => _input.ShortcutsEnabled = value;
+    }
+
+    /// <summary>
     /// Initializes the event handlers for the control.
     /// </summary>
     private void InitializeEventHandlers()
     {
         Resize += (s, e) => ReDraw();
+        BackColorChanged += (s, e) => ReDraw();
         GotFocus += (s, e) => _input.Focus();
-        BackColorChanged += (s, e) => _input.BackColor = BackColor;
         _input.KeyPress += (s, e) => KeyPressed?.Invoke(_input.Text, e);
     }
 
@@ -110,10 +157,12 @@ public class LealTextBox : LealPanel
     /// </summary>
     protected override void ReDraw()
     {
-        MinimumSize = new Size(Width, _input.Height + 2);
-
+        _input.Height = Height;
         _input.Width = Width - 10;
         _input.BackColor = BackColor;
-        _input.Centralize();
+        if (Multiline)
+            _input.SetY(0);
+        else
+            _input.Centralize();
     }
 }

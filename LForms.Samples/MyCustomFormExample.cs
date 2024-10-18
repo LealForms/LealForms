@@ -46,21 +46,35 @@ internal sealed class MyCustomFormExample : LealForm
         tab2.Add(panel2);
         var btn1 = new LealButton() { Text = "btn1" };
         var btn2 = new LealButton() { Text = "btn2" };
-        var textBox = new LealTextBox();
+        var textBox = new LealTextBox()
+        {
+            Placeholder = "textbox2",
+            TextAlign = HorizontalAlignment.Left,
+        };
+        var textBox2 = new LealTextBox()
+        {
+            Height = 100,
+            Multiline = true,
+            Placeholder = "textbox2\nline2",
+            TextAlign = HorizontalAlignment.Right,
+        };
+
         panel2.Add(btn1);
         panel2.Add(btn2);
         panel2.Add(textBox);
+        panel2.Add(textBox2);
 
         lealTabManager.Add(tab1);
         lealTabManager.Add(tab2);
         btn1.HorizontalCentralize(panel2);
         btn2.HorizontalCentralize(panel2);
         textBox.HorizontalCentralize(panel2);
+        textBox2.HorizontalCentralize(panel2);
         btn1.BorderSize = 0;
         btn2.BorderSize = 0;
         btn1.GenerateCustomRoundRegion(20, true, true, false, false);
         btn2.GenerateCustomRoundRegion(20, false, false, true, true);
         textBox.GenerateRoundRegion();
-        panel2.Controls.WaterFallControlsOfType<Control>(200, 20);
+        panel2.WaterFallChildControlsOfTypeByY<Control>(200, 20);
     }
 }

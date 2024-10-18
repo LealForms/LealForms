@@ -35,7 +35,7 @@ public static class ControlExtensions
     /// </summary>
     /// <param name="control">The parent control.</param>
     /// <param name="childControl">The child control to add.</param>
-    public static void Add(this Control control, Control childControl)
+    public static void Add(this Control control, Control? childControl)
         => control.Controls.Add(childControl);
 
     /// <summary>
@@ -44,12 +44,7 @@ public static class ControlExtensions
     /// <param name="control">The parent control.</param>
     /// <param name="childControl">The child control to remove.</param>
     public static void Remove(this Control control, Control? childControl)
-    {
-        if (childControl == null)
-            return;
-
-        control.Controls.Remove(childControl);
-    }
+        => control.Controls.Remove(childControl);
 
     /// <summary>
     /// Handles mouse down events and allows for window dragging, restricted to a specific mouse button.
@@ -57,7 +52,7 @@ public static class ControlExtensions
     /// <param name="handle">Handle to the window to be dragged.</param>
     /// <param name="e">Mouse event arguments containing details about the mouse click.</param>
     /// <param name="allowedMouseButton">The mouse button that is allowed to initiate the window drag. Defaults to the left mouse button.</param>
-    public static void ControlMouseDown(IntPtr handle, MouseEventArgs e, MouseButtons allowedMouseButton = MouseButtons.Left)
+    public static void ControlMouseDown(this IntPtr handle, MouseEventArgs e, MouseButtons allowedMouseButton = MouseButtons.Left)
     {
         if (e.Button != allowedMouseButton) return;
 
@@ -70,7 +65,7 @@ public static class ControlExtensions
     /// </summary>
     /// <param name="handle">Handle to the window to be dragged.</param>
     /// <param name="e">Mouse event arguments containing details about the mouse click.</param>
-    public static void ControlMouseDown(IntPtr handle, MouseEventArgs e)
+    public static void ControlMouseDown(this IntPtr handle, MouseEventArgs e)
         => ControlMouseDown(handle, e, MouseButtons.Left);
 
     #region [ Positional ]
@@ -92,8 +87,8 @@ public static class ControlExtensions
     /// <param name="controlReference">The reference control.</param>
     public static void CentralizeRelativeTo(this Control control, Control controlReference)
     {
-        HorizontalCentralize(control, controlReference);
-        VerticalCentralize(control, controlReference);
+        control.HorizontalCentralize(controlReference);
+        control.VerticalCentralize(controlReference);
     }
 
     /// <summary>
@@ -105,7 +100,18 @@ public static class ControlExtensions
     {
         var centerPoint = new Point(controlReference.Width / 2, controlReference.Height / 2);
         var xValue = centerPoint.X - (control.Width / 2);
-        control.Location = new Point(xValue, control.Location.Y);
+        control.SetX(xValue);
+    }
+
+    /// <summary>
+    /// Horizontally centralizes the control relative to the parent.
+    /// </summary>
+    /// <param name="control">The control to centralize.</param>
+    public static void HorizontalCentralize(this Control control)
+    {
+        if (control.Parent == null) return;
+
+        control.HorizontalCentralize(control.Parent);
     }
 
     /// <summary>
@@ -117,126 +123,137 @@ public static class ControlExtensions
     {
         var centerPoint = new Point(controlReference.Width / 2, controlReference.Height / 2);
         var yValue = centerPoint.Y - (control.Height / 2);
-        control.Location = new Point(control.Location.X, yValue);
+        control.SetY(yValue);
     }
 
     /// <summary>
-    /// Updates the Y-coordinate of the control's location by a specified offset.
+    /// Vertically centralizes the control relative to the parent.
     /// </summary>
-    /// <param name="control">The control to update.</param>
-    /// <param name="offset">The offset to add to the current Y-coordinate.</param>
-    public static void SetY(this Control control, int offset)
+    /// <param name="control">The control to centralize.</param>
+    public static void VerticalCentralize(this Control control)
     {
-        var pos = control.Location;
-        control.Location = new Point(pos.X, pos.Y + offset);
+        if (control.Parent == null) return;
+
+        control.VerticalCentralize(control.Parent);
     }
 
     /// <summary>
-    /// Updates the Y-coordinate of the control based on the bottom of a reference control and an offset.
+    /// Sets the X coordinate of the control's location.
     /// </summary>
-    /// <param name="control">The control to update.</param>
-    /// <param name="controlReference">The reference control for determining the bottom position.</param>
-    /// <param name="offset">The offset from the reference control's bottom.</param>
-    public static void SetYOffsetBottom(this Control control, Control controlReference, int offset)
-    {
-        var basePoint = new Point(controlReference.Width, controlReference.Height);
-        var yValue = basePoint.Y - control.Height - offset;
-        control.Location = new Point(control.Location.X, yValue);
-    }
+    /// <param name="control">The control to modify.</param>
+    /// <param name="x">The new X coordinate.</param>
+    public static void SetX(this Control control, int x)
+        => control.Location = new Point(x, control.Location.Y);
 
     /// <summary>
-    /// Sets the Y-coordinate of the control to an absolute value.
+    /// Sets the Y coordinate of the control's location.
     /// </summary>
-    /// <param name="control">The control to update.</param>
-    /// <param name="y">The new absolute Y-coordinate.</param>
-    public static void SetYAbsolute(this Control control, int y)
-    {
-        var pos = control.Location;
-        control.Location = new Point(pos.X, y);
-    }
+    /// <param name="control">The control to modify.</param>
+    /// <param name="y">The new Y coordinate.</param>
+    public static void SetY(this Control control, int y)
+        => control.Location = new Point(control.Location.X, y);
 
     /// <summary>
-    /// Updates the X-coordinate of the control's location by a specified offset.
+    /// Increases the X coordinate of the control's location by a specified offset.
     /// </summary>
-    /// <param name="control">The control to update.</param>
-    /// <param name="offset">The offset to add to the current X-coordinate.</param>
-    public static void SetX(this Control control, int offset)
-    {
-        var pos = control.Location;
-        control.Location = new Point(pos.X + offset, pos.Y);
-    }
+    /// <param name="control">The control to modify.</param>
+    /// <param name="offset">The value to add to the X coordinate.</param>
+    public static void AddX(this Control control, int offset)
+        => control.SetX(control.Location.X + offset);
 
     /// <summary>
-    /// Updates the X-coordinate of the control based on the left of a reference control and an offset.
+    /// Increases the Y coordinate of the control's location by a specified offset.
     /// </summary>
-    /// <param name="control">The control to update.</param>
-    /// <param name="controlReference">The reference control for determining the left position.</param>
-    /// <param name="offset">The offset from the reference control's left.</param>
-    public static void SetXFromLeft(this Control control, Control controlReference, int offset)
-    {
-        var basePoint = new Point(controlReference.Width, controlReference.Height);
-        var xValue = basePoint.X - control.Width - offset;
-        control.Location = new Point(xValue, control.Location.Y);
-    }
+    /// <param name="control">The control to modify.</param>
+    /// <param name="offset">The value to add to the Y coordinate.</param>
+    public static void AddY(this Control control, int offset)
+        => control.SetY(control.Location.Y + offset);
 
     /// <summary>
-    /// Sets the X-coordinate of the control to an absolute value.
+    /// Positions the control vertically above a reference control, with an optional offset.
     /// </summary>
-    /// <param name="control">The control to update.</param>
-    /// <param name="x">The new absolute X-coordinate.</param>
-    public static void SetXAbsolute(this Control control, int x)
-    {
-        var pos = control.Location;
-        control.Location = new Point(x, pos.Y);
-    }
+    /// <param name="control">The control to position.</param>
+    /// <param name="controlReference">The reference control to position relative to.</param>
+    /// <param name="offset">The distance to offset the control from the reference control.</param>
+    public static void SetYBeforeControl(this Control control, Control controlReference, int offset)
+        => control.SetY(controlReference.Location.Y - control.Height - offset);
 
     /// <summary>
-    /// Updates the control's X-coordinate to position it next to a reference control with a specified offset between them.
+    /// Positions the control vertically below a reference control, with an optional offset.
     /// </summary>
-    /// <param name="control">The control to update.</param>
-    /// <param name="controlReference">The reference control to align next to.</param>
-    /// <param name="offsetbetween">The offset between the reference control and the updated control.</param>
-    public static void SetXOffsetRight(this Control control, Control controlReference, int offsetbetween)
-    {
-        var newPos = controlReference.Location.X + controlReference.Width + offsetbetween;
-        SetXAbsolute(control, newPos);
-    }
+    /// <param name="control">The control to position.</param>
+    /// <param name="controlReference">The reference control to position relative to.</param>
+    /// <param name="offset">The distance to offset the control from the reference control.</param>
+    public static void SetYAfterControl(this Control control, Control controlReference, int offset)
+        => control.SetY(controlReference.Location.Y + controlReference.Height + offset);
 
     /// <summary>
-    /// Updates the control's Y-coordinate to position it below a reference control with a specified offset between them.
+    /// Positions the control horizontally before a reference control, with an optional offset.
     /// </summary>
-    /// <param name="control">The control to update.</param>
-    /// <param name="controlReference">The reference control to align below.</param>
-    /// <param name="offsetbetween">The offset between the reference control and the updated control.</param>
-    public static void SetYOffSetNext(this Control control, Control controlReference, int offsetbetween)
-    {
-        var newXPos = controlReference.Location.Y + controlReference.Height + offsetbetween;
-        SetYAbsolute(control, newXPos);
-    }
+    /// <param name="control">The control to position.</param>
+    /// <param name="controlReference">The reference control to position relative to.</param>
+    /// <param name="offset">The distance to offset the control from the reference control.</param>
+    public static void SetXBeforeControl(this Control control, Control controlReference, int offset)
+        => control.SetX(controlReference.Location.X - control.Width - offset);
 
     /// <summary>
-    /// Arranges controls of a specified type in a cascading vertical layout within their parent container.
+    /// Positions the control horizontally after a reference control, with an optional offset.
     /// </summary>
-    /// <typeparam name="T">The type of controls to arrange, derived from Control.</typeparam>
-    /// <param name="collection">The collection of controls to be arranged.</param>
-    /// <param name="initialY">initial Y position</param>
-    /// <param name="offSet">The vertical offset between each control.</param>
-    public static void WaterFallControlsOfType<T>(this Control.ControlCollection collection, int initialY, int offSet) where T : Control
+    /// <param name="control">The control to position.</param>
+    /// <param name="controlReference">The reference control to position relative to.</param>
+    /// <param name="offset">The distance to offset the control from the reference control.</param>
+    public static void SetXAfterControl(this Control control, Control controlReference, int offset)
+        => control.SetX(controlReference.Location.X + controlReference.Width + offset);
+
+    /// <summary>
+    /// Positions all child controls of the specified type <typeparamref name="T"/> vertically in a waterfall layout.
+    /// The first control starts at the given initial Y coordinate, and subsequent controls are spaced by the specified offset.
+    /// </summary>
+    /// <typeparam name="T">The type of controls to arrange.</typeparam>
+    /// <param name="control">The parent control containing child controls.</param>
+    /// <param name="inicialY">The Y coordinate to start positioning the first control.</param>
+    /// <param name="offSetBetween">The vertical offset between each consecutive control of type <typeparamref name="T"/>.</param>
+    public static void WaterFallChildControlsOfTypeByY<T>(this Control control, int inicialY, int offSetBetween) where T : Control
     {
         T? last = null;
 
-        foreach (var control in collection)
+        foreach (var child in control.Controls)
         {
-            if (control is T ctr)
-            {
-                ctr.SetYAbsolute(initialY);
+            if (child is not T ctr)
+                continue;
 
-                // If there's a "last" control defined, position the current control a certain offset below it.
-                if (last != null)
-                    ctr.SetYOffSetNext(last, offSet);
+            if (last != null)
+                ctr.SetYAfterControl(last, offSetBetween);
+            else 
+                ctr.SetY(inicialY);
 
-                last = ctr;
-            }
+            last = ctr;
+        }
+    }
+
+    /// <summary>
+    /// Positions all child controls of the specified type <typeparamref name="T"/> horizontally in a waterfall layout.
+    /// The first control starts at the given initial X coordinate, and subsequent controls are spaced by the specified offset.
+    /// </summary>
+    /// <typeparam name="T">The type of controls to arrange.</typeparam>
+    /// <param name="control">The parent control containing child controls.</param>
+    /// <param name="initialX">The X coordinate to start positioning the first control.</param>
+    /// <param name="offSetBetween">The horizontal offset between each consecutive control of type <typeparamref name="T"/>.</param>
+    public static void WaterFallChildControlsOfTypeByX<T>(this Control control, int initialX, int offSetBetween) where T : Control
+    {
+        T? last = null;
+
+        foreach (var child in control.Controls)
+        {
+            if (child is not T ctr)
+                continue;
+
+            if (last != null)
+                ctr.SetXAfterControl(last, offSetBetween);
+            else
+                ctr.SetX(initialX);
+
+            last = ctr;
         }
     }
     #endregion
@@ -370,7 +387,7 @@ public static class ControlExtensions
     /// <typeparam name="T">The type of control to search for, which must inherit from <see cref="Control"/>.</typeparam>
     /// <param name="collection">The collection of controls to search through.</param>
     /// <returns>An <see cref="IEnumerable{T}"/> containing all child controls of the specified type.</returns>
-    public static IEnumerable<T> GetChildOfType<T>(this Control.ControlCollection collection) where T : Control
+    public static IEnumerable<T> GetChildsOfType<T>(this Control.ControlCollection collection) where T : Control
     {
         foreach (var control in collection)
             if (control is T target)
@@ -383,6 +400,6 @@ public static class ControlExtensions
     /// <typeparam name="T">The type of control to search for, which must inherit from <see cref="Control"/>.</typeparam>
     /// <param name="control">The control whose children are to be searched.</param>
     /// <returns>An <see cref="IEnumerable{T}"/> containing all child controls of the specified type.</returns>
-    public static IEnumerable<T> GetChildOfType<T>(this Control control) where T : Control
-        => GetChildOfType<T>(control.Controls);
+    public static IEnumerable<T> GetChildsOfType<T>(this Control control) where T : Control
+        => GetChildsOfType<T>(control.Controls);
 }
