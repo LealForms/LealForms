@@ -1,23 +1,23 @@
 ﻿using System.Windows.Forms;
 
-namespace LForms.Controls.Base;
+namespace LForms.Controls.Panels;
 
 /// <summary>
 /// Basic implementation for a panel, enables double buffering
 /// </summary>
-public abstract class LealBasePanel : Panel
+public class LealPanel : Panel
 {
     /// <summary>
-    /// Initialize a new instance of <see cref="LealBasePanel"/>
+    /// Initialize a new instance of <see cref="LealPanel"/>
     /// </summary>
-    protected LealBasePanel()
+    public LealPanel()
     {
         DoubleBuffered = true;
         SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
     }
 
     /// <summary>
-    /// Redraws the component, organizing it according to the controls
+    /// Forces a redraw of the button, optionally implemented by derived classes.
     /// </summary>
-    protected abstract void ReDraw();
+    protected virtual void ReDraw() { }
 }

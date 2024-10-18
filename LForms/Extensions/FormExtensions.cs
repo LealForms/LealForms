@@ -34,8 +34,8 @@ public static class FormExtensions
         if (IsWindows10OrGreater(17763))
         {
             var attribute = IsWindows10OrGreater(18985)
-                ? Constants.DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1
-                : Constants.DWMWA_USE_IMMERSIVE_DARK_MODE;
+                ? LealConstants.DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1
+                : LealConstants.DWMWA_USE_IMMERSIVE_DARK_MODE;
 
             int useImmersiveDarkMode = enabled ? 1 : 0;
             return ExternalExtensions.DwmSetWindowAttribute(handle, attribute, ref useImmersiveDarkMode, sizeof(int)) == 0;

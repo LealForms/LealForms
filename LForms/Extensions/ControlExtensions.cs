@@ -62,7 +62,7 @@ public static class ControlExtensions
         if (e.Button != allowedMouseButton) return;
 
         ExternalExtensions.ReleaseCapture();
-        _ = ExternalExtensions.SendMessage(handle, Constants.WM_NCLBUTTONDOWN, Constants.HT_CAPTION, 0);
+        _ = ExternalExtensions.SendMessage(handle, LealConstants.WM_NCLBUTTONDOWN, LealConstants.HT_CAPTION, 0);
     }
 
     /// <summary>
@@ -264,7 +264,7 @@ public static class ControlExtensions
     /// <param name="height">The height of the region.</param>
     /// <returns>A <see cref="Region"/> with rounded corners.</returns>
     public static Region GenerateRoundRegion(int width, int height)
-        => GenerateRoundRegion(width, height, Constants.ELIPSE_CURVE);
+        => GenerateRoundRegion(width, height, LealConstants.ELIPSE_CURVE);
 
     /// <summary>
     /// Creates a rounded rectangular <see cref="Region"/> based on specified width, height, and curve radius.
