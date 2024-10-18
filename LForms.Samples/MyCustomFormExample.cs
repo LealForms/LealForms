@@ -46,11 +46,16 @@ internal sealed class MyCustomFormExample : LealForm
         tab2.Add(panel2);
         var btn1 = new LealButton() { Text = "btn1" };
         var btn2 = new LealButton() { Text = "btn2" };
-        var textBox = new LealTextBox();
+        var textBox = new LealTextBox()
+        {
+            Placeholder = "textbox2",
+            TextAlign = HorizontalAlignment.Left,
+        };
         var textBox2 = new LealTextBox()
         {
+            Height = 100,
             Multiline = true,
-            Placeholder = "textbox2",
+            Placeholder = "textbox2\nline2",
             TextAlign = HorizontalAlignment.Right,
         };
 
@@ -70,6 +75,6 @@ internal sealed class MyCustomFormExample : LealForm
         btn1.GenerateCustomRoundRegion(20, true, true, false, false);
         btn2.GenerateCustomRoundRegion(20, false, false, true, true);
         textBox.GenerateRoundRegion();
-        panel2.Controls.WaterFallControlsOfType<Control>(200, 20);
+        panel2.WaterFallChildControlsOfTypeByY<Control>(200, 20);
     }
 }
