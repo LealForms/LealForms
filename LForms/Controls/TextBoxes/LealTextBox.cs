@@ -61,10 +61,28 @@ public class LealTextBox : LealPanel
     /// <summary>
     /// Gets or sets the placeholder text associated with the control.
     /// </summary>
-    public string PlaceHolder
+    public string Placeholder
     {
         get => _input.PlaceholderText;
         set => _input.PlaceholderText = value;
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether this is a multiline text box control.
+    /// </summary>
+    public bool Multiline
+    {
+        get => _input.Multiline;
+        set => _input.Multiline = value;
+    }
+
+    /// <summary>
+    /// Gets or sets how text is aligned in a <see cref="TextBox"/> control.
+    /// </summary>
+    public HorizontalAlignment TextAlign
+    {
+        get => _input.TextAlign;
+        set => _input.TextAlign = value;
     }
 
     /// <summary>
