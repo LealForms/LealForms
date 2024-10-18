@@ -1,5 +1,6 @@
 ﻿using LForms.Controls.Base;
 using LForms.Controls.Buttons;
+using LForms.Controls.Panels;
 using LForms.Extensions;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace LForms.Controls.Mischellaneous;
 /// Provides functionality to handle tab alignment, button area size, separator line color, 
 /// and visibility of button borders. The tabs can be displayed at the top, bottom, left, or right of the panel.
 /// </summary>
-public class LealTabManager : LealBasePanel
+public class LealTabManager : LealPanel
 {
     private readonly Panel _buttonsPanel = new();
     private readonly LealSeparator _separator = new()

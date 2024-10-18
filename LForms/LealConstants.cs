@@ -5,17 +5,22 @@ namespace LForms;
 /// <summary>
 /// This class defines constants used in the Extensions classes for window messages, parameters etc.
 /// </summary>
-public static class Constants
+public static class LealConstants
 {
     /// <summary>
-    /// Default width
+    /// Default Form Width
     /// </summary>
     public static readonly int DEFAULT_WIDTH = 1600;
 
     /// <summary>
-    /// Default Height
+    /// Default Form Height
     /// </summary>
     public static readonly int DEFAULT_HEIGHT = 900;
+
+    /// <summary>
+    /// Default gap space between controls
+    /// </summary>
+    public static readonly int GAP = 20;
 
     /// <summary>
     /// The default curve radius (in pixels) used for creating rounded regions in a <see cref="Region"/>.

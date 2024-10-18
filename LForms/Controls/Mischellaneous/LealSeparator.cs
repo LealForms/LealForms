@@ -1,4 +1,4 @@
-﻿using LForms.Controls.Base;
+﻿using LForms.Controls.Panels;
 using LForms.Extensions;
 using System;
 using System.ComponentModel;
@@ -10,7 +10,7 @@ namespace LForms.Controls.Mischellaneous;
 /// <summary>
 /// Represents a custom panel control that draws a separating line with configurable spacing, thickness, color, and orientation.
 /// </summary>
-public class LealSeparator : LealBasePanel
+public class LealSeparator : LealPanel
 {
     private readonly Panel _linedPanel;
 

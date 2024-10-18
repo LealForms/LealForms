@@ -17,7 +17,7 @@ public abstract class LealBaseButton : Button
     /// <summary>
     /// Set the smootheness of the region
     /// </summary>
-    protected int _regionSmoothness = Constants.ELIPSE_CURVE;
+    protected int _regionSmoothness = LealConstants.ELIPSE_CURVE;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="LealBaseButton"/> class with default settings.
@@ -77,9 +77,9 @@ public abstract class LealBaseButton : Button
     }
 
     /// <summary>
-    /// Forces a redraw of the button, implemented by derived classes.
+    /// Forces a redraw of the button, optionally implemented by derived classes.
     /// </summary>
-    protected abstract void ReDraw();
+    protected virtual void ReDraw() { }
 
     /// <summary>
     /// Updates the button's region to apply the rounded edge effect based on the current settings.

@@ -1,5 +1,4 @@
-﻿using LForms.Controls.Base;
-using LForms.Enums;
+﻿using LForms.Enums;
 using LForms.Extensions;
 using System;
 using System.ComponentModel;
@@ -12,7 +11,7 @@ namespace LForms.Controls.Panels;
 /// This control displays a gradient background by blending the specified corner colors.
 /// Generating the gradient can be resource-intensive; frequent updates (e.g., resizing) may affect performance.
 /// </summary>
-public class LealGradientPanel : LealBasePanel
+public class LealGradientPanel : LealPanel
 {
     private Color _colorTopLeft = Color.White;
     private Color _colorTopRight = Color.White;

@@ -1,4 +1,5 @@
 ﻿using LForms.Controls.Mischellaneous;
+using LForms.Controls.Panels;
 using LForms.Extensions;
 using System;
 using System.Windows.Forms;
@@ -9,7 +10,7 @@ namespace LForms.Controls.Base;
 /// Represents a base class for tabs in the tab management system. Each tab has a name and 
 /// is designed to automatically dock to fill its container. Ensures that the tab can only be added to a <see cref="LealTabManager"/>.
 /// </summary>
-public abstract class LealBaseTab : LealBasePanel
+public abstract class LealBaseTab : LealPanel
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="LealBaseTab"/> class with the specified tab name.

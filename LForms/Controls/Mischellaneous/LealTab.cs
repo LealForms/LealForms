@@ -1,4 +1,5 @@
 ﻿using LForms.Controls.Base;
+using LForms.Controls.Panels;
 
 namespace LForms.Controls.Mischellaneous;
 
@@ -15,7 +16,7 @@ public class LealTab : LealBaseTab
     }
 
     /// <summary>
-    /// Override of the <see cref="LealBasePanel.ReDraw"/> method. 
+    /// Override of the <see cref="LealPanel.ReDraw"/> method. 
     /// </summary>
     protected override void ReDraw() { }
 }
