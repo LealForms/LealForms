@@ -40,6 +40,28 @@ public class LealForm : Form
     public virtual void ReDraw() { }
 
     /// <summary>
+    /// Sets the form's minimum and maximum size to the specified fixed dimensions,
+    /// preventing the form from being resized.
+    /// </summary>
+    /// <param name="width">The fixed width for the form.</param>
+    /// <param name="height">The fixed height for the form.</param>
+    public void SetFixedSize(int width, int height)
+    {
+        MinimumSize = new Size(width, height);
+        MaximumSize = new Size(width, height);
+    }
+
+    /// <summary>
+    /// Frees the fixed size constraints on the form, allowing it to be resized 
+    /// freely by resetting the minimum and maximum size to their respective limits.
+    /// </summary>
+    public void FreeUpFixedSize()
+    {
+        MinimumSize = new Size(int.MinValue, int.MinValue);
+        MaximumSize = new Size(int.MaxValue, int.MaxValue);
+    }
+
+    /// <summary>
     /// Handles the Resize event of the form.
     /// </summary>
     private void OnResize(object? sender, EventArgs e) => ReDraw();

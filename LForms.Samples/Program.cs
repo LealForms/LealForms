@@ -3,18 +3,20 @@ using LForms.Extensions;
 
 namespace LForms.Samples;
 
-internal static class Program
+public static class Program
 {
     [STAThread]
-    internal static void Main()
+    public static void Main()
     {
         try
         {
             ApplicationConfiguration.Initialize();
-            Application.Run(new MyCustomFormExample());
+            Application.Run(new StickyNoteForm());
         }
         catch (Exception ex)
         {
+            // Handle critical exceptions to ensure the application exits gracefully,
+            // showing an informative message box to the user.
             _ = ex.HandleException(ErrorType.Critical);
         }
     }

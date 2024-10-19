@@ -52,7 +52,7 @@ public static class ControlExtensions
     /// <param name="handle">Handle to the window to be dragged.</param>
     /// <param name="e">Mouse event arguments containing details about the mouse click.</param>
     /// <param name="allowedMouseButton">The mouse button that is allowed to initiate the window drag. Defaults to the left mouse button.</param>
-    public static void ControlMouseDown(this IntPtr handle, MouseEventArgs e, MouseButtons allowedMouseButton = MouseButtons.Left)
+    public static void DragWindowOnMouseDown(this IntPtr handle, MouseEventArgs e, MouseButtons allowedMouseButton = MouseButtons.Left)
     {
         if (e.Button != allowedMouseButton) return;
 
@@ -63,10 +63,18 @@ public static class ControlExtensions
     /// <summary>
     /// Handles mouse down events for window dragging, defaulting to the left mouse button.
     /// </summary>
+    /// <param name="form">form that will be dragged.</param>
+    /// <param name="e">Mouse event arguments containing details about the mouse click.</param>
+    public static void DragWindowOnMouseDown(this Form form, MouseEventArgs e)
+        => form.Handle.DragWindowOnMouseDown(e);
+
+    /// <summary>
+    /// Handles mouse down events for window dragging, defaulting to the left mouse button.
+    /// </summary>
     /// <param name="handle">Handle to the window to be dragged.</param>
     /// <param name="e">Mouse event arguments containing details about the mouse click.</param>
-    public static void ControlMouseDown(this IntPtr handle, MouseEventArgs e)
-        => ControlMouseDown(handle, e, MouseButtons.Left);
+    public static void DragWindowOnMouseDown(this IntPtr handle, MouseEventArgs e)
+        => handle.DragWindowOnMouseDown(e, MouseButtons.Left);
 
     #region [ Positional ]
     /// <summary>
