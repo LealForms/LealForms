@@ -26,7 +26,6 @@ public abstract class LealBaseButton : Button
     {
         Text = "LealButton";
         Cursor = Cursors.Hand;
-        BackColor = Color.White;
         ForeColor = Color.Black;
         Size = new Size(200, 50);
         FlatStyle = FlatStyle.Flat;
@@ -74,6 +73,24 @@ public abstract class LealBaseButton : Button
             FlatAppearance.BorderSize = value;
             ReDraw();
         }
+    }
+
+    /// <summary>
+    /// Gets or sets the color of the button when the mouse cursor is within the bounds of the control.
+    /// </summary>
+    public Color MouseHoverColor
+    {
+        get => FlatAppearance.MouseOverBackColor;
+        set => FlatAppearance.MouseOverBackColor = value;
+    }
+
+    /// <summary>
+    /// Gets or sets the color of the button when the mouse cursor is within the bounds of the control and the left button is pressed.
+    /// </summary>
+    public Color MouseDownColor
+    {
+        get => FlatAppearance.MouseDownBackColor;
+        set => FlatAppearance.MouseDownBackColor = value;
     }
 
     /// <summary>

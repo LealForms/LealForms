@@ -410,4 +410,35 @@ public static class ControlExtensions
     /// <returns>An <see cref="IEnumerable{T}"/> containing all child controls of the specified type.</returns>
     public static IEnumerable<T> GetChildsOfType<T>(this Control control) where T : Control
         => GetChildsOfType<T>(control.Controls);
+
+    /// <summary>
+    /// Determines the resize direction based on the mouse location relative to the edges
+    /// and corners of the specified control. Returns 0 if no resizing should be triggered.
+    /// </summary>
+    /// <param name="control">The control to check the mouse position against.</param>
+    /// <param name="location">The current mouse position relative to the control.</param>
+    /// <returns>An integer representing the resize direction, or 0 if no resizing is triggered.</returns>
+    public static int GetResizeDirection(this Control control, Point location)
+    {
+        var inLeft = location.X <= LealConstants.C_GRIP;
+        var inRight = location.X >= control.Width - LealConstants.C_GRIP;
+        var inBottom = location.Y >= control.Height - LealConstants.C_GRIP;
+
+        if (inRight && inBottom)
+            return LealConstants.WMSZ_BOTTOMRIGHT;
+
+        if (inRight)
+            return LealConstants.WMSZ_RIGHT;
+
+        if (inLeft && inBottom)
+            return LealConstants.WMSZ_BOTTOMLEFT;
+
+        if (inLeft)
+            return LealConstants.WMSZ_LEFT;
+
+        if (inBottom)
+            return LealConstants.WMSZ_BOTTOM;
+
+        return 0;
+    }
 }
