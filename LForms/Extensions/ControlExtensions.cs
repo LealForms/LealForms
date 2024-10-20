@@ -78,6 +78,94 @@ public static class ControlExtensions
 
     #region [ Positional ]
     /// <summary>
+    /// Docks the control to fill its parent container, applying individual padding values for each side.
+    /// Padding values of 0 indicate no change to the respective side.
+    /// </summary>
+    /// <param name="control">The control to be docked within its parent container.</param>
+    /// <param name="leftPadding">Padding value for the left side (in pixels).</param>
+    /// <param name="rightPadding">Padding value for the right side (in pixels).</param>
+    /// <param name="bottomPadding">Padding value for the bottom side (in pixels).</param>
+    /// <param name="topPadding">Padding value for the top side (in pixels).</param>
+    public static void DockFillWithPadding(this Control control, int leftPadding, int rightPadding, int bottomPadding, int topPadding)
+    {
+        var parent = control.Parent;
+
+        if (parent == null)
+            return;
+
+        control.Width = parent.Width - leftPadding - rightPadding;
+        control.Height = parent.Height - topPadding - bottomPadding;
+
+        control.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+        control.SetX(leftPadding);
+        control.SetY(topPadding);
+    }
+
+    /// <summary>
+    /// Docks the control to the left side of its parent container, applying the specified padding.
+    /// </summary>
+    /// <param name="control">The control to be docked within its parent container.</param>
+    /// <param name="padding">The padding value (in pixels) to apply between the control and the left edge of the parent container.</param>
+    public static void DockLeftWithPadding(this Control control, int padding)
+    {
+        var parent = control.Parent;
+
+        if (parent == null)
+            return;
+
+        control.Anchor = AnchorStyles.Left;
+        control.SetX(padding);
+    }
+
+    /// <summary>
+    /// Docks the control to the right side of its parent container, applying the specified padding.
+    /// </summary>
+    /// <param name="control">The control to be docked within its parent container.</param>
+    /// <param name="padding">The padding value (in pixels) to apply between the control and the right edge of the parent container.</param>
+    public static void DockRightWithPadding(this Control control, int padding)
+    {
+        var parent = control.Parent;
+
+        if (parent == null)
+            return;
+
+        control.Anchor = AnchorStyles.Right;
+        control.SetX(parent.Width - control.Width - padding);
+    }
+
+    /// <summary>
+    /// Docks the control to the top of its parent container, applying the specified padding.
+    /// </summary>
+    /// <param name="control">The control to be docked within its parent container.</param>
+    /// <param name="padding">The padding value (in pixels) to apply between the control and the top edge of the parent container.</param>
+    public static void DockTopWithPadding(this Control control, int padding)
+    {
+        var parent = control.Parent;
+
+        if (parent == null)
+            return;
+
+        control.Anchor = AnchorStyles.Top;
+        control.SetY(padding);
+    }
+
+    /// <summary>
+    /// Docks the control to the bottom of its parent container, applying the specified padding.
+    /// </summary>
+    /// <param name="control">The control to be docked within its parent container.</param>
+    /// <param name="padding">The padding value (in pixels) to apply between the control and the bottom edge of the parent container.</param>
+    public static void DockBottomWithPadding(this Control control, int padding)
+    {
+        var parent = control.Parent;
+
+        if (parent == null)
+            return;
+
+        control.Anchor = AnchorStyles.Bottom;
+        control.SetY(parent.Height - control.Height - padding);
+    }
+
+    /// <summary>
     /// Centralizes the control relative to the parent.
     /// </summary>
     /// <param name="control">The control to centralize.</param>
