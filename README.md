@@ -14,7 +14,7 @@ Install-Package LealForms.LForms
 
 Or via nuget package manager in Visual Studio
 
-![NugetPackage](./Docs/Res/)
+![NugetPackage](./Docs/Res/nuget_instalation.png)
 
 ## Basic Usage Example
 
