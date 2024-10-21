@@ -23,6 +23,11 @@ public static class LealConstants
     public static readonly int GAP = 20;
 
     /// <summary>
+    /// Default grip size
+    /// </summary>
+    public static readonly int C_GRIP = 16;
+
+    /// <summary>
     /// The default curve radius (in pixels) used for creating rounded regions in a <see cref="Region"/>.
     /// This value determines the smoothness of the corner rounding.
     /// </summary>
@@ -47,6 +52,69 @@ public static class LealConstants
     /// Constant representing the DWM window attribute for dark mode after Windows 10 version 20H1.
     /// </summary>
     public static readonly int DWMWA_USE_IMMERSIVE_DARK_MODE = 20;
+
+    /// <summary>
+    /// Windows Message for System Commands.
+    /// This message is sent to a window when the user selects a command from the window menu (also known as the system or control menu),
+    /// or when the user chooses the maximize, minimize, restore, or close buttons.
+    /// </summary>
+    public static readonly int WM_SYSCOMMAND = 0x0112;
+
+    /// <summary>
+    /// System Command for Sizing.
+    /// Used with WM_SYSCOMMAND to initiate window resizing.
+    /// Indicates that the user wants to size the window.
+    /// </summary>
+    public static readonly int SC_SIZE = 0xF000;
+
+    /// <summary>
+    /// Left edge resizing.
+    /// Initiates a resize operation from the left edge of the window.
+    /// </summary>
+    public static readonly int WMSZ_LEFT = 1;
+
+    /// <summary>
+    /// Right edge resizing.
+    /// Initiates a resize operation from the right edge of the window.
+    /// </summary>
+    public static readonly int WMSZ_RIGHT = 2;
+
+    /// <summary>
+    /// Top edge resizing.
+    /// Initiates a resize operation from the top edge of the window.
+    /// </summary>
+    public static readonly int WMSZ_TOP = 3;
+
+    /// <summary>
+    /// Top-left corner resizing.
+    /// Initiates a resize operation from the top-left corner of the window.
+    /// </summary>
+    public static readonly int WMSZ_TOPLEFT = 4;
+
+    /// <summary>
+    /// Top-right corner resizing.
+    /// Initiates a resize operation from the top-right corner of the window.
+    /// </summary>
+    public static readonly int WMSZ_TOPRIGHT = 5;
+
+    /// <summary>
+    /// Bottom edge resizing.
+    /// Initiates a resize operation from the bottom edge of the window.
+    /// </summary>
+    public static readonly int WMSZ_BOTTOM = 6;
+
+    /// <summary>
+    /// Bottom-left corner resizing.
+    /// Initiates a resize operation from the bottom-left corner of the window.
+    /// </summary>
+    public static readonly int WMSZ_BOTTOMLEFT = 7;
+
+    /// <summary>
+    /// Bottom-right corner resizing.
+    /// Initiates a resize operation from the bottom-right corner of the window.
+    /// </summary>
+    public static readonly int WMSZ_BOTTOMRIGHT = 8;
+
 
     /// <summary>
     /// Hit-test value indicating the title bar or caption area of a window.

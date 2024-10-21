@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace LForms.Extensions;
@@ -68,6 +69,6 @@ public static class FormExtensions
     /// </summary>
     /// <param name="build">The minimum build number to check for. Default is -1, which checks for any Windows 10 version.</param>
     /// <returns>True if the OS is Windows 10 with a build number greater than or equal to the specified build.</returns>
-    private static bool IsWindows10OrGreater(int build = -1)
+    public static bool IsWindows10OrGreater(int build = -1)
         => Environment.OSVersion.Version.Major >= 10 && Environment.OSVersion.Version.Build >= build;
 }

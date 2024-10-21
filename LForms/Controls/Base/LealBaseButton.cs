@@ -19,6 +19,8 @@ public abstract class LealBaseButton : Button
     /// </summary>
     protected int _regionSmoothness = LealConstants.ELIPSE_CURVE;
 
+    private int _borderSize;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="LealBaseButton"/> class with default settings.
     /// </summary>
@@ -26,12 +28,11 @@ public abstract class LealBaseButton : Button
     {
         Text = "LealButton";
         Cursor = Cursors.Hand;
-        BackColor = Color.White;
         ForeColor = Color.Black;
+        FlatAppearance.BorderColor = ForeColor;
         Size = new Size(200, 50);
         FlatStyle = FlatStyle.Flat;
         Font = new Font("Arial", 12, FontStyle.Regular);
-
         DoubleBuffered = true;
         SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         Resize += LealBaseButton_Resize;
@@ -77,6 +78,39 @@ public abstract class LealBaseButton : Button
     }
 
     /// <summary>
+    /// Gets or sets the border color off the button.
+    /// </summary>
+    public Color BorderColor
+    {
+        get => FlatAppearance.BorderColor;
+        set => FlatAppearance.BorderColor = value;
+    }
+
+    /// <summary>
+    /// Gets or sets the color of the button when the mouse cursor is within the bounds of the control.
+    /// </summary>
+    public Color MouseHoverColor
+    {
+        get => FlatAppearance.MouseOverBackColor;
+        set => FlatAppearance.MouseOverBackColor = value;
+    }
+
+    /// <summary>
+    /// Gets or sets the color of the button when the mouse cursor is within the bounds of the control and the left button is pressed.
+    /// </summary>
+    public Color MouseDownColor
+    {
+        get => FlatAppearance.MouseDownBackColor;
+        set => FlatAppearance.MouseDownBackColor = value;
+    }
+
+    /// <inheritdoc/>
+    protected override bool ShowFocusCues
+    {
+        get => false;
+    }
+
+    /// <summary>
     /// Forces a redraw of the button, optionally implemented by derived classes.
     /// </summary>
     protected virtual void ReDraw() { }
@@ -88,11 +122,15 @@ public abstract class LealBaseButton : Button
     {
         if (_roundedRegion)
         {
+            _borderSize = FlatAppearance.BorderSize;
             FlatAppearance.BorderSize = 0;
             this.GenerateRoundRegion(_regionSmoothness);
         }
         else
+        {
             Region = null;
+            FlatAppearance.BorderSize = _borderSize;
+        }
     }
 
     private void LealBaseButton_Resize(object? sender, System.EventArgs e)
