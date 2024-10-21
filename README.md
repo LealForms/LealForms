@@ -14,7 +14,7 @@ Install-Package LealForms.LForms
 
 Or via nuget package manager in Visual Studio
 
-![NugetPackage](./docs/res/)
+![NugetPackage](./Docs/Res/)
 
 ## Basic Usage Example
 
@@ -50,7 +50,7 @@ public static class Program
 
 Result:
 
-![Exception Example](./docs/res/critical_error_example.png)
+![Exception Example](./Docs/Res/critical_error_example.png)
 
 ####  Using LealForm class
 
@@ -174,11 +174,11 @@ public class MainForm : LealForm
 }
 ```
 
-![MainForm](./docs/res/main_form_example.gif)
+![MainForm](./Docs/Res/main_form_example.gif)
 
 ## Documentation
 
-For detailed documentation and examples, please visit the [Docs](./docs/README.md). The repository includes:
+For detailed documentation and examples, please visit the [Docs](./Docs/README.md). The repository includes:
 
 - API Documentation: Comprehensive information about all classes and methods.
 - Examples: Sample projects demonstrating how to use the library.
