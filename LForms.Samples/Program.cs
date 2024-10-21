@@ -1,5 +1,7 @@
 using LForms.Enums;
 using LForms.Extensions;
+using System;
+using System.Windows.Forms;
 
 namespace LForms.Samples;
 

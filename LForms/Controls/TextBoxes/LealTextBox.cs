@@ -12,6 +12,18 @@ namespace LForms.Controls.TextBoxes;
 public class LealTextBox : LealPanel
 {
     /// <summary>
+    /// Represents the method that will handle the <see cref="TextChanged"/> event.
+    /// </summary>
+    /// <param name="text">The current text in the text box.</param>
+    /// <param name="e">A <see cref="EventArgs"/> that contains the event data.</param>
+    public delegate void LealTextBox_TextChanged(string text, EventArgs e);
+
+    /// <summary>
+    /// Occurs when the text has changed
+    /// </summary>
+    public new event LealTextBox_TextChanged? TextChanged;
+
+    /// <summary>
     /// Represents the method that will handle the <see cref="KeyPressed"/> event.
     /// </summary>
     /// <param name="text">The current text in the text box.</param>
@@ -25,13 +37,14 @@ public class LealTextBox : LealPanel
 
     private readonly TextBox _input;
 
+    private ScrollBars _scrollBar = ScrollBars.None;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="LealTextBox"/> class.
     /// </summary>
     public LealTextBox()
     {
         Height = 50;
-        BackColor = Color.White;
 
         _input = new TextBox
         {
@@ -44,6 +57,15 @@ public class LealTextBox : LealPanel
 
         ReDraw();
         InitializeEventHandlers();
+    }
+
+    /// <summary>
+    ///  Gets or sets the current text in the text box.
+    /// </summary>
+    public new string? Text
+    {
+        get => _input.Text;
+        set => _input.Text = value;
     }
 
     /// <summary>
@@ -122,8 +144,12 @@ public class LealTextBox : LealPanel
     /// </summary>
     public ScrollBars ScrollBars
     {
-        get => _input.ScrollBars;
-        set => _input.ScrollBars = value;
+        get => _scrollBar;
+        set
+        {
+            _scrollBar = value;
+            ReDraw();
+        }
     }
 
     /// <summary>
@@ -149,7 +175,8 @@ public class LealTextBox : LealPanel
         Resize += (s, e) => ReDraw();
         BackColorChanged += (s, e) => ReDraw();
         GotFocus += (s, e) => _input.Focus();
-        _input.KeyPress += (s, e) => KeyPressed?.Invoke(_input.Text, e);
+        _input.KeyPress += (s, e) => KeyPressed?.Invoke(_input.Text, e); ;
+        _input.TextChanged += Input_TextChanged;
     }
 
     /// <summary>
@@ -160,9 +187,29 @@ public class LealTextBox : LealPanel
         _input.Height = Height;
         _input.Width = Width - 10;
         _input.BackColor = BackColor;
+
         if (Multiline)
             _input.SetY(0);
         else
             _input.Centralize();
+    }
+
+    private void Input_TextChanged(object? sender, EventArgs e)
+    {
+        TextChanged?.Invoke(_input.Text, e);
+
+        if (_scrollBar != ScrollBars.None)
+        {
+            var linesSize = _input.Text.GetTextSize(_input.Font);
+
+            if (linesSize.Height > _input.Height)
+            {
+                _input.ScrollBars = _scrollBar;
+                _input.Focus();
+                _input.ScrollToCaret();
+            }
+            else
+                _input.ScrollBars = ScrollBars.None;
+        }
     }
 }

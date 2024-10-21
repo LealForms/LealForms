@@ -1,54 +1,33 @@
 # LealForms Library
 
 LealForms is a C# library designed to simplify the development of beautiful and functional applications using Windows Forms in .NET.
-This library provides a set of customizable and user-friendly controls like buttons, panels, and tabs, allowing developers to create visually appealing user interfaces with ease.
+
+This library provides a set of customizable and user-friendly controls like buttons, panels, tabs, and a lot of extensions.
 
 ## Installation
 
-You can install LealForms via NuGet Package Manager:
+You can install LealForms via terminal:
 
 ```sh
 Install-Package LealForms.LForms
 ```
 
-## Getting Started
+Or via nuget package manager in Visual Studio
 
-### Step 1: Create a New Windows Forms Project
+![NugetPackage](./docs/res/)
 
-Create a new Windows Forms project in Visual Studio. Once your project is ready, add the LealForms package.
+## Basic Usage Example
 
-### Step 2: Using LealForms Controls
+#### Handling Critical errors
 
-Add the namespace to your code file:
-
-```csharp
-using LealForms.LForms;
-```
-
-You can now start using the provided controls in your forms. Here is an example of adding a customizable button:
+In your program entry point, consider using critial exception handler:
 
 ```csharp
-var myButton = new LealButton
-{
-    Text = "Click Me",
-    Size = new Size(100, 40),
-    Rounded = true, // Set to true to give the button rounded edges for a modern look
-    Location = new Point(10, 10)
-};
-this.Add(myButton); // Adds the button to the form (simplified, no need for 'this.Controls.Add')
-```
+using LForms.Enums;
+using LForms.Extensions;
+using System;
+using System.Windows.Forms;
 
-## Examples
-
-### Sticky Note App
-
-Below is a simple example to create a Sticky Note application using LealForms.
-
-1. **Prepare the Main Entry Point with Error Handling**
-
-In this example, we ensure that the application is launched safely by handling any unexpected errors in the `Main` method.
-
-```csharp
 public static class Program
 {
     [STAThread]
@@ -57,7 +36,7 @@ public static class Program
         try
         {
             ApplicationConfiguration.Initialize();
-            Application.Run(new StickyNoteForm());
+            Application.Run(new MainForm());
         }
         catch (Exception ex)
         {
@@ -69,115 +48,188 @@ public static class Program
 }
 ```
 
-2. **Create the StickyNoteForm Class**
+Result:
 
-The `StickyNoteForm` class inherits from `LealForm` and provides a convenient method for initializing the UI components.
+![Exception Example](./docs/res/critical_error_example.png)
+
+####  Using LealForm class
+
+It's highly recommended to extend you forms using the `LealForm`, it has a bunch of usefull methods that you can use. 
+
+It also automomatically set your form to darkmode, depending of your system theme.
 
 ```csharp
-public class StickyNoteForm : LealForm // Inherit from LealForm to use its extended functionality
+using LForms.Controls.Forms;
+
+public class MainForm : LealForm
 {
     public override void LoadComponents()
     {
-        // Initialize all components that will be displayed in the application
-        // This method acts as a custom constructor to set up your form's UI
+        // You can load your controls in this method
+        // This method is automatically called in base constructor
     }
 }
 ```
 
-3. **Set Up the Sticky Note Form**
-
-Let's start by configuring the form properties to create an appropriate user experience for a sticky note app.
-
-- We will set the form to a fixed size since sticky notes typically have a consistent size, and there is no need for a resizable window.
+Example:
 
 ```csharp
-public override void LoadComponents()
+using LForms.Controls.Forms;
+
+public class MainForm : LealForm
 {
-    // Set a fixed size to the form for a consistent sticky note experience
-    SetFixedSize(500, 800); // You can unlock the size later using "FreeUpFixedSize();"
-
-    // Disable the maximize button as resizing is not necessary for a sticky note app.
-    MaximizeBox = false; 
-
-    // Additional UI components initialization can be added here
-}
-```
-
-4. **Lets start to build our application**
-
-- Lets create first create our custom sticky note class
-
-```csharp
-public class StickyNote : LealForm
-{
-    // Lets declare our components that will me used in that class
-    public LealPanel? _topPanel;
-    public LealTextBox? _textBox;
-
-    public string Content { get; set; } = "";
-
     public override void LoadComponents()
     {
-        // Remove the default border style for a cleaner look
-        FormBorderStyle = FormBorderStyle.None;
-        
-        // Set the size of the sticky note
-        Size = new Size(300, 400);
-        
-        // Ensure the form is always on top
-        TopLevel = true;
-        TopMost = true;
-        
-        // Configure the top panel with default settings
-        _topPanel = new LealPanel()
+        // Lets create the left panel, with a gradient to get some stylish
+        var leftPanel = new LealGradientPanel()
         {
-            Height = 38,
-            Dock = DockStyle.Top,
-            BackColor = Color.White.Darken(0.75), // darken the white color in 75%
+            Width = 200,
+            Dock = DockStyle.Left,
+            TopLeftGradientColor = Color.Blue,
+            TopRightGradientColor = Color.Blue,
+            BottomLeftGradientColor = Color.White,
+            BottomRightGradientColor = Color.White,
         };
-        this.Add(_topPanel);
+        this.Add(leftPanel); // Simplified method to add controls (no more 'object'.Controls.Add())
+
+        // Lets add some selectable buttons without real functionality
+        var button1 = new LealSelectableButton()
+        {
+            Text = "First button",
+            AutoSearch = true, // This enables autoseach, means that if you click it will automatically search for others LealSelectableButtons to change their colors
+            Selected = true, // Initialize button1 selected
+            BorderSize = 0,
+            MouseHoverColor = Color.Red,
+            SelectedColor = Color.DarkRed,
+            UnSelectedColor = Color.Transparent,
+        };
+        leftPanel.Add(button1);
+        button1.HorizontalCentralize(); // Centralize horizontally the button to it parent
         
-        // Enable dragging the window by clicking on the top panel
-        _topPanel.MouseDown += TopPanel_MouseDown;
+        var button2 = new LealSelectableButton()
+        {
+            Text = "Second button",
+            AutoSearch = true,
+            BorderSize = 0,
+            MouseHoverColor = Color.Red,
+            SelectedColor = Color.DarkRed,
+            UnSelectedColor = Color.Transparent,
+        };
+        leftPanel.Add(button2);
+        button2.HorizontalCentralize();
+
+        var button3 = new LealSelectableButton()
+        {
+            Text = "Third button",
+            AutoSearch = true,
+            BorderSize = 0,
+            MouseHoverColor = Color.Red,
+            SelectedColor = Color.DarkRed,
+            UnSelectedColor = Color.Transparent,
+        };
+        leftPanel.Add(button3);
+        button2.HorizontalCentralize();
+
+        // This creates and waterfall of all the LealSelectableButtons on Y axis, starting at 50, with 10 of padding between each one
+        //
+        // Button1
+        // 
+        // Button2
+        //
+        // Button 3
+        leftPanel.WaterFallChildControlsOfTypeByY<LealSelectableButton>(50, 10);
+
+        // Right panel creation
+        var rightPanel = new LealPanel()
+        {
+            Dock = DockStyle.Fill,
+        };
+        this.Add(rightPanel);
+        rightPanel.BringToFront();
+
+        var messageButton = new LealButton()
+        {
+            Text = "Button Test",
+            Rounded = true, // Gives the button rounded edges
+        };
+        messageButton.Click += (s, e) => ExecuteImportantThing();
+        rightPanel.Add(messageButton);
+        messageButton.Centralize(); // Centralize vertically and horizontally the button to it parent
     }
 
-    private void TopPanel_MouseDown(object? sender, MouseEventArgs e)
+    private void ExecuteImportantThing()
     {
-        // Allow the user to drag the form by holding down the mouse button on the top panel
-        Handle.DragWindowOnMouseDown(e);
+        try
+        {
+            throw new NotImplementedException();
+        }
+        catch (Exception e)
+        {
+            var dialogResult = this.HandleException(e, ErrorType.Process);
+
+            if (dialogResult == DialogResult.Retry)
+                ExecuteImportantThing();
+        }
     }
 }
 ```
 
+![MainForm](./docs/res/main_form_example.gif)
 
-- In our StickyNoteForm, we can already call our first sticky note
+## Documentation
 
-```csharp
-public class StickyNoteForm : LealForm
-{
-    // Create a list to store sticky notes
-    public List<StickyNote> Notes = [];
+For detailed documentation and examples, please visit the [Docs](./docs/README.md). The repository includes:
 
-    public override void LoadComponents()
-    {
-        // Set a fixed size to the form for a consistent sticky note experience
-        SetFixedSize(500, 800); // You can unlock the size later using "FreeUpFixedSize();"
+- API Documentation: Comprehensive information about all classes and methods.
+- Examples: Sample projects demonstrating how to use the library.
+- Guides: Step-by-step tutorials to help you get started quickly.
 
-        // Disable the maximize button as the form size is fixed
-        MaximizeBox = false;
+## Documentation
 
-        // Create a new sticky note and add it to the list
-        var newNote = new StickyNote();
-        Notes.Add(newNote);
+Contributions are welcome! If you'd like to contribute to LealForms, please follow these steps:
 
-        // Display the first sticky note on the screen
-        Notes[0].Show();
-    }
-}
+1. Fork the Repository: Create a personal fork of the repository on GitHub.
+2. Clone Your Fork: Clone your forked repository to your local machine.
+
+```sh
+git clone https://github.com/LealForms/LealForms.git
 ```
 
-- Executing our code, we have this:
+3. Create a Branch: Create a new branch for your feature or bug fix.
 
-![Fist Execution](./Docs/Res/stickynoteapp_01.png)
+```sh
+git checkout -b feature/branch-name
+```
 
-- Really interesting for now right? Lets continue
+4. Make Changes: Implement your feature or fix the bug.
+5. Commit Changes: Commit your changes with descriptive messages.
+
+```sh
+git commit -am "Add feature X to improve Y"
+```
+
+6. Push Changes: Push your changes to your forked repository.
+
+```sh
+git push origin feature/branch-name
+```
+
+7. Submit a Pull Request: Go to the original repository and submit a pull request.
+
+## Issues
+
+If you encounter any bugs or have feature requests, please open an issue on the Issues page.
+
+## Author
+
+Me: Eduardo Ribeiro Leal<br>
+Email: <swellshinider@gmail.com><br>
+Github: [Here!](https://github.com/Swellshinider)
+
+## License
+
+LealForms is licensed under the [MIT LICENSE](LICENSE)
+
+## Thanks!
+
+Thank you for using LealForms! I really hope this library helps your Windows Forms development.

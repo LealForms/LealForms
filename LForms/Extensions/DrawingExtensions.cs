@@ -38,6 +38,32 @@ public static class DrawingExtensions
     }
 
     /// <summary>
+    /// Adjusts the brightness of the specified color by lightening it based on a given factor.
+    /// </summary>
+    /// <param name="color">The <see cref="Color"/> to be lightened.</param>
+    /// <param name="lighteningFactor">
+    /// A value between 0 and 1 that represents the degree of lightening. 
+    /// A value of 0 returns the original color, while a value of 1 returns white.
+    /// </param>
+    /// <returns>
+    /// A new <see cref="Color"/> that is a lighter version of the original, with the same alpha component.
+    /// </returns>
+    public static Color Lighten(this Color color, double lighteningFactor)
+    {
+        lighteningFactor = Math.Clamp(lighteningFactor, 0, 1);
+
+        var r = (int)(color.R + (255 - color.R) * lighteningFactor);
+        var g = (int)(color.G + (255 - color.G) * lighteningFactor);
+        var b = (int)(color.B + (255 - color.B) * lighteningFactor);
+
+        r = Math.Clamp(r, 0, 255);
+        g = Math.Clamp(g, 0, 255);
+        b = Math.Clamp(b, 0, 255);
+
+        return Color.FromArgb(color.A, r, g, b);
+    }
+
+    /// <summary>
     /// Resizes the given image to the specified dimensions, optionally using high-quality rendering settings.
     /// </summary>
     /// <param name="image">The source <see cref="Image"/> to resize.</param>
@@ -127,10 +153,10 @@ public static class DrawingExtensions
     public static Color BlendColors(this Color firstColor, Color secondColor, float blendRatio)
     {
         blendRatio = Math.Clamp(blendRatio, 0f, 1f);
-        byte a = (byte)(firstColor.A + (secondColor.A - firstColor.A) * blendRatio);
-        byte r = (byte)(firstColor.R + (secondColor.R - firstColor.R) * blendRatio);
-        byte g = (byte)(firstColor.G + (secondColor.G - firstColor.G) * blendRatio);
-        byte b = (byte)(firstColor.B + (secondColor.B - firstColor.B) * blendRatio);
+        var a = (byte)(firstColor.A + (secondColor.A - firstColor.A) * blendRatio);
+        var r = (byte)(firstColor.R + (secondColor.R - firstColor.R) * blendRatio);
+        var g = (byte)(firstColor.G + (secondColor.G - firstColor.G) * blendRatio);
+        var b = (byte)(firstColor.B + (secondColor.B - firstColor.B) * blendRatio);
 
         return Color.FromArgb(a, r, g, b);
     }
@@ -149,15 +175,19 @@ public static class DrawingExtensions
     ];
 
     /// <summary>
-    /// Calculates the average (central) color from a list of colors by averaging their ARGB components.
+    /// Calculates the central color by blending the provided four colors. 
+    /// The method blends the colors diagonally (top-left with bottom-right and top-right with bottom-left)
+    /// and then blends the results to obtain the central color.
     /// </summary>
-    /// <param name="colors">A list of Colors to average.</param>
-    /// <returns>The averaged Color.</returns>
+    /// <param name="colors">A list of exactly four <see cref="Color"/> objects.</param>
+    /// <returns>A <see cref="Color"/> representing the central blend of the four input colors.</returns>
+    /// <exception cref="ArgumentException">Thrown when the list does not contain exactly four colors.</exception>
     public static Color CalculateCentralColor(this List<Color> colors)
     {
         if (colors.Count != 4)
             throw new ArgumentException("Exactly four colors are required.");
 
+        // Blend top-left with bottom-right, and top-right with bottom-left
         var avgColor1 = BlendColors(colors[0], colors[2], 0.5f); // Top-left and bottom-right
         var avgColor2 = BlendColors(colors[1], colors[3], 0.5f); // Top-right and bottom-left
 
