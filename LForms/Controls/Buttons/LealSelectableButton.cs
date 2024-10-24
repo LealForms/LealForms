@@ -1,5 +1,6 @@
 ﻿using LForms.Controls.Base;
 using LForms.Extensions;
+using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -38,13 +39,32 @@ public class LealSelectableButton : LealBaseButton
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="LealSelectableButton"/> class and subscribes to the MouseClick event.
-    /// Also assign a object reference passed into the <see cref="OnSelectButton"/> event.
+    /// Initializes a new instance of the <see cref="LealSelectableButton"/> class with a specified click event handler.
     /// </summary>
+    /// <param name="onclickHandler">The event handler that will be called when the button is clicked.</param>
+    public LealSelectableButton(OnSelected onclickHandler) : this()
+    {
+        OnSelectButton += onclickHandler;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="LealSelectableButton"/> class and subscribes to the MouseClick event.
+    /// </summary>
+    /// <param name="objectReference">a object reference passed into the <see cref="OnSelectButton"/> event.</param>
     public LealSelectableButton(object? objectReference)
     {
         ObjectRef = objectReference;
         MouseClick += LealSelectableButton_MouseClick;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="LealSelectableButton"/> class with a specified click event handler.
+    /// </summary>
+    /// <param name="onclickHandler">The event handler that will be called when the button is clicked.</param>
+    /// <param name="objectReference">a object reference passed into the <see cref="OnSelectButton"/> event.</param>
+    public LealSelectableButton(OnSelected onclickHandler, object? objectReference) : this(objectReference)
+    {
+        OnSelectButton += onclickHandler;
     }
 
     /// <summary>

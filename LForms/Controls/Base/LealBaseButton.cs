@@ -1,4 +1,6 @@
-﻿using LForms.Extensions;
+﻿using LForms.Controls.Buttons;
+using LForms.Extensions;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -36,6 +38,15 @@ public abstract class LealBaseButton : Button
         DoubleBuffered = true;
         SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         Resize += LealBaseButton_Resize;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="LealBaseButton"/> class with a specified click event handler.
+    /// </summary>
+    /// <param name="onclickHandler">The event handler that will be called when the button is clicked.</param>
+    protected LealBaseButton(EventHandler onclickHandler) : this()
+    {
+        Click += onclickHandler;
     }
 
     /// <summary>
@@ -104,10 +115,18 @@ public abstract class LealBaseButton : Button
         set => FlatAppearance.MouseDownBackColor = value;
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the button will show it's focus cues on focus.
+    /// </summary>
+    /// <remarks>
+    /// Default = false
+    /// </remarks>
+    public bool ShowFocusBorder { get; set; } = false;
+
     /// <inheritdoc/>
     protected override bool ShowFocusCues
     {
-        get => false;
+        get => ShowFocusBorder;
     }
 
     /// <summary>

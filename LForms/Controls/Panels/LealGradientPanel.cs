@@ -23,11 +23,12 @@ public class LealGradientPanel : LealPanel
     /// <summary>
     /// Initializes a new instance of the <see cref="LealGradientPanel"/> class.
     /// </summary>
+    /// <param name="isPanelDragged">set up event handler for dragging the parent form functionality.</param>
     /// <remarks>
     /// This control displays a gradient background by blending the specified corner colors.
     /// Generating the gradient can be resource-intensive; frequent updates (e.g., resizing) may affect performance.
     /// </remarks>
-    public LealGradientPanel()
+    public LealGradientPanel(bool isPanelDragged = false) : base(isPanelDragged)
     {
         SetStyle(ControlStyles.ResizeRedraw, true);
     }

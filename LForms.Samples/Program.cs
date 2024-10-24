@@ -13,7 +13,7 @@ public static class Program
         try
         {
             ApplicationConfiguration.Initialize();
-            Application.Run(new StickyNoteForm());
+            Application.Run(new ExamplesForm());
         }
         catch (Exception ex)
         {

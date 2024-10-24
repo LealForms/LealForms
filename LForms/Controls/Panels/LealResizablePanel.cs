@@ -31,7 +31,8 @@ public class LealResizablePanel : LealPanel
     /// <summary>
     /// Initializes a new instance of the <see cref="LealResizablePanel"/> class.
     /// </summary>
-    public LealResizablePanel() { }
+    /// <param name="isPanelDragged">set up event handler for dragging the parent form functionality.</param>
+    public LealResizablePanel(bool isPanelDragged = false) : base(isPanelDragged) { }
 
     /// <summary>
     /// Handles mouse down events and starts the resizing process

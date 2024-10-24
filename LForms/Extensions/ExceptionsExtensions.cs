@@ -16,8 +16,9 @@ public static class ExceptionsExtensions
     /// <param name="form">The current <see cref="Form"/> displaying the dialog.</param>
     /// <param name="exception">The exception that was thrown.</param>
     /// <param name="errorType">The type of error to categorize the exception.</param>
+    /// <param name="additionalMessage">Extra message information.</param>
     /// <returns>A <see cref="DialogResult"/> indicating the user's choice.</returns>
-    public static DialogResult HandleException(this Form form, Exception exception, ErrorType errorType)
+    public static DialogResult HandleException(this Form form, Exception exception, ErrorType errorType, string additionalMessage = "")
     {
         var message = errorType.GetMessageByError();
 
@@ -37,13 +38,14 @@ public static class ExceptionsExtensions
     /// </summary>
     /// <param name="exception">The exception that was thrown.</param>
     /// <param name="errorType">The type of error to categorize the exception.</param>
+    /// <param name="additionalMessage">Extra message information.</param>
     /// <returns>A <see cref="DialogResult"/> indicating the user's choice.</returns>
-    public static DialogResult HandleException(this Exception exception, ErrorType errorType)
+    public static DialogResult HandleException(this Exception exception, ErrorType errorType, string additionalMessage = "")
     {
         var message = errorType.GetMessageByError();
 
         return MessageBox.Show(
-            $"{message}\n\nDetails: {exception.Message}",
+            $"{message}\n{additionalMessage}\n\nDetails: {exception.Message}",
             $"{errorType} Error",
             errorType == ErrorType.Critical ? MessageBoxButtons.OK : MessageBoxButtons.RetryCancel,
             errorType == ErrorType.Warning ? MessageBoxIcon.Warning : MessageBoxIcon.Error,
