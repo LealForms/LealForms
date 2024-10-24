@@ -62,6 +62,21 @@ public static class DrawingExtensions
 
         return Color.FromArgb(color.A, r, g, b);
     }
+    
+    /// <summary>
+    /// Generates a filled image (bitmap) with the specified dimensions using the provided <see cref="Brush"/>.
+    /// </summary>
+    /// <param name="color">The <see cref="Brush"/> used to fill the image.</param>
+    /// <param name="width">The width of the image to generate.</param>
+    /// <param name="height">The height of the image to generate.</param>
+    /// <returns>A <see cref="Bitmap"/> object filled with the specified color.</returns>
+    public static Bitmap GenerateFilledImage(this Brush color, int width, int height)
+    {
+        var bitmap = new Bitmap(width, height);
+        using var g = Graphics.FromImage(bitmap);
+        g.FillRectangle(color, 0, 0, width, height);
+        return bitmap;
+    }
 
     /// <summary>
     /// Resizes the given image to the specified dimensions, optionally using high-quality rendering settings.

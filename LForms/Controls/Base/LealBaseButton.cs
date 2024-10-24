@@ -11,17 +11,9 @@ namespace LForms.Controls.Base;
 /// </summary>
 public abstract class LealBaseButton : Button
 {
-    /// <summary>
-    /// Set if the region is rounded
-    /// </summary>
-    protected bool _roundedRegion = false;
-
-    /// <summary>
-    /// Set the smootheness of the region
-    /// </summary>
-    protected int _regionSmoothness = LealConstants.ELIPSE_CURVE;
-
-    private int _borderSize;
+    private bool _roundedRegion = false;
+    private int _regionSmoothness = LealConstants.ELIPSE_CURVE;
+    private int _borderSize = 1;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="LealBaseButton"/> class with default settings.
@@ -129,6 +121,12 @@ public abstract class LealBaseButton : Button
         get => ShowFocusBorder;
     }
 
+    /// <inheritdoc/>
+    protected override bool ShowKeyboardCues
+    {
+        get => ShowFocusBorder;
+    }
+
     /// <summary>
     /// Forces a redraw of the button, optionally implemented by derived classes.
     /// </summary>
@@ -140,16 +138,9 @@ public abstract class LealBaseButton : Button
     protected void UpdateRegion()
     {
         if (_roundedRegion)
-        {
-            _borderSize = FlatAppearance.BorderSize;
-            FlatAppearance.BorderSize = 0;
             this.GenerateRoundRegion(_regionSmoothness);
-        }
         else
-        {
             Region = null;
-            FlatAppearance.BorderSize = _borderSize;
-        }
     }
 
     private void LealBaseButton_Resize(object? sender, System.EventArgs e)

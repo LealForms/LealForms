@@ -32,7 +32,7 @@ public sealed class StickyNotesForm : LealForm
         var backPanel = new LealResizablePanel()
         {
             Dock = DockStyle.Fill,
-            BackColor = Color.White.Darken(0.9)
+            BackColor = Color.FromArgb(32, 32, 32)
         };
         this.Add(backPanel);
 
@@ -58,6 +58,7 @@ public sealed class StickyNotesForm : LealForm
         var addNewButton = new LealButton((s, e) => { NewStickyNote(); })
         {
             Text = "+",
+            BorderSize = 0,
             Width = topPanel.Height,
             Dock = DockStyle.Left,
             MouseHoverColor = Color.Red,
