@@ -8,6 +8,9 @@
     <Compile Update="Controls\Forms\LealForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Controls\Modals\LealModal.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Controls\Panels\LealPanel.cs">
       <SubType>Component</SubType>
     </Compile>
