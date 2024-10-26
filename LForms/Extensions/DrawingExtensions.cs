@@ -79,6 +79,16 @@ public static class DrawingExtensions
     }
 
     /// <summary>
+    /// Generates a filled image (bitmap) with the specified dimensions using a <see cref="Color"/>.
+    /// </summary>
+    /// <param name="color">The <see cref="Color"/> used to fill the image.</param>
+    /// <param name="width">The width of the image to generate, in pixels.</param>
+    /// <param name="height">The height of the image to generate, in pixels.</param>
+    /// <returns>A <see cref="Bitmap"/> object filled with the specified color.</returns>
+    public static Bitmap GenerateFilledImage(this Color color, int width, int height)
+        => new SolidBrush(color).GenerateFilledImage(width, height);
+
+    /// <summary>
     /// Resizes the given image to the specified dimensions, optionally using high-quality rendering settings.
     /// </summary>
     /// <param name="image">The source <see cref="Image"/> to resize.</param>

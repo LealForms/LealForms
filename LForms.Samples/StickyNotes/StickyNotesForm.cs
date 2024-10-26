@@ -73,6 +73,5 @@ public sealed class StickyNotesForm : LealForm
     {
         var newNote = new Note(this);
         newNote.Show();
-        Notes.Add(newNote);
     }
 }

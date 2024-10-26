@@ -15,4 +15,14 @@ public static class StickyColors
     public static readonly Color PastelBlue = Color.FromArgb(90, 192, 231);
     public static readonly Color PastelGray = Color.FromArgb(170, 170, 170);
     public static readonly Color PastelSteel = Color.FromArgb(69, 69, 69);
+
+    public static readonly Color[] PastelColors = [
+        PastelYellow,
+        PastelGreen, 
+        PastelPink,
+        PastelPurple,
+        PastelBlue,
+        PastelGray,
+        PastelSteel
+    ];
 }
