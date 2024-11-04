@@ -17,7 +17,7 @@
     <Description>LealForms.LForms is a powerful .NET package designed for WindowsForms</Description>
     <Product>LealForms.LForms</Product>
     <PackageTags>forms, ui, winforms, gui, lib</PackageTags>
-    <PackageReleaseNotes>- a lot of changes, check release 1.2.0 in github repo</PackageReleaseNotes>
+    <PackageReleaseNotes>Please check RELEASE 1.3.0 of this repo to get more details of what changed</PackageReleaseNotes>
     <NeutralLanguage>en</NeutralLanguage>
     <Copyright>Swellshinider</Copyright>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
