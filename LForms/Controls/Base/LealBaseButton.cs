@@ -11,9 +11,9 @@ namespace LForms.Controls.Base;
 /// </summary>
 public abstract class LealBaseButton : Button
 {
+    private bool _selectable = false;
     private bool _roundedRegion = false;
-    private int _regionSmoothness = LealConstants.ELIPSE_CURVE;
-    private int _borderSize = 1;
+    private int _regionSmoothness = LealConstants.ELIPSE_CURVE; 
 
     /// <summary>
     /// Initializes a new instance of the <see cref="LealBaseButton"/> class with default settings.
@@ -23,12 +23,14 @@ public abstract class LealBaseButton : Button
         Text = "LealButton";
         Cursor = Cursors.Hand;
         ForeColor = Color.Black;
-        FlatAppearance.BorderColor = ForeColor;
         Size = new Size(200, 50);
         FlatStyle = FlatStyle.Flat;
         Font = new Font("Arial", 12, FontStyle.Regular);
+
         DoubleBuffered = true;
-        SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+        SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
+        SetStyle(ControlStyles.Selectable, _selectable);
+
         Resize += LealBaseButton_Resize;
     }
 
@@ -73,11 +75,7 @@ public abstract class LealBaseButton : Button
     public int BorderSize
     {
         get => FlatAppearance.BorderSize;
-        set
-        {
-            FlatAppearance.BorderSize = value;
-            ReDraw();
-        }
+        set => FlatAppearance.BorderSize = value;
     }
 
     /// <summary>
@@ -115,6 +113,25 @@ public abstract class LealBaseButton : Button
     /// </remarks>
     public bool ShowFocusBorder { get; set; } = false;
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the control can be selected.
+    /// </summary>
+    /// <value>
+    /// <c>true</c> if the control is selectable; otherwise, <c>false</c>.
+    /// </value>
+    /// <remarks>
+    /// When set, this property updates the control's style to reflect its selectable state.
+    /// </remarks>
+    public bool Selectable
+    {
+        get => _selectable;
+        set
+        {
+            _selectable = value;
+            SetStyle(ControlStyles.Selectable, value);
+        }
+    }
+
     /// <inheritdoc/>
     protected override bool ShowFocusCues
     {
@@ -143,7 +160,7 @@ public abstract class LealBaseButton : Button
             Region = null;
     }
 
-    private void LealBaseButton_Resize(object? sender, System.EventArgs e)
+    private void LealBaseButton_Resize(object? sender, EventArgs e)
     {
         ReDraw();
         UpdateRegion();

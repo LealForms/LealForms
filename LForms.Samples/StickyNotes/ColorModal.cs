@@ -1,32 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using LForms.Controls.Buttons;
+using LForms.Controls.Modals;
+using LForms.Controls.Panels;
+using LForms.Extensions;
+using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace LForms.Samples.StickyNotes;
 
-public class ColorModal : UserControl
+public class ColorModal(Form owner, Size size, Color selectedColor) : LealModal(owner, size, owner.Location)
 {
-    private readonly int _width;
-    private readonly int _height;
+    public event EventHandler<Color>? ColorChanged;
 
-    public ColorModal(Control owner, int width, int height)
+    public override void LoadComponents()
     {
-        Location = owner.Location;
-        owner.Move += (s, e) => Location = owner.Location;
-        this._width = width;
-        this._height = height;
-        InitializeComponents();
+        var panelColors = new LealPanel()
+        {
+            Height = 50,
+            Dock = DockStyle.Top,
+            BackColor = Color.LightGray
+        };
+        this.Add(panelColors);
+
+        var colors = StickyColors.PastelColors;
+
+        foreach (var color in colors)
+        {
+            var button = GenerateColorChoiceButton(color, color == selectedColor, (s, e) =>
+            {
+                ColorChanged?.Invoke(this, color);
+                Close();
+            });
+            panelColors.Add(button);
+        }
+
+        base.LoadComponents();
     }
 
-    private void InitializeComponents()
+    private static LealButton GenerateColorChoiceButton(Color color, bool selected, EventHandler onclickHandler) => new(onclickHandler)
     {
-        Size = new Size(_width, _height);
-        BorderStyle = BorderStyle.None;
-        BackColor = Color.White;
-        SetTopLevel(true);
-    }
+        Text = selected ? "✓" : "",
+        Width = 50,
+        BorderSize = 0,
+        BackColor = color,
+        ForeColor = StickyColors.TextBackColor,
+        MouseHoverColor = color.Darken(0.3),
+        MouseDownColor = color,
+        Dock = DockStyle.Left,
+    };
 }

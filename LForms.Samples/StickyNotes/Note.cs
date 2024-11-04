@@ -1,13 +1,9 @@
 ﻿using LForms.Controls.Buttons;
 using LForms.Controls.Forms;
 using LForms.Controls.Panels;
+using LForms.Controls.TextBoxes;
 using LForms.Extensions;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace LForms.Samples.StickyNotes;
@@ -17,10 +13,23 @@ public sealed class Note : LealForm
     private LealPanel? _topPanel;
     private LealButton? _closeButton;
     private LealButton? _colorPicker;
+    private LealTextBox? _textBox;
 
-    public Note(Form owner)
+    private readonly bool _load = false;
+    private readonly Color? _starterColor;
+    private readonly string? _starterText;
+
+    public delegate void OnClosingStickyNote(Color color, string? text);
+    public event OnClosingStickyNote? StickyNoteClose;
+
+    public Note(Form owner, Color? startColor = null, string? text = null)
     {
         Owner = owner;
+        _starterColor = startColor;
+        _starterText = text;
+
+        _load = true;
+        LoadComponents();
     }
 
     public override void ReDraw()
@@ -30,6 +39,9 @@ public sealed class Note : LealForm
 
     public override void LoadComponents()
     {
+        if (!_load)
+            return;
+
         Size = new Size(350, 300);
         MinimumSize = Size;
         FormBorderStyle = FormBorderStyle.None;
@@ -48,6 +60,9 @@ public sealed class Note : LealForm
             Dock = DockStyle.Top,
             BackColor = StickyColors.PastelYellow
         };
+        if (_starterColor.HasValue)
+            _topPanel.BackColor = _starterColor.Value;
+
         backPanel.Add(_topPanel);
 
         _closeButton = new LealButton((s, e) => { Close(); })
@@ -71,71 +86,37 @@ public sealed class Note : LealForm
             ForeColor = StickyColors.TextBackColor,
             Font = new Font("Lucida Console", 8, FontStyle.Regular)
         };
-
         _topPanel.Add(_colorPicker);
 
-        this.Activated += (s, e) =>
+        _textBox = new LealTextBox()
         {
-            _topPanel.Height = 50;
-            _closeButton.Visible = true;
-            _colorPicker.Visible = true;
+            Text = _starterText,
+            Multiline = true,
+            ForeColor = Color.WhiteSmoke,
         };
-        this.Deactivate += (s, e) =>
-        {
-            _topPanel.Height = 5;
-            _closeButton.Visible = false;
-            _colorPicker.Visible = true;
-        };
+        backPanel.Add(_textBox);
+
+        StickyActivation(true);
+        Activated += (s, e) => StickyActivation(true);
+        Deactivate += (s, e) => StickyActivation(false);
+        FormClosed += (s, e) => StickyNoteClose?.Invoke(_topPanel.BackColor, _textBox.Text);
+    }
+
+    private void StickyActivation(bool activation)
+    {
+        _topPanel!.Height = activation ? 50 : 10;
+        _closeButton!.Visible = activation;
+        _colorPicker!.Visible = activation;
+        _textBox!.DockFillWithPadding(LealConstants.C_GRIP, LealConstants.C_GRIP, LealConstants.C_GRIP, _topPanel.Height + LealConstants.C_GRIP);
     }
 
     private void ColorChooser()
     {
-        var modal = new LealForm()
+        var modal = new ColorModal(this, new Size(350, 50), _topPanel!.BackColor)
         {
-            FormBorderStyle = FormBorderStyle.None,
-            StartPosition = FormStartPosition.Manual,
-            ShowInTaskbar = false,
-            Size = new Size(350, 50),
-            BackColor = Color.WhiteSmoke,
-            Owner = this,
+            MinimumSize = new Size(350, 50)
         };
-
-        var screenLocation = this.PointToScreen(new Point(0, 0));
-        modal.Location = screenLocation;
-
-        // Add a panel to hold the buttons
-        var panelColors = new LealPanel()
-        {
-            Height = 50,
-            Dock = DockStyle.Top,
-            BackColor = Color.LightGray
-        };
-        modal.Add(panelColors);
-
-        var colors = StickyColors.PastelColors;
-
-        foreach (var color in colors)
-        {
-            var button = GenerateColorChoiceButton(color, color == _topPanel!.BackColor, (s, e) =>
-            {
-                _topPanel.BackColor = color;
-                modal.Close();
-            });
-            panelColors.Add(button);
-        }
-
-        // Show the dialog modally over the current form
-        modal.ShowDialog(this);
+        modal.ColorChanged += (s, e) => _topPanel!.BackColor = e;
+        modal.ShowDialog();
     }
-
-    private static LealButton GenerateColorChoiceButton(Color color, bool selected, EventHandler onclickHandler) => new(onclickHandler)
-    {
-        Text = selected ? "✓" : "",
-        Width = 50,
-        BorderSize = 0,
-        BackColor = color,
-        MouseHoverColor = color.Darken(0.2),
-        MouseDownColor = color,
-        Dock = DockStyle.Left,
-    };
 }

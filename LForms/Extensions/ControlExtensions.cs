@@ -86,6 +86,10 @@ public static class ControlExtensions
     /// <param name="rightPadding">Padding value for the right side (in pixels).</param>
     /// <param name="bottomPadding">Padding value for the bottom side (in pixels).</param>
     /// <param name="topPadding">Padding value for the top side (in pixels).</param>
+    /// /// <remarks>
+    /// This method sets the control's <see cref="Control.Anchor"/> property to ensure it resizes with its parent,
+    /// and positions it based on the specified padding values.
+    /// </remarks>
     public static void DockFillWithPadding(this Control control, int leftPadding, int rightPadding, int bottomPadding, int topPadding)
     {
         var parent = control.Parent;
@@ -100,6 +104,17 @@ public static class ControlExtensions
         control.SetX(leftPadding);
         control.SetY(topPadding);
     }
+    
+    /// <summary>
+    /// Docks the specified control to fill its parent container, applying uniform padding on all sides.
+    /// </summary>
+    /// <param name="control">The control to be docked within its parent container.</param>
+    /// <param name="padding">The padding value for all sides, in pixels.</param>
+    /// <remarks>
+    /// This overload applies the same padding to the left, right, top, and bottom of the control.
+    /// </remarks>
+    public static void DockFillWithPadding(this Control control, int padding)
+        => control.DockFillWithPadding(padding, padding, padding, padding);
 
     /// <summary>
     /// Docks the control to the left side of its parent container, applying the specified padding.

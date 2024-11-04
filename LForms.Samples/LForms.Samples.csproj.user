@@ -4,8 +4,11 @@
     <Compile Update="ExamplesForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="StickyNotes\CollapsedNote.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="StickyNotes\ColorModal.cs">
-      <SubType>UserControl</SubType>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Update="StickyNotes\Note.cs">
       <SubType>Form</SubType>
