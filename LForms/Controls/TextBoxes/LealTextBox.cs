@@ -44,7 +44,7 @@ public class LealTextBox : LealPanel
     /// </summary>
     public LealTextBox()
     {
-        Height = 50;
+        Height = 40;
 
         _input = new TextBox
         {
@@ -192,6 +192,8 @@ public class LealTextBox : LealPanel
             _input.SetY(0);
         else
             _input.Centralize();
+
+        _input.AddY(-1);
     }
 
     private void Input_TextChanged(object? sender, EventArgs e)

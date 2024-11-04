@@ -1,4 +1,6 @@
-﻿using LForms.Extensions;
+﻿using LForms.Controls.Buttons;
+using LForms.Extensions;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -9,17 +11,9 @@ namespace LForms.Controls.Base;
 /// </summary>
 public abstract class LealBaseButton : Button
 {
-    /// <summary>
-    /// Set if the region is rounded
-    /// </summary>
-    protected bool _roundedRegion = false;
-
-    /// <summary>
-    /// Set the smootheness of the region
-    /// </summary>
-    protected int _regionSmoothness = LealConstants.ELIPSE_CURVE;
-
-    private int _borderSize;
+    private bool _selectable = false;
+    private bool _roundedRegion = false;
+    private int _regionSmoothness = LealConstants.ELIPSE_CURVE; 
 
     /// <summary>
     /// Initializes a new instance of the <see cref="LealBaseButton"/> class with default settings.
@@ -29,13 +23,24 @@ public abstract class LealBaseButton : Button
         Text = "LealButton";
         Cursor = Cursors.Hand;
         ForeColor = Color.Black;
-        FlatAppearance.BorderColor = ForeColor;
         Size = new Size(200, 50);
         FlatStyle = FlatStyle.Flat;
         Font = new Font("Arial", 12, FontStyle.Regular);
+
         DoubleBuffered = true;
-        SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+        SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
+        SetStyle(ControlStyles.Selectable, _selectable);
+
         Resize += LealBaseButton_Resize;
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="LealBaseButton"/> class with a specified click event handler.
+    /// </summary>
+    /// <param name="onclickHandler">The event handler that will be called when the button is clicked.</param>
+    protected LealBaseButton(EventHandler onclickHandler) : this()
+    {
+        Click += onclickHandler;
     }
 
     /// <summary>
@@ -70,11 +75,7 @@ public abstract class LealBaseButton : Button
     public int BorderSize
     {
         get => FlatAppearance.BorderSize;
-        set
-        {
-            FlatAppearance.BorderSize = value;
-            ReDraw();
-        }
+        set => FlatAppearance.BorderSize = value;
     }
 
     /// <summary>
@@ -104,10 +105,43 @@ public abstract class LealBaseButton : Button
         set => FlatAppearance.MouseDownBackColor = value;
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the button will show it's focus cues on focus.
+    /// </summary>
+    /// <remarks>
+    /// Default = false
+    /// </remarks>
+    public bool ShowFocusBorder { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the control can be selected.
+    /// </summary>
+    /// <value>
+    /// <c>true</c> if the control is selectable; otherwise, <c>false</c>.
+    /// </value>
+    /// <remarks>
+    /// When set, this property updates the control's style to reflect its selectable state.
+    /// </remarks>
+    public bool Selectable
+    {
+        get => _selectable;
+        set
+        {
+            _selectable = value;
+            SetStyle(ControlStyles.Selectable, value);
+        }
+    }
+
     /// <inheritdoc/>
     protected override bool ShowFocusCues
     {
-        get => false;
+        get => ShowFocusBorder;
+    }
+
+    /// <inheritdoc/>
+    protected override bool ShowKeyboardCues
+    {
+        get => ShowFocusBorder;
     }
 
     /// <summary>
@@ -121,19 +155,12 @@ public abstract class LealBaseButton : Button
     protected void UpdateRegion()
     {
         if (_roundedRegion)
-        {
-            _borderSize = FlatAppearance.BorderSize;
-            FlatAppearance.BorderSize = 0;
             this.GenerateRoundRegion(_regionSmoothness);
-        }
         else
-        {
             Region = null;
-            FlatAppearance.BorderSize = _borderSize;
-        }
     }
 
-    private void LealBaseButton_Resize(object? sender, System.EventArgs e)
+    private void LealBaseButton_Resize(object? sender, EventArgs e)
     {
         ReDraw();
         UpdateRegion();

@@ -18,6 +18,8 @@ public class LealForm : Form
     {
         StartPosition = FormStartPosition.CenterScreen;
         Size = new Size(LealConstants.DEFAULT_WIDTH, LealConstants.DEFAULT_HEIGHT);
+        DoubleBuffered = true;
+        SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         this.TrySetDarkMode();
         LoadComponents();
         Resize += OnResize;

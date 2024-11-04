@@ -30,12 +30,14 @@ public class LealModal : LealForm
     /// <param name="startLocation">The initial screen location of the modal.</param>
     public LealModal(Form owner, Size startSize, Point startLocation)
     {
-        Owner = owner;
-        Size = startSize;
-        Location = PointToScreen(startLocation);
-        ShowInTaskbar = false;
         FormBorderStyle = FormBorderStyle.None;
         StartPosition = FormStartPosition.Manual;
+
+        Owner = owner;
+        Size = startSize;
+        ShowInTaskbar = false;
+        Location = startLocation;
+        LoadComponents();
     }
 
     /// <summary>
