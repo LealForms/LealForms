@@ -21,8 +21,8 @@ public class LealForm : Form
         DoubleBuffered = true;
         SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         this.TrySetDarkMode();
-        LoadComponents();
         Resize += OnResize;
+        Load += (s, e) => LoadComponents();
     }
 
     /// <summary>
