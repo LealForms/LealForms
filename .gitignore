@@ -1,6 +1,5 @@
 # Visual Studio Files
 /.vs/
-/.editorconfig
 
 # Build files
 /LForms/obj/
