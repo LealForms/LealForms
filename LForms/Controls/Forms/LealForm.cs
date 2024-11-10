@@ -12,7 +12,6 @@ public class LealForm : Form
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="LealForm"/> class.
-    /// Sets default size, position, and applies dark mode if available.
     /// </summary>
     /// <param name="redrawOnResize">if set to <c>true</c> the form will redraw on resize.</param>
     public LealForm(bool redrawOnResize = false)
@@ -21,24 +20,15 @@ public class LealForm : Form
         Size = new Size(LealConstants.DEFAULT_WIDTH, LealConstants.DEFAULT_HEIGHT);
         DoubleBuffered = true;
         SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-        this.TrySetDarkMode();
 
-        if (redrawOnResize)
-            Resize += OnResize;
+        HandleCreated += (s, e) => BeginInvoke(new Action(() =>
+        {
+            LoadComponents();
 
-        Load += (s, e) => LoadComponents();
+            if (redrawOnResize)
+                Resize += (s, e) => ReDraw();
+        }));
     }
-
-    /// <summary>
-    /// Attempts to apply dark mode to the top bar of this form, based on your operational system theme.
-    /// </summary>
-    /// <returns><c>true</c> if dark mode was applied successfully; otherwise, <c>false</c>.</returns>
-    public bool TryDarkMode() => this.TrySetDarkMode();
-
-    /// <summary>
-    /// Loads custom components into the form. Can be overridden by derived classes to add custom components.
-    /// </summary>
-    public virtual void LoadComponents() { }
 
     /// <summary>
     /// Redraws the form's components. Can be overridden by derived classes to implement custom redraw logic.
@@ -46,38 +36,7 @@ public class LealForm : Form
     public virtual void ReDraw() { }
 
     /// <summary>
-    /// Sets the form's minimum and maximum size to the specified fixed dimensions,
-    /// preventing the form from being resized.
+    /// Loads custom components into the form. Can be overridden by derived classes to add custom components.
     /// </summary>
-    /// <param name="width">The fixed width for the form.</param>
-    /// <param name="height">The fixed height for the form.</param>
-    public void SetFixedSize(int width, int height)
-    {
-        MinimumSize = new Size(width, height);
-        MaximumSize = new Size(width, height);
-    }
-
-    /// <summary>
-    /// Frees the fixed size constraints on the form, allowing it to be resized 
-    /// freely by resetting the minimum and maximum size to their respective limits.
-    /// </summary>
-    public void FreeUpFixedSize()
-    {
-        MinimumSize = new Size(int.MinValue, int.MinValue);
-        MaximumSize = new Size(int.MaxValue, int.MaxValue);
-    }
-
-    /// <summary>
-    /// Handles the Resize event of the form.
-    /// </summary>
-    private void OnResize(object? sender, EventArgs e) => ReDraw();
-
-    /// <inheritdoc/>
-    protected override void Dispose(bool disposing)
-    {
-        if (disposing)
-            Resize -= OnResize;
-
-        base.Dispose(disposing);
-    }
+    public virtual void LoadComponents() { }
 }

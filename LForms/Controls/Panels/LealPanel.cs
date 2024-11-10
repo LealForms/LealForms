@@ -1,4 +1,5 @@
 ﻿using LForms.Extensions;
+using System;
 using System.Windows.Forms;
 
 namespace LForms.Controls.Panels;
@@ -18,11 +19,17 @@ public class LealPanel : Panel
         DoubleBuffered = true;
         SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
 
-        if (redrawOnResize)
-            Resize += (s, e) => ReDraw();
+        // Load custom components in the form asynchronously after the panel is created
+        HandleCreated += (s, e) => BeginInvoke(new Action(() =>
+        {
+            LoadComponents();
 
-        if (isPanelDragged)
-            MouseDown += LealPanel_MouseDown;
+            if (redrawOnResize)
+                Resize += (s, e) => ReDraw();
+
+            if (isPanelDragged)
+                MouseDown += LealPanel_MouseDown;
+        }));
     }
 
     /// <summary>

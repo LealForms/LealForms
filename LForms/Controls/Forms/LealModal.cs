@@ -1,9 +1,8 @@
-﻿using LForms.Controls.Forms;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace LForms.Controls.Modals;
+namespace LForms.Controls.Forms;
 
 /// <summary>
 /// Represents a custom modal form inheriting from <see cref="LealForm"/>.
@@ -42,7 +41,7 @@ public class LealModal : LealForm
     public new void ShowDialog()
     {
         OnShowDialog?.Invoke(this, new EventArgs());
-        ShowDialog();
+        base.ShowDialog();
     }
 
     /// <summary>

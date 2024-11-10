@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace LForms.Extensions;
@@ -9,6 +8,14 @@ namespace LForms.Extensions;
 /// </summary>
 public static class FormExtensions
 {
+    /// <summary>
+    /// Handles mouse down events for window dragging, defaulting to the left mouse button.
+    /// </summary>
+    /// <param name="form">form that will be dragged.</param>
+    /// <param name="e">Mouse event arguments containing details about the mouse click.</param>
+    public static void DragWindowOnMouseDown(this Form form, MouseEventArgs e)
+        => form.Handle.DragWindowOnMouseDown(e);
+
     /// <summary>
     /// Transitions the user interface from one form to another by hiding the current form and showing the target form.
     /// Additionally, it ensures the current form is closed when the target form is closed.

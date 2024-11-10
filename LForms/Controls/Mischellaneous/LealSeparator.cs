@@ -116,7 +116,7 @@ public class LealSeparator : LealPanel
             _linedPanel.Width = _lineThickness;
         }
 
-        _linedPanel.CentralizeRelativeTo(this);
+        _linedPanel.Centralize(this);
         _linedPanel.BackColor = _lineColor;
         Invalidate();
     }

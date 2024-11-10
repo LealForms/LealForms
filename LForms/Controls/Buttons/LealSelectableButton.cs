@@ -146,7 +146,7 @@ public class LealSelectableButton : LealBaseButton
     {
         if (AutoSearch)
         {
-            var selectableButtons = Parent?.GetChildsOfType<LealSelectableButton>()!;
+            var selectableButtons = Parent?.GetChildrenOfType<LealSelectableButton>()!;
 
             foreach (var selectableBtn in selectableButtons)
             {

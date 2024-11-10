@@ -118,7 +118,7 @@ public class LealTabManager : LealPanel
     protected override void ReDraw()
     {
         var alignmentTopBottom = _alignment == TabAlignment.Top || TabAlignment == TabAlignment.Bottom;
-        var selectableButtons = _buttonsPanel.GetChildsOfType<LealSelectableButton>().ToList();
+        var selectableButtons = _buttonsPanel.GetChildrenOfType<LealSelectableButton>().ToList();
 
         foreach (var button in selectableButtons)
         {
@@ -144,7 +144,7 @@ public class LealTabManager : LealPanel
             _buttonsPanel.MinimumSize = new Size(_buttonAreaSize, 0);
         }
 
-        var selected = selectableButtons.Where(p => p.Selected == true);
+        var selected = selectableButtons.Where(p => p.Selected);
 
         if (!selected.Any() && selectableButtons.Count > 0)
             selectableButtons[0].Selected = true;
@@ -162,7 +162,7 @@ public class LealTabManager : LealPanel
         TabAlignment.Bottom => DockStyle.Bottom,
         TabAlignment.Left => DockStyle.Left,
         TabAlignment.Right => DockStyle.Right,
-        _ => throw new Exception("Invalid alignment")
+        _ => throw new InvalidOperationException("Invalid alignment")
     };
 
     /// <summary>
@@ -194,7 +194,7 @@ public class LealTabManager : LealPanel
         _buttonsPanel.Add(newButton);
         newButton.BringToFront();
 
-        var firstButton = _buttonsPanel.GetChildsOfType<LealSelectableButton>().Last();
+        var firstButton = _buttonsPanel.GetChildrenOfType<LealSelectableButton>().Last();
         TabSelected(firstButton, null, firstButton.ObjectRef);
         ReDraw();
     }
@@ -227,7 +227,7 @@ public class LealTabManager : LealPanel
     /// </summary>
     private void LealTabManager_ControlRemoved(object? sender, ControlEventArgs e)
     {
-        if (e.Control == null || e.Control is not LealBaseTab lbt)
+        if (e.Control is not LealBaseTab lbt)
             return;
 
         if (_realocatingTabRemotion)
@@ -237,10 +237,10 @@ public class LealTabManager : LealPanel
         }
 
         var tabIndex = _tabs.FindIndex(tab => tab.GetHashCode() == lbt.GetHashCode());
-        var buttonIndex = _buttonsPanel.GetChildsOfType<LealSelectableButton>().ToList().FindIndex(btn => btn.ObjectRef is int ob && ob == tabIndex);
+        var buttonIndex = _buttonsPanel.GetChildrenOfType<LealSelectableButton>().ToList().FindIndex(btn => btn.ObjectRef is int ob && ob == tabIndex);
 
         if (tabIndex == -1 || buttonIndex == -1)
-            throw new Exception($"<{typeof(LealSelectableButton)}> has no reference to a <{typeof(LealBaseTab)}>. Unexpected Error!");
+            throw new InvalidOperationException($"<{typeof(LealSelectableButton)}> has no reference to a <{typeof(LealBaseTab)}>. Unexpected Error!");
 
         _tabs.RemoveAt(tabIndex);
         _buttonsPanel.Controls.RemoveAt(buttonIndex);
@@ -251,7 +251,7 @@ public class LealTabManager : LealPanel
     /// </summary>
     private void TabSelected(LealSelectableButton button, MouseEventArgs? eventArgs, object? control)
     {
-        if (control == null || control is not int index)
+        if (control is not int index)
             return;
 
         if (_selectedTab != null)
