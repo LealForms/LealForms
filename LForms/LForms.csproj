@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <UseWindowsForms>True</UseWindowsForms>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <Title>LealForms.LForms</Title>
     <PackageId>LealForms.LForms</PackageId>
     <Authors>Eduardo Ribeiro Leal</Authors>
