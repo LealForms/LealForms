@@ -174,7 +174,7 @@ public class LealTextBox : LealPanel
     {
         BackColorChanged += (s, e) => ReDraw();
         GotFocus += (s, e) => _input.Focus();
-        _input.KeyPress += (s, e) => KeyPressed?.Invoke(_input.Text, e); ;
+        _input.KeyPress += (s, e) => KeyPressed?.Invoke(_input.Text, e);
         _input.TextChanged += Input_TextChanged;
     }
 

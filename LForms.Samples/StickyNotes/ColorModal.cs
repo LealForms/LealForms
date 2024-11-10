@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace LForms.Samples.StickyNotes;
 
-public class ColorModal(Form owner, Size size, Color selectedColor) : LealModal(owner, size, owner.Location)
+public class ColorModal(Control owner, Size size, Color selectedColor) : LealModal(size, owner.Location)
 {
     public event EventHandler<Color>? ColorChanged;
 

@@ -14,14 +14,18 @@ public class LealForm : Form
     /// Initializes a new instance of the <see cref="LealForm"/> class.
     /// Sets default size, position, and applies dark mode if available.
     /// </summary>
-    public LealForm()
+    /// <param name="redrawOnResize">if set to <c>true</c> the form will redraw on resize.</param>
+    public LealForm(bool redrawOnResize = false)
     {
         StartPosition = FormStartPosition.CenterScreen;
         Size = new Size(LealConstants.DEFAULT_WIDTH, LealConstants.DEFAULT_HEIGHT);
         DoubleBuffered = true;
         SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
         this.TrySetDarkMode();
-        Resize += OnResize;
+
+        if (redrawOnResize)
+            Resize += OnResize;
+
         Load += (s, e) => LoadComponents();
     }
 
