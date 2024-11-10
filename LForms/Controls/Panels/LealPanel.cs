@@ -12,11 +12,14 @@ public class LealPanel : Panel
     /// Initialize a new instance of <see cref="LealPanel"/>
     /// </summary>
     /// <param name="isPanelDragged">set up event handler for dragging the parent form functionality.</param>
-    public LealPanel(bool isPanelDragged = false)
+    /// <param name="redrawOnResize">set up event handler for redrawing the panel on resize.</param>
+    public LealPanel(bool isPanelDragged = false, bool redrawOnResize = false)
     {
         DoubleBuffered = true;
         SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-        LoadComponents();
+
+        if (redrawOnResize)
+            Resize += (s, e) => ReDraw();
 
         if (isPanelDragged)
             MouseDown += LealPanel_MouseDown;

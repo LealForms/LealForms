@@ -22,12 +22,11 @@ public class LealSeparator : LealPanel
     /// <summary>
     /// Initializes a new instance of the <see cref="LealSeparator"/> class.
     /// </summary>
-    public LealSeparator()
+    public LealSeparator() : base(redrawOnResize: true)
     {
         _linedPanel = new Panel();
         Size = new Size(250, 10);
         this.Add(_linedPanel);
-        Resize += LealSeparator_Resize;
         ControlAdded += LealSeparator_ControlAdded;
     }
 
@@ -123,9 +122,4 @@ public class LealSeparator : LealPanel
     }
 
     private void LealSeparator_ControlAdded(object? sender, ControlEventArgs e) => this.Remove(e.Control);
-
-    /// <summary>
-    /// Handles the <see cref="Control.Resize"/> event to trigger a redraw of the separator when the control is resized.
-    /// </summary>
-    private void LealSeparator_Resize(object? sender, EventArgs e) => ReDraw();
 }
