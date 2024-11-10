@@ -33,8 +33,6 @@ public class ColorModal(Control owner, Size size, Color selectedColor) : LealMod
             });
             panelColors.Add(button);
         }
-
-        base.LoadComponents();
     }
 
     private static LealButton GenerateColorChoiceButton(Color color, bool selected, EventHandler onclickHandler) => new(onclickHandler)

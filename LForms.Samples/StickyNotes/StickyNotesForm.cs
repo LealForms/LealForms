@@ -14,8 +14,8 @@ namespace LForms.Samples.StickyNotes;
 
 public sealed class StickyNotesForm : LealForm
 {
-    public List<CollapsedNote> Notes = [];
-    public Panel? _panelNotes;
+    private Panel? _panelNotes;
+    private readonly List<CollapsedNote> Notes = [];
 
     public override void ReDraw()
     {
