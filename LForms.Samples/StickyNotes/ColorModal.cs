@@ -1,5 +1,5 @@
 ﻿using LForms.Controls.Buttons;
-using LForms.Controls.Modals;
+using LForms.Controls.Forms;
 using LForms.Controls.Panels;
 using LForms.Extensions;
 using System;

@@ -11,15 +11,11 @@ public class CollapsedNote : LealPanel
     public event EventHandler<string>? OpenNote;
     public event EventHandler? CloseNote;
 
-    private bool _drawControls = false;
-
     public CollapsedNote(string text, Color color)
     {
         Text = text;
         Color = color;
         DateCreated = DateTime.Now;
-        _drawControls = true;
-        LoadComponents();
     }
 
     public new string Text { get; }
@@ -28,9 +24,6 @@ public class CollapsedNote : LealPanel
 
     protected override void LoadComponents()
     {
-        if (!_drawControls)
-            return;
-
         Height = 100;
         BackColor = Color.FromArgb(64, 64, 64);
         ForeColor = Color.FromArgb(181, 181, 181);
