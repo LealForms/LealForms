@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace LForms.Extensions;
 
@@ -457,7 +458,8 @@ public static class ControlExtensions
     /// <param name="controlReference">The reference control.</param>
     public static void VerticalCentralize(this Control control, Control controlReference)
     {
-        var centerPoint = new Point(controlReference.Width / 2, controlReference.Height / 2);
+        var clientArea = controlReference.ClientSize;
+        var centerPoint = new Point(clientArea.Width / 2, clientArea.Height / 2);
         var yValue = centerPoint.Y - (control.Height / 2);
         control.SetY(yValue);
     }
@@ -664,6 +666,56 @@ public static class ControlExtensions
     /// <param name="offsetBetween">The horizontal offset between each consecutive control.</param>
     public static void WaterFallChildControlsByX(this Control control, int initialX, int offsetBetween)
         => control.WaterFallChildControlsOfTypeByX<Control>(initialX, offsetBetween);
+
+    /// <summary>
+    /// Centralizes child controls of the specified type horizontally within the parent control,
+    /// with a specified space between them.
+    /// </summary>
+    /// <typeparam name="T">The type of child controls to centralize.</typeparam>
+    /// <param name="control">The parent control containing the child controls to be centralized.</param>
+    /// <param name="spaceBetween">The space in pixels between the child controls.</param>
+    public static void CentralizeWithSpacingChildrensOfTypeByX<T>(this Control control, int spaceBetween) where T : Control
+    {
+        var children = control.GetChildrenOfType<T>().ToList();
+
+        if (children.Count == 0)
+            return;
+        else if (children.Count == 1)
+        {
+            children[0].HorizontalCentralize();
+            return;
+        }
+
+        var totalWidth = children.Sum(c => c.Width) + spaceBetween * (children.Count - 1);
+        var startingX = (control.ClientSize.Width - totalWidth) / 2;
+        
+        control.WaterFallChildControlsOfTypeByX<T>(startingX, spaceBetween);
+    }
+
+    /// <summary>
+    /// Centralizes child controls of the specified type vertically within the parent control,
+    /// with a specified space between them.
+    /// </summary>
+    /// <typeparam name="T">The type of child controls to centralize.</typeparam>
+    /// <param name="control">The parent control containing the child controls to be centralized.</param>
+    /// <param name="spaceBetween">The space in pixels between the child controls.</param>
+    public static void CentralizeWithSpacingChildrensOfTypeByY<T>(this Control control, int spaceBetween) where T : Control
+    {
+        var children = control.GetChildrenOfType<T>().ToList();
+
+        if (children.Count == 0)
+            return;
+        else if (children.Count == 1)
+        {
+            children[0].VerticalCentralize();
+            return;
+        }
+
+        var totalHeight = children.Sum(c => c.Height) + spaceBetween * (children.Count - 1);
+        var startingY = (control.ClientSize.Height - totalHeight) / 2;
+
+        control.WaterFallChildControlsOfTypeByY<T>(startingY, spaceBetween);
+    }
     #endregion
 
     #region [ Sizing ]
