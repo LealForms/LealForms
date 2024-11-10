@@ -176,9 +176,4 @@ public class LealGradientPanel : LealPanel
             e.Graphics.DrawImage(gradientBitmap, new Rectangle(0, 0, ClientSize.Width, ClientSize.Height));
         }
     }
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    protected override void ReDraw() { }
 }

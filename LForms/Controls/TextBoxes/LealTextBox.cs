@@ -42,7 +42,7 @@ public class LealTextBox : LealPanel
     /// <summary>
     /// Initializes a new instance of the <see cref="LealTextBox"/> class.
     /// </summary>
-    public LealTextBox()
+    public LealTextBox() : base(redrawOnResize: true)
     {
         Height = 40;
 
@@ -172,10 +172,9 @@ public class LealTextBox : LealPanel
     /// </summary>
     private void InitializeEventHandlers()
     {
-        Resize += (s, e) => ReDraw();
         BackColorChanged += (s, e) => ReDraw();
         GotFocus += (s, e) => _input.Focus();
-        _input.KeyPress += (s, e) => KeyPressed?.Invoke(_input.Text, e); ;
+        _input.KeyPress += (s, e) => KeyPressed?.Invoke(_input.Text, e);
         _input.TextChanged += Input_TextChanged;
     }
 

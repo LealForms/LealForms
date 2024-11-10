@@ -1,5 +1,5 @@
 ﻿using LForms.Controls.Buttons;
-using LForms.Controls.Modals;
+using LForms.Controls.Forms;
 using LForms.Controls.Panels;
 using LForms.Extensions;
 using System;
@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace LForms.Samples.StickyNotes;
 
-public class ColorModal(Form owner, Size size, Color selectedColor) : LealModal(owner, size, owner.Location)
+public class ColorModal(Control owner, Size size, Color selectedColor) : LealModal(size, owner.Location)
 {
     public event EventHandler<Color>? ColorChanged;
 
@@ -33,8 +33,6 @@ public class ColorModal(Form owner, Size size, Color selectedColor) : LealModal(
             });
             panelColors.Add(button);
         }
-
-        base.LoadComponents();
     }
 
     private static LealButton GenerateColorChoiceButton(Color color, bool selected, EventHandler onclickHandler) => new(onclickHandler)

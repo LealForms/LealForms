@@ -15,7 +15,6 @@ public sealed class Note : LealForm
     private LealButton? _colorPicker;
     private LealTextBox? _textBox;
 
-    private readonly bool _load = false;
     private readonly Color? _starterColor;
     private readonly string? _starterText;
 
@@ -27,21 +26,12 @@ public sealed class Note : LealForm
         Owner = owner;
         _starterColor = startColor;
         _starterText = text;
-
-        _load = true;
-        LoadComponents();
     }
 
-    public override void ReDraw()
-    {
-        Invalidate();
-    }
+    public override void ReDraw() => Invalidate();
 
     public override void LoadComponents()
     {
-        if (!_load)
-            return;
-
         Size = new Size(350, 300);
         MinimumSize = Size;
         FormBorderStyle = FormBorderStyle.None;

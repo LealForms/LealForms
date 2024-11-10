@@ -1,9 +1,8 @@
-﻿using LForms.Controls.Forms;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace LForms.Controls.Modals;
+namespace LForms.Controls.Forms;
 
 /// <summary>
 /// Represents a custom modal form inheriting from <see cref="LealForm"/>.
@@ -22,31 +21,36 @@ public class LealModal : LealForm
     public event EventHandler? OnCloseDialog;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="LealModal"/> class with specified owner, size, and location.
-    /// Configures modal form properties to exclude taskbar visibility, set border style to none, and position it manually.
+    /// Initializes a new instance of the <see cref="LealModal"/> class with the specified size and location.
     /// </summary>
-    /// <param name="owner">The parent form of this modal.</param>
-    /// <param name="startSize">The initial size of the modal.</param>
-    /// <param name="startLocation">The initial screen location of the modal.</param>
-    public LealModal(Form owner, Size startSize, Point startLocation)
+    /// <param name="startSize">The initial size of the modal form.</param>
+    /// <param name="pointToScreenLocation">The screen coordinates where the modal form will be displayed.</param>
+    public LealModal(Size startSize, Point pointToScreenLocation) : base(redrawOnResize: true)
     {
         FormBorderStyle = FormBorderStyle.None;
         StartPosition = FormStartPosition.Manual;
 
-        Owner = owner;
         Size = startSize;
         ShowInTaskbar = false;
-        Location = startLocation;
-        LoadComponents();
+        Location = pointToScreenLocation;
     }
 
     /// <summary>
-    ///  Displays this form as a modal dialog box with no owner window and invoke <see cref="OnShowDialog"/>
+    /// Displays this form as a modal dialog box with no owner window and invoke <see cref="OnShowDialog"/>
     /// </summary>
     public new void ShowDialog()
     {
         OnShowDialog?.Invoke(this, new EventArgs());
-        ShowDialog(Owner);
+        base.ShowDialog();
+    }
+
+    /// <summary>
+    /// Displays this form as a modal dialog box with no owner window and invoke <see cref="OnShowDialog"/>
+    /// </summary>
+    public new void Show()
+    {
+        OnShowDialog?.Invoke(this, new EventArgs());
+        ShowDialog();
     }
 
     /// <summary>

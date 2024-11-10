@@ -17,6 +17,7 @@ public class ExamplesForm : LealForm
 
     public override void LoadComponents()
     {
+        this.TrySetDarkMode();
         Text = "LealForms | Examples";
         Size = new Size(400, 600);
         FormBorderStyle = FormBorderStyle.FixedSingle;
@@ -32,14 +33,25 @@ public class ExamplesForm : LealForm
             Location = new Point(screen.WorkingArea.X + 200, screen.WorkingArea.Y + 200);
         }
 
+        var backPanel = new LealGradientPanel(true)
+        {
+            Dock = DockStyle.Fill,
+            TopLeftGradientColor = Color.FromArgb(32, 32, 32),
+            TopRightGradientColor = Color.FromArgb(32, 32, 32),
+            BottomLeftGradientColor = Color.AliceBlue,
+            BottomRightGradientColor = Color.AliceBlue,
+        };
+        this.Add(backPanel);
+
         var stickyNoteButton = new LealButton((s, e) => SwapExample(new StickyNotesForm()))
         {
             Text = "Sticky Notes",
+            Width = 50
         };
-        this.Add(stickyNoteButton);
+        backPanel.Add(stickyNoteButton);
         stickyNoteButton.HorizontalCentralize();
 
-        this.WaterFallChildControlsOfTypeByY<LealButton>(LealConstants.GAP, LealConstants.GAP);
+        backPanel.CentralizeWithSpacingChildrensOfTypeByY<LealButton>(25);
     }
 
     private void SwapExample(LealForm form)

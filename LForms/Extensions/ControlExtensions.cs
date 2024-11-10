@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace LForms.Extensions;
 
@@ -11,6 +13,7 @@ namespace LForms.Extensions;
 /// </summary>
 public static class ControlExtensions
 {
+    #region [ Visibility ]
     /// <summary>
     /// Hides or shows the control, toggling its visibility and enabling or disabling its functionality.
     /// </summary>
@@ -29,7 +32,9 @@ public static class ControlExtensions
         else
             control.Hide();
     }
+    #endregion
 
+    #region [ Add/Remove Controls ]
     /// <summary>
     /// Adds a child control to the specified control.
     /// </summary>
@@ -45,14 +50,16 @@ public static class ControlExtensions
     /// <param name="childControl">The child control to remove.</param>
     public static void Remove(this Control control, Control? childControl)
         => control.Controls.Remove(childControl);
+    #endregion
 
+    #region [ Window Dragging ]
     /// <summary>
     /// Handles mouse down events and allows for window dragging, restricted to a specific mouse button.
     /// </summary>
     /// <param name="handle">Handle to the window to be dragged.</param>
     /// <param name="e">Mouse event arguments containing details about the mouse click.</param>
     /// <param name="allowedMouseButton">The mouse button that is allowed to initiate the window drag. Defaults to the left mouse button.</param>
-    public static void DragWindowOnMouseDown(this IntPtr handle, MouseEventArgs e, MouseButtons allowedMouseButton = MouseButtons.Left)
+    public static void DragWindowOnMouseDown(this IntPtr handle, MouseEventArgs e, MouseButtons allowedMouseButton)
     {
         if (e.Button != allowedMouseButton) return;
 
@@ -63,18 +70,25 @@ public static class ControlExtensions
     /// <summary>
     /// Handles mouse down events for window dragging, defaulting to the left mouse button.
     /// </summary>
-    /// <param name="form">form that will be dragged.</param>
-    /// <param name="e">Mouse event arguments containing details about the mouse click.</param>
-    public static void DragWindowOnMouseDown(this Form form, MouseEventArgs e)
-        => form.Handle.DragWindowOnMouseDown(e);
-
-    /// <summary>
-    /// Handles mouse down events for window dragging, defaulting to the left mouse button.
-    /// </summary>
     /// <param name="handle">Handle to the window to be dragged.</param>
     /// <param name="e">Mouse event arguments containing details about the mouse click.</param>
     public static void DragWindowOnMouseDown(this IntPtr handle, MouseEventArgs e)
         => handle.DragWindowOnMouseDown(e, MouseButtons.Left);
+    
+    /// <summary>
+    /// Adds a mouse down event to a control that allows its parent form to be dragged when the control is clicked.
+    /// </summary>
+    /// <param name="control">The control whose mouse down event will initiate form dragging.</param>
+    public static void DragWindowOnMouseDown(this Control control)
+    {
+        var form = control.FindForm();
+
+        if (form == null) 
+            return;
+
+        control.MouseDown += (sender, e) => form.Handle.DragWindowOnMouseDown(e);
+    }
+    #endregion
 
     #region [ DockingExtensions ]
     /// <summary>
@@ -400,7 +414,7 @@ public static class ControlExtensions
     {
         if (control.Parent == null) return;
 
-        CentralizeRelativeTo(control, control.Parent);
+        Centralize(control, control.Parent);
     }
 
     /// <summary>
@@ -408,7 +422,7 @@ public static class ControlExtensions
     /// </summary>
     /// <param name="control">The control to centralize.</param>
     /// <param name="controlReference">The reference control.</param>
-    public static void CentralizeRelativeTo(this Control control, Control controlReference)
+    public static void Centralize(this Control control, Control controlReference)
     {
         control.HorizontalCentralize(controlReference);
         control.VerticalCentralize(controlReference);
@@ -444,7 +458,8 @@ public static class ControlExtensions
     /// <param name="controlReference">The reference control.</param>
     public static void VerticalCentralize(this Control control, Control controlReference)
     {
-        var centerPoint = new Point(controlReference.Width / 2, controlReference.Height / 2);
+        var clientArea = controlReference.ClientSize;
+        var centerPoint = new Point(clientArea.Width / 2, clientArea.Height / 2);
         var yValue = centerPoint.Y - (control.Height / 2);
         control.SetY(yValue);
     }
@@ -459,6 +474,26 @@ public static class ControlExtensions
 
         control.VerticalCentralize(control.Parent);
     }
+
+    /// <summary>
+    /// Offsets the position of the control by the specified amounts in the X and Y directions.
+    /// </summary>
+    /// <param name="control">The control to offset.</param>
+    /// <param name="x">The amount to offset the control in the X direction.</param>
+    /// <param name="y">The amount to offset the control in the Y direction.</param>
+    public static void OffsetPosition(this Control control, int x, int y)
+    {
+        control.SetX(control.Location.X + x);
+        control.SetY(control.Location.Y + y);
+    }
+
+    /// <summary>
+    /// Offsets the position of the control by the specified offset.
+    /// </summary>
+    /// <param name="control">The control to offset.</param>
+    /// <param name="offset">The amount to offset the control in the offset direction.</param>
+    public static void OffsetPosition(this Control control, Point offset)
+        => control.OffsetPosition(offset.X, offset.Y);
 
     /// <summary>
     /// Sets the X coordinate of the control's location.
@@ -511,6 +546,22 @@ public static class ControlExtensions
         => control.SetY(controlReference.Location.Y + controlReference.Height + offset);
 
     /// <summary>
+    /// Sets the vertical position of the control relative to its parent's bottom border.
+    /// </summary>
+    /// <param name="control">The control whose position is being set.</param>
+    /// <param name="distanceToBottom">The distance, in pixels, from the bottom border of the parent control.</param>
+    /// <remarks>
+    /// This method positions the control by calculating the new Y-coordinate as the difference between the parent's height, 
+    /// the control's height, and the specified distance from the bottom border.
+    /// </remarks>
+    public static void SetYFromParentBottom(this Control control, int distanceToBottom)
+    {
+        if (control.Parent == null) return;
+
+        control.SetY(control.Parent.Height - control.Height - distanceToBottom);
+    }
+
+    /// <summary>
     /// Positions the control horizontally before a reference control, with an optional offset.
     /// </summary>
     /// <param name="control">The control to position.</param>
@@ -527,6 +578,22 @@ public static class ControlExtensions
     /// <param name="offset">The distance to offset the control from the reference control.</param>
     public static void SetXAfterControl(this Control control, Control controlReference, int offset)
         => control.SetX(controlReference.Location.X + controlReference.Width + offset);
+
+    /// <summary>
+    /// Sets the horizontal position of the control relative to its parent's left border.
+    /// </summary>
+    /// <param name="control">The control whose position is being set.</param>
+    /// <param name="distanceFromBorderLeft">The distance, in pixels, from the left border of the parent control.</param>
+    /// <remarks>
+    /// This method positions the control by calculating the new X-coordinate as the difference between the parent's width, 
+    /// the control's width, and the specified distance from the left border.
+    /// </remarks>
+    public static void SetXFromParentLeft(this Control control, int distanceFromBorderLeft)
+    {
+        if (control.Parent == null) return;
+
+        control.SetX(control.Parent.Width - control.Width - distanceFromBorderLeft);
+    }
 
     /// <summary>
     /// Positions all child controls of the specified type <typeparamref name="T"/> vertically in a waterfall layout.
@@ -599,6 +666,120 @@ public static class ControlExtensions
     /// <param name="offsetBetween">The horizontal offset between each consecutive control.</param>
     public static void WaterFallChildControlsByX(this Control control, int initialX, int offsetBetween)
         => control.WaterFallChildControlsOfTypeByX<Control>(initialX, offsetBetween);
+
+    /// <summary>
+    /// Centralizes child controls of the specified type horizontally within the parent control,
+    /// with a specified space between them.
+    /// </summary>
+    /// <typeparam name="T">The type of child controls to centralize.</typeparam>
+    /// <param name="control">The parent control containing the child controls to be centralized.</param>
+    /// <param name="spaceBetween">The space in pixels between the child controls.</param>
+    public static void CentralizeWithSpacingChildrensOfTypeByX<T>(this Control control, int spaceBetween) where T : Control
+    {
+        var children = control.GetChildrenOfType<T>().ToList();
+
+        if (children.Count == 0)
+            return;
+        else if (children.Count == 1)
+        {
+            children[0].HorizontalCentralize();
+            return;
+        }
+
+        var totalWidth = children.Sum(c => c.Width) + spaceBetween * (children.Count - 1);
+        var startingX = (control.ClientSize.Width - totalWidth) / 2;
+        
+        control.WaterFallChildControlsOfTypeByX<T>(startingX, spaceBetween);
+    }
+
+    /// <summary>
+    /// Centralizes child controls of the specified type vertically within the parent control,
+    /// with a specified space between them.
+    /// </summary>
+    /// <typeparam name="T">The type of child controls to centralize.</typeparam>
+    /// <param name="control">The parent control containing the child controls to be centralized.</param>
+    /// <param name="spaceBetween">The space in pixels between the child controls.</param>
+    public static void CentralizeWithSpacingChildrensOfTypeByY<T>(this Control control, int spaceBetween) where T : Control
+    {
+        var children = control.GetChildrenOfType<T>().ToList();
+
+        if (children.Count == 0)
+            return;
+        else if (children.Count == 1)
+        {
+            children[0].VerticalCentralize();
+            return;
+        }
+
+        var totalHeight = children.Sum(c => c.Height) + spaceBetween * (children.Count - 1);
+        var startingY = (control.ClientSize.Height - totalHeight) / 2;
+
+        control.WaterFallChildControlsOfTypeByY<T>(startingY, spaceBetween);
+    }
+    #endregion
+
+    #region [ Sizing ]
+
+    /// <summary>
+    /// Determines the resize direction based on the mouse location relative to the edges
+    /// and corners of the specified control. Returns 0 if no resizing should be triggered.
+    /// </summary>
+    /// <param name="control">The control to check the mouse position against.</param>
+    /// <param name="location">The current mouse position relative to the control.</param>
+    /// <returns>An integer representing the resize direction, or 0 if no resizing is triggered.</returns>
+    public static int GetResizeDirection(this Control control, Point location)
+    {
+        var inLeft = location.X <= LealConstants.C_GRIP;
+        var inRight = location.X >= control.Width - LealConstants.C_GRIP;
+        var inBottom = location.Y >= control.Height - LealConstants.C_GRIP;
+
+        if (inRight && inBottom)
+            return LealConstants.WMSZ_BOTTOMRIGHT;
+
+        if (inRight)
+            return LealConstants.WMSZ_RIGHT;
+
+        if (inLeft && inBottom)
+            return LealConstants.WMSZ_BOTTOMLEFT;
+
+        if (inLeft)
+            return LealConstants.WMSZ_LEFT;
+
+        if (inBottom)
+            return LealConstants.WMSZ_BOTTOM;
+
+        return 0;
+    }
+
+    /// <summary>
+    /// Sets the fixed size of the control by specifying the width and height.
+    /// </summary>
+    /// <param name="control">The control to set the fixed size for.</param>
+    /// <param name="width">The width to set for the control.</param>
+    /// <param name="height">The height to set for the control.</param>
+    public static void SetFixedSize(this Control control, int width, int height)
+    {
+        control.MinimumSize = new Size(width, height);
+        control.MaximumSize = new Size(width, height);
+    }
+
+    /// <summary>
+    /// Sets the fixed size of the control by specifying the size.
+    /// </summary>
+    /// <param name="control">The control to set the fixed size for.</param>
+    /// <param name="size">The size to set for the control.</param>
+    public static void SetFixedSize(this Control control, Size size)
+        => control.SetFixedSize(size.Width, size.Height);
+
+    /// <summary>
+    /// Removes any fixed size constraints from the control, allowing it to resize freely.
+    /// </summary>
+    /// <param name="control">The control to free from fixed size constraints.</param>
+    public static void FreeUpFixedSize(this Control control)
+    {
+        control.MinimumSize = new Size(int.MinValue, int.MinValue);
+        control.MaximumSize = new Size(int.MaxValue, int.MaxValue);
+    }
     #endregion
 
     #region [ Round Region ]
@@ -707,6 +888,7 @@ public static class ControlExtensions
     }
     #endregion
 
+    #region [ Control Retrieval ]
     /// <summary>
     /// Recursively searches for and returns the closest parent control of the specified type.
     /// </summary>
@@ -725,55 +907,36 @@ public static class ControlExtensions
     }
 
     /// <summary>
-    /// Retrieves all child controls of the specified type from the given <see cref="Control.ControlCollection"/>.
+    /// Retrieves all immediate child controls of the specified control.
     /// </summary>
-    /// <typeparam name="T">The type of control to search for, which must inherit from <see cref="Control"/>.</typeparam>
-    /// <param name="collection">The collection of controls to search through.</param>
-    /// <returns>An <see cref="IEnumerable{T}"/> containing all child controls of the specified type.</returns>
-    public static IEnumerable<T> GetChildsOfType<T>(this Control.ControlCollection collection) where T : Control
-    {
-        foreach (var control in collection)
-            if (control is T target)
-                yield return target;
-    }
+    /// <param name="control">The control whose direct children are to be retrieved.</param>
+    /// <returns>An enumerable collection of immediate child controls.</returns>
+    public static IEnumerable<Control> GetChildren(this Control control)
+        => control.Controls.OfType<Control>();
 
     /// <summary>
-    /// Retrieves all child controls of the specified type from the given <see cref="Control"/>.
+    /// Retrieves all immediate child controls of a specified type from the given control.
     /// </summary>
-    /// <typeparam name="T">The type of control to search for, which must inherit from <see cref="Control"/>.</typeparam>
-    /// <param name="control">The control whose children are to be searched.</param>
-    /// <returns>An <see cref="IEnumerable{T}"/> containing all child controls of the specified type.</returns>
-    public static IEnumerable<T> GetChildsOfType<T>(this Control control) where T : Control
-        => GetChildsOfType<T>(control.Controls);
+    /// <typeparam name="T">The type of the child controls to retrieve.</typeparam>
+    /// <param name="control">The control whose direct children of the specified type are to be retrieved.</param>
+    /// <returns>An enumerable collection of immediate child controls of the specified type.</returns>
+    public static IEnumerable<T> GetChildrenOfType<T>(this Control control) where T : Control
+        => control.Controls.OfType<T>();
 
     /// <summary>
-    /// Determines the resize direction based on the mouse location relative to the edges
-    /// and corners of the specified control. Returns 0 if no resizing should be triggered.
+    /// Recursively retrieves all child controls of a specified type from the given control and its descendants.
     /// </summary>
-    /// <param name="control">The control to check the mouse position against.</param>
-    /// <param name="location">The current mouse position relative to the control.</param>
-    /// <returns>An integer representing the resize direction, or 0 if no resizing is triggered.</returns>
-    public static int GetResizeDirection(this Control control, Point location)
+    /// <typeparam name="T">The type of the child controls to retrieve.</typeparam>
+    /// <param name="control">The control whose child controls and nested descendants of the specified type are to be retrieved.</param>
+    /// <returns>An enumerable collection of all child controls of the specified type.</returns>
+    public static IEnumerable<T> GetAllChildrenOfType<T>(this Control control) where T : Control
     {
-        var inLeft = location.X <= LealConstants.C_GRIP;
-        var inRight = location.X >= control.Width - LealConstants.C_GRIP;
-        var inBottom = location.Y >= control.Height - LealConstants.C_GRIP;
+        var children = control.GetChildrenOfType<T>().ToList();
 
-        if (inRight && inBottom)
-            return LealConstants.WMSZ_BOTTOMRIGHT;
+        foreach (var child in control.GetChildren())
+            children.AddRange(child.GetAllChildrenOfType<T>());
 
-        if (inRight)
-            return LealConstants.WMSZ_RIGHT;
-
-        if (inLeft && inBottom)
-            return LealConstants.WMSZ_BOTTOMLEFT;
-
-        if (inLeft)
-            return LealConstants.WMSZ_LEFT;
-
-        if (inBottom)
-            return LealConstants.WMSZ_BOTTOM;
-
-        return 0;
+        return children;
     }
+    #endregion
 }
