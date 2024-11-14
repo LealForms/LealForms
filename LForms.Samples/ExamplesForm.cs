@@ -1,5 +1,6 @@
 ﻿using LForms.Controls.Buttons;
 using LForms.Controls.Forms;
+using LForms.Controls.Mischellaneous;
 using LForms.Controls.Panels;
 using LForms.Extensions;
 using LForms.Samples.StickyNotes;
@@ -50,6 +51,15 @@ public class ExamplesForm : LealForm
         };
         backPanel.Add(stickyNoteButton);
         stickyNoteButton.HorizontalCentralize();
+
+        var checkbox = new LealCheckbox()
+        {
+            Text = "Test",
+            ForeColor = Color.Black,
+            CheckboxType = Enums.CheckboxType.Circle,
+            CheckboxLabelAlignment = Enums.CheckboxLabelAlignment.CheckBoxBottomLabelTop
+        };
+        backPanel.Add(checkbox);
 
         backPanel.CentralizeWithSpacingChildrensOfTypeByY<LealButton>(25);
     }

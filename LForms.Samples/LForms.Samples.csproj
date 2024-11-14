@@ -4,6 +4,10 @@
     <ProjectReference Include="../LForms/LForms.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CheckBoxSwichesCombos\" />
+  </ItemGroup>
+
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
