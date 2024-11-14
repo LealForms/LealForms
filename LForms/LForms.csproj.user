@@ -14,6 +14,9 @@
     <Compile Update="Controls\Mischellaneous\LealCheckbox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="Controls\Mischellaneous\LealSwitch.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Update="Controls\Panels\LealCircularPanel.cs">
       <SubType>Component</SubType>
     </Compile>

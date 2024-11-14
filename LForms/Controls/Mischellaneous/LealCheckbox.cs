@@ -1,5 +1,5 @@
 ﻿using LForms.Controls.Panels;
-using LForms.Enums;
+using LForms.Enums.Checkbox;
 using LForms.Extensions;
 using System;
 using System.Collections.Generic;

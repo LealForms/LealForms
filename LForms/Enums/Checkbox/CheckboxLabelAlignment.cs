@@ -1,4 +1,4 @@
-﻿namespace LForms.Enums;
+﻿namespace LForms.Enums.Checkbox;
 
 /// <summary>
 /// Specifies the alignment options for a checkbox and its associated label.
