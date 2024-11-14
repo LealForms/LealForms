@@ -3,7 +3,7 @@
 /// <summary>
 /// Defines the types of checkboxes available.
 /// </summary>
-public enum CheckboxType
+public enum CheckboxStyle
 {
     /// <summary>
     /// Represents a checkbox with a square shape.

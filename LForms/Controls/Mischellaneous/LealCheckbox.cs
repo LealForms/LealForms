@@ -20,7 +20,7 @@ public class LealCheckbox : LealPanel
     private bool _autoSize = true;
     private Color _uncheckedColor = Color.White;
     private Color _checkedColor = Color.Blue;
-    private CheckboxType _checkboxType = CheckboxType.Square;
+    private CheckboxStyle _checkboxType = CheckboxStyle.Square;
     private CheckboxCharacterType _checkboxCharacterType = CheckboxCharacterType.CheckMark;
     private CheckboxLabelAlignment _checkboxLabelAlignment = CheckboxLabelAlignment.CheckBoxLeftLabelRight;
 
@@ -249,7 +249,7 @@ public class LealCheckbox : LealPanel
     /// <summary>
     /// Gets or sets the shape of the checkbox, allowing either a square or circular style.
     /// </summary>
-    public CheckboxType CheckboxType
+    public CheckboxStyle CheckboxStyle
     {
         get => _checkboxType;
         set
@@ -263,7 +263,7 @@ public class LealCheckbox : LealPanel
             _checkbox.Remove(_checkedLabel);
             _checkbox.Dispose();
 
-            _checkbox = value == CheckboxType.Square 
+            _checkbox = value == CheckboxStyle.Square 
                 ? new LealPanel() { BackColor = Color.White, Size = new Size(_boxSize, _boxSize), }
                 : new LealCircularPanel(false, _boxSize) { BackColor = Color.White };
 
