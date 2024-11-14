@@ -1,5 +1,7 @@
 ﻿using LForms.Extensions;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 
 namespace LForms.Controls.Panels;
 
@@ -23,10 +25,22 @@ public class LealCircularPanel : LealPanel
     }
 
     /// <inheritdoc/>
-    protected override void ReDraw()
+    protected override void ReDraw() => GrantRectagleSize();
+
+    /// <inheritdoc/>
+    protected override void LoadComponents() => ReDraw();
+
+    /// <summary>
+    /// Handles the paint event of the panel, ensuring the panel is drawn as a circle.
+    /// </summary>
+    /// <param name="e">A <see cref="PaintEventArgs"/> that contains the event data.</param>
+    protected override void OnPaint(PaintEventArgs e)
     {
-        GrantRectagleSize();
-        this.GenerateCustomRoundRegion(Width, true, true, true, true);
+        base.OnPaint(e);
+
+        using var path = new GraphicsPath();
+        path.AddEllipse(0, 0, Width, Height);
+        Region = new Region(path);
     }
 
     /// <summary>
