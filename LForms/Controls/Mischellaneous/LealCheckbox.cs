@@ -129,7 +129,8 @@ public class LealCheckbox : LealPanel
                 CheckboxCharacterType.SquareMark => "■",
                 CheckboxCharacterType.CircleMark => "●",
                 CheckboxCharacterType.TriangleMark => "▲",
-                _ => "✓",
+                CheckboxCharacterType.None => string.Empty,
+                _ => string.Empty,
             };
 
             ReDraw();

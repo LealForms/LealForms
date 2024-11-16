@@ -6,6 +6,11 @@
 public enum CheckboxCharacterType
 {
     /// <summary>
+    /// No character.
+    /// </summary>
+    None,
+
+    /// <summary>
     /// A check mark character.
     /// </summary>
     CheckMark,
