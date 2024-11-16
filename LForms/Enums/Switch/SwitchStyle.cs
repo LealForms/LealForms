@@ -8,6 +8,6 @@ namespace LForms.Enums.Switch;
 
 public enum SwitchStyle
 {
-    Circle,
     Square,
+    Circle,
 }

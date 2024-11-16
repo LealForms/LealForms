@@ -3,6 +3,7 @@ using LForms.Controls.Forms;
 using LForms.Controls.Mischellaneous;
 using LForms.Controls.Panels;
 using LForms.Enums.Checkbox;
+using LForms.Enums.Switch;
 using LForms.Extensions;
 using LForms.Samples.StickyNotes;
 using System.Drawing;
@@ -54,13 +55,17 @@ public class ExamplesForm : LealForm
         {
             Text = "Test",
             ForeColor = Color.Black,
-            CheckboxStyle = CheckboxStyle.Circle,
-            CheckboxLabelAlignment = CheckboxLabelAlignment.CheckBoxBottomLabelTop
+            CheckboxStyle = CheckboxStyle.Square,
+            CheckboxLabelAlignment = CheckboxLabelAlignment.CheckBoxRightLabelLeft
         };
         backPanel.Add(checkbox);
 
-        var switchButton = new LealSwitch();
+        var switchButton = new LealSwitch()
+        {
+            SwitchOrientation = SwitchOrientation.Horizontal,
+        };
         backPanel.Add(switchButton);
+        switchButton.SetXAfterControl(checkbox, 10);
 
         backPanel.CentralizeWithSpacingChildrensOfTypeByY<LealButton>(25);
     }
