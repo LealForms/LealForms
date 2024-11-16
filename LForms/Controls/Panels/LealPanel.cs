@@ -39,12 +39,12 @@ public class LealPanel : Panel
         => this.GetClosestParentOfType<Form>()?.Handle.DragWindowOnMouseDown(e);
 
     /// <summary>
-    /// Forces a redraw of the button, optionally implemented by derived classes.
+    /// Forces a redraw of the panel, optionally implemented by derived classes.
     /// </summary>
     protected virtual void ReDraw() { }
 
     /// <summary>
-    /// Loads custom components into the form. Can be overridden by derived classes to add custom components.
+    /// Loads custom components into the panel. optionally implemented by derived classes.
     /// </summary>
     protected virtual void LoadComponents() { }
 }

@@ -1,12 +1,12 @@
 ﻿using LForms.Controls.Buttons;
 using LForms.Controls.Forms;
+using LForms.Controls.Mischellaneous;
 using LForms.Controls.Panels;
+using LForms.Enums.Checkbox;
+using LForms.Enums.Switch;
 using LForms.Extensions;
 using LForms.Samples.StickyNotes;
-using System;
 using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace LForms.Samples;
@@ -50,6 +50,22 @@ public class ExamplesForm : LealForm
         };
         backPanel.Add(stickyNoteButton);
         stickyNoteButton.HorizontalCentralize();
+
+        var checkbox = new LealCheckbox()
+        {
+            Text = "Test",
+            ForeColor = Color.Black,
+            CheckboxStyle = CheckboxStyle.Square,
+            CheckboxLabelAlignment = CheckboxLabelAlignment.CheckBoxRightLabelLeft
+        };
+        backPanel.Add(checkbox);
+
+        var switchButton = new LealSwitch()
+        {
+            SwitchOrientation = SwitchOrientation.Horizontal,
+        };
+        backPanel.Add(switchButton);
+        switchButton.SetXAfterControl(checkbox, 10);
 
         backPanel.CentralizeWithSpacingChildrensOfTypeByY<LealButton>(25);
     }
