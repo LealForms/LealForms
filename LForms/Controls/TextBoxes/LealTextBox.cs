@@ -50,13 +50,10 @@ public class LealTextBox : LealPanel
         {
             Width = 200,
             WordWrap = false,
-            BorderStyle = BorderStyle.None,
+            BorderStyle = BorderStyle.FixedSingle,
             Font = new Font("", 12, FontStyle.Regular),
         };
         this.Add(_input);
-
-        ReDraw();
-        InitializeEventHandlers();
     }
 
     /// <summary>
@@ -167,32 +164,26 @@ public class LealTextBox : LealPanel
         set => _input.ShortcutsEnabled = value;
     }
 
-    /// <summary>
-    /// Initializes the event handlers for the control.
-    /// </summary>
-    private void InitializeEventHandlers()
-    {
-        BackColorChanged += (s, e) => ReDraw();
-        GotFocus += (s, e) => _input.Focus();
-        _input.KeyPress += (s, e) => KeyPressed?.Invoke(_input.Text, e);
-        _input.TextChanged += Input_TextChanged;
-    }
-
-    /// <summary>
-    /// Forces a redraw of the control, adjusting size and positioning of internal elements.
-    /// </summary>
+    /// <inheritdoc/>
     protected override void ReDraw()
     {
         _input.Height = Height;
         _input.Width = Width - 10;
         _input.BackColor = BackColor;
+        _input.Centralize();
 
         if (Multiline)
             _input.SetY(0);
-        else
-            _input.Centralize();
+    }
 
-        _input.AddY(-1);
+    /// <inheritdoc/>
+    protected override void LoadComponents()
+    {
+        BackColorChanged += (s, e) => ReDraw();
+        GotFocus += (s, e) => _input.Focus();
+        _input.KeyPress += (s, e) => KeyPressed?.Invoke(_input.Text, e);
+        _input.TextChanged += Input_TextChanged;
+        ReDraw();
     }
 
     private void Input_TextChanged(object? sender, EventArgs e)
