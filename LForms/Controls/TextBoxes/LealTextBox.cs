@@ -35,6 +35,21 @@ public class LealTextBox : LealPanel
     /// </summary>
     public event LealTextBox_KeyPressed? KeyPressed;
 
+    /// <summary>
+    /// Occurs when a key is pressed down while the input has focus.
+    /// </summary>
+    public new event KeyEventHandler? KeyDown;
+
+    /// <summary>
+    /// Occurs when a key is released while the input has focus.
+    /// </summary>
+    public new event KeyEventHandler? KeyUp;
+
+    /// <summary>
+    /// Occurs when a character key is pressed while the input has focus.
+    /// </summary>
+    public new event KeyPressEventHandler? KeyPress;
+
     private readonly TextBox _input;
 
     private ScrollBars _scrollBar = ScrollBars.None;
@@ -50,7 +65,7 @@ public class LealTextBox : LealPanel
         {
             Width = 200,
             WordWrap = false,
-            BorderStyle = BorderStyle.FixedSingle,
+            BorderStyle = BorderStyle.None,
             Font = new Font("", 12, FontStyle.Regular),
         };
         this.Add(_input);
@@ -183,6 +198,10 @@ public class LealTextBox : LealPanel
         GotFocus += (s, e) => _input.Focus();
         _input.KeyPress += (s, e) => KeyPressed?.Invoke(_input.Text, e);
         _input.TextChanged += Input_TextChanged;
+        _input.KeyDown += (s, e) => KeyDown?.Invoke(_input, e);
+        _input.KeyUp += (s, e) => KeyUp?.Invoke(_input, e);
+        _input.KeyPress += (s, e) => KeyPress?.Invoke(_input, e);
+
         ReDraw();
     }
 
