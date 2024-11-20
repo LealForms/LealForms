@@ -6,6 +6,7 @@ using LForms.Extensions;
 using LForms.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -16,13 +17,16 @@ public class LealCombo : LealPanel
 {
     private bool _isDroppedDown = false;
     private bool _showDropdownButton = true;
-    private int _dropdownHeight = 100;
+    private bool _showFocusRectangle = false;
+    private int _maxDropdownHeight = 100;
+    private int _minDropdownHeight = 50;
+    private int _dropdownItemHeight = 0;
+    private bool _sendTextChange = true;
 
     private readonly LealTextBox _comboText;
     private readonly LealButton _dropdownButton;
     private readonly ListBox _listBox;
     private readonly LealForm _dropdownForm;
-
     private readonly List<LealComboItem> _items = [];
 
     public LealCombo(int height = 30) : base(redrawOnResize: true)
@@ -42,8 +46,9 @@ public class LealCombo : LealPanel
         };
         _listBox = new ListBox()
         {
-            Dock = DockStyle.Fill,
-            BorderStyle = BorderStyle.None
+            BorderStyle = BorderStyle.None,
+            DrawMode = DrawMode.OwnerDrawFixed,
+            Font = new Font("Rubik", 10, FontStyle.Regular),
         };
         _dropdownForm = new LealForm(true)
         {
@@ -70,25 +75,83 @@ public class LealCombo : LealPanel
         }
     }
 
-    public int DropdownHeight
+    public bool ShowFocusRectangle
     {
-        get => _dropdownHeight;
+        get => _showFocusRectangle;
         set
         {
-            _dropdownHeight = value;
+            _showFocusRectangle = value;
+            _listBox.Invalidate();
+        }
+    }
+
+    public int MaxDropdownHeight
+    {
+        get => _maxDropdownHeight;
+        set
+        {
+            _maxDropdownHeight = value;
             ReDraw();
         }
+    }
+
+    public int MinDropdownHeight
+    {
+        get => _minDropdownHeight;
+        set
+        {
+            _minDropdownHeight = value;
+            ReDraw();
+        }
+    }
+
+    public int DropdownItemHeight
+    {
+        get => _dropdownItemHeight;
+        set
+        {
+            _dropdownItemHeight = value;
+         
+            if (_dropdownItemHeight <= 0)
+            {
+                var textHeight = "T".GetTextSize(_listBox.Font).Height;
+                _dropdownItemHeight = textHeight;
+            }
+
+            _listBox.ItemHeight = _dropdownItemHeight;
+            _listBox.Invalidate();
+        }
+    }
+
+    public Color DropdownBackColor
+    {
+        get => _dropdownForm.BackColor;
+        set
+        {
+            _dropdownForm.BackColor = value;
+            ReDraw();
+        }
+    }
+
+    public Color DropdownForeColor
+    {
+        get => _listBox.ForeColor; 
+        set => _listBox.ForeColor = value;
+    }
+
+    public Font DropdownFont
+    {
+        get => _listBox.Font;
+        set => _listBox.Font = value;
     }
 
     /// <inheritdoc/>
     protected override void ReDraw()
     {
-        this.Add(_comboText);
-        this.Add(_dropdownButton);
-        _dropdownForm.Add(_listBox);
-
         _dropdownButton.Width = 30;
         _dropdownButton.Visible = _showDropdownButton;
+        _listBox.BackColor = _dropdownForm.BackColor;
+        _listBox.DockFillWithPadding(0);
         _dropdownButton.DockTopBottomRightWithPadding(0, 0, 0);
         _comboText.DockFillWithPadding(0, _showDropdownButton ? _dropdownButton.Width : 0, 0, 0);
     }
@@ -98,9 +161,18 @@ public class LealCombo : LealPanel
     {
         _comboText.TextChanged += TextComboChanged;
         _comboText.KeyDown += TextComboKeyDown;
-
         _listBox.Click += ListBox_Click;
+        _listBox.DrawItem += ListBox_DrawItem;
+        _listBox.KeyDown += (s, e) => { if (e.KeyCode == Keys.Enter) ListBox_Click(s, e); };
         _dropdownButton.Click += DropdownButton_Click;
+
+        if (FindForm() is Form form)
+            form.Move += (s, e) => _dropdownForm.Location = PointToScreen(new Point(0, Height));
+
+        this.Add(_comboText);
+        this.Add(_dropdownButton);
+        _dropdownForm.Add(_listBox);
+
         ReDraw();
     }
 
@@ -109,8 +181,15 @@ public class LealCombo : LealPanel
         if (_isDroppedDown)
             return;
 
+        var height = 0;
+
+        for (var i = 0; i < _listBox.Items.Count; i++)
+            height += _listBox.GetItemHeight(i);
+
+        height = Math.Min(Math.Max(height, _minDropdownHeight), _maxDropdownHeight);
+
         _dropdownForm.Location = PointToScreen(new Point(0, Height));
-        _dropdownForm.Size = new Size(Width, _dropdownHeight);
+        _dropdownForm.Size = new Size(Width, height);
         _dropdownForm.Show();
         _isDroppedDown = true;
     }
@@ -138,6 +217,12 @@ public class LealCombo : LealPanel
 
     private void TextComboChanged(string text, EventArgs e)
     {
+        if (_sendTextChange)
+        {
+            _sendTextChange = false;
+            return;
+        }
+
         ShowDropdown();
         _comboText.Focus();
 
@@ -167,10 +252,32 @@ public class LealCombo : LealPanel
             HideDropdown();
     }
 
+    private void ListBox_DrawItem(object? sender, DrawItemEventArgs e)
+    {
+        if (e.Index < 0 || sender is not ListBox listBox)
+            return;
+
+        // Draw background
+        e.DrawBackground();
+
+        var textRect = e.Bounds;
+        var itemText = listBox.Items[e.Index].ToString() ?? "";
+        var textSize = itemText.GetTextSize(e.Font ?? _listBox.Font);
+
+        textRect.Y += (_dropdownItemHeight / 2) - (textSize.Height / 2);
+
+        // Draw the item text
+        TextRenderer.DrawText(e.Graphics, itemText, e.Font, textRect, e.ForeColor, TextFormatFlags.Left);
+
+        if (_showFocusRectangle)
+            e.DrawFocusRectangle();
+    }
+
     private void ListBox_Click(object? sender, EventArgs e)
     {
         if (_listBox.SelectedItem != null)
         {
+            _sendTextChange = true;
             _comboText.Text = _listBox.SelectedItem.ToString();
             HideDropdown();
         }
