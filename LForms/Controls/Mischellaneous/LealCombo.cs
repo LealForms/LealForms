@@ -13,8 +13,17 @@ using System.Windows.Forms;
 
 namespace LForms.Controls.Mischellaneous;
 
+/// <summary>
+/// Represents a custom combo box control that combines a text box, a dropdown button, 
+/// and a dropdown list for selecting items.
+/// </summary>
 public class LealCombo : LealPanel
 {
+    /// <summary>
+    /// Occurs when an item is selected from the dropdown list.
+    /// </summary>
+    public event EventHandler<LealComboItem?>? ItemSelected;
+
     private bool _isDroppedDown = false;
     private bool _showDropdownButton = true;
     private bool _showFocusRectangle = false;
@@ -29,6 +38,10 @@ public class LealCombo : LealPanel
     private readonly LealForm _dropdownForm;
     private readonly List<LealComboItem> _items = [];
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="LealCombo"/> class with the specified height.
+    /// </summary>
+    /// <param name="height">The height of the combo box. Defaults to 30.</param>
     public LealCombo(int height = 30) : base(redrawOnResize: true)
     {
         Height = height;
@@ -59,12 +72,24 @@ public class LealCombo : LealPanel
         };
     }
 
+    /// <summary>
+    /// Gets the text box component of the combo box.
+    /// </summary>
     public LealTextBox ComboText => _comboText;
 
+    /// <summary>
+    /// Gets the dropdown button component of the combo box.
+    /// </summary>
     public LealButton DropdownButton => _dropdownButton;
-
+    
+    /// <summary>
+    /// Gets the currently selected item from the dropdown list.
+    /// </summary>
     public LealComboItem? SelectedItem => (LealComboItem?)_listBox.SelectedItem;
-
+    
+    /// <summary>
+    /// Gets or sets a value indicating whether the dropdown button is visible.
+    /// </summary>
     public bool ShowDropdownButton
     {
         get => _showDropdownButton;
@@ -75,6 +100,9 @@ public class LealCombo : LealPanel
         }
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether a focus rectangle is displayed around selected items.
+    /// </summary>
     public bool ShowFocusRectangle
     {
         get => _showFocusRectangle;
@@ -85,6 +113,9 @@ public class LealCombo : LealPanel
         }
     }
 
+    /// <summary>
+    /// Gets or sets the maximum height of the dropdown list.
+    /// </summary>
     public int MaxDropdownHeight
     {
         get => _maxDropdownHeight;
@@ -95,6 +126,9 @@ public class LealCombo : LealPanel
         }
     }
 
+    /// <summary>
+    /// Gets or sets the minimum height of the dropdown list.
+    /// </summary>
     public int MinDropdownHeight
     {
         get => _minDropdownHeight;
@@ -105,13 +139,19 @@ public class LealCombo : LealPanel
         }
     }
 
+    /// <summary>
+    /// Gets or sets the height of individual items in the dropdown list.
+    /// </summary>
+    /// <remarks>
+    /// If the value is less than or equal to 0, the height will be calculated based on the text size.
+    /// </remarks>
     public int DropdownItemHeight
     {
         get => _dropdownItemHeight;
         set
         {
             _dropdownItemHeight = value;
-         
+
             if (_dropdownItemHeight <= 0)
             {
                 var textHeight = "T".GetTextSize(_listBox.Font).Height;
@@ -123,6 +163,9 @@ public class LealCombo : LealPanel
         }
     }
 
+    /// <summary>
+    /// Gets or sets the background color of the dropdown list.
+    /// </summary>
     public Color DropdownBackColor
     {
         get => _dropdownForm.BackColor;
@@ -133,12 +176,18 @@ public class LealCombo : LealPanel
         }
     }
 
+    /// <summary>
+    /// Gets or sets the foreground (text) color of the dropdown list.
+    /// </summary>
     public Color DropdownForeColor
     {
-        get => _listBox.ForeColor; 
+        get => _listBox.ForeColor;
         set => _listBox.ForeColor = value;
     }
 
+    /// <summary>
+    /// Gets or sets the font used in the dropdown list.
+    /// </summary>
     public Font DropdownFont
     {
         get => _listBox.Font;
@@ -176,6 +225,9 @@ public class LealCombo : LealPanel
         ReDraw();
     }
 
+    /// <summary>
+    /// Displays the dropdown list.
+    /// </summary>
     public void ShowDropdown()
     {
         if (_isDroppedDown)
@@ -194,6 +246,9 @@ public class LealCombo : LealPanel
         _isDroppedDown = true;
     }
 
+    /// <summary>
+    /// Hides the dropdown list.
+    /// </summary>
     public void HideDropdown()
     {
         if (!_isDroppedDown)
@@ -203,12 +258,20 @@ public class LealCombo : LealPanel
         _isDroppedDown = false;
     }
 
+    /// <summary>
+    /// Adds an item to the dropdown list.
+    /// </summary>
+    /// <param name="item">The item to add.</param>
     public void AddItem(LealComboItem item)
     {
         _items.Add(item);
         _listBox.Items.Add(item);
     }
 
+    /// <summary>
+    /// Removes an item from the dropdown list.
+    /// </summary>
+    /// <param name="item">The item to remove.</param>
     public void RemoveItem(LealComboItem item)
     {
         _items.Remove(item);
@@ -279,6 +342,7 @@ public class LealCombo : LealPanel
         {
             _sendTextChange = true;
             _comboText.Text = _listBox.SelectedItem.ToString();
+            ItemSelected?.Invoke(this, (LealComboItem)_listBox.SelectedItem);
             HideDropdown();
         }
     }
