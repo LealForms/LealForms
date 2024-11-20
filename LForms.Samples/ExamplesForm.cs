@@ -5,6 +5,7 @@ using LForms.Controls.Panels;
 using LForms.Enums.Checkbox;
 using LForms.Enums.Switch;
 using LForms.Extensions;
+using LForms.Models;
 using LForms.Samples.StickyNotes;
 using System.Drawing;
 using System.Windows.Forms;
@@ -66,6 +67,20 @@ public class ExamplesForm : LealForm
         };
         backPanel.Add(switchButton);
         switchButton.SetXAfterControl(checkbox, 10);
+
+        var lealCombo = new LealCombo()
+        {
+            DropdownItemHeight = 50,
+            DropdownBackColor = Color.Black,
+            DropdownForeColor = Color.White,
+        };
+        backPanel.Add(lealCombo);
+        lealCombo.SetXAfterControl(switchButton, 10);
+        lealCombo.AddItem(new LealComboItem("Test 1", 1));
+        lealCombo.AddItem(new LealComboItem("Test 2", 2));
+        lealCombo.AddItem(new LealComboItem("Test 3", 3));
+        lealCombo.AddItem(new LealComboItem("Test 4", 4));
+        lealCombo.AddItem(new LealComboItem("Test 5", 5));
 
         backPanel.CentralizeWithSpacingChildrensOfTypeByY<LealButton>(25);
     }

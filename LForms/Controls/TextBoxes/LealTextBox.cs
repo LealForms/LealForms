@@ -35,6 +35,21 @@ public class LealTextBox : LealPanel
     /// </summary>
     public event LealTextBox_KeyPressed? KeyPressed;
 
+    /// <summary>
+    /// Occurs when a key is pressed down while the input has focus.
+    /// </summary>
+    public new event KeyEventHandler? KeyDown;
+
+    /// <summary>
+    /// Occurs when a key is released while the input has focus.
+    /// </summary>
+    public new event KeyEventHandler? KeyUp;
+
+    /// <summary>
+    /// Occurs when a character key is pressed while the input has focus.
+    /// </summary>
+    public new event KeyPressEventHandler? KeyPress;
+
     private readonly TextBox _input;
 
     private ScrollBars _scrollBar = ScrollBars.None;
@@ -54,9 +69,6 @@ public class LealTextBox : LealPanel
             Font = new Font("", 12, FontStyle.Regular),
         };
         this.Add(_input);
-
-        ReDraw();
-        InitializeEventHandlers();
     }
 
     /// <summary>
@@ -167,32 +179,30 @@ public class LealTextBox : LealPanel
         set => _input.ShortcutsEnabled = value;
     }
 
-    /// <summary>
-    /// Initializes the event handlers for the control.
-    /// </summary>
-    private void InitializeEventHandlers()
-    {
-        BackColorChanged += (s, e) => ReDraw();
-        GotFocus += (s, e) => _input.Focus();
-        _input.KeyPress += (s, e) => KeyPressed?.Invoke(_input.Text, e);
-        _input.TextChanged += Input_TextChanged;
-    }
-
-    /// <summary>
-    /// Forces a redraw of the control, adjusting size and positioning of internal elements.
-    /// </summary>
+    /// <inheritdoc/>
     protected override void ReDraw()
     {
         _input.Height = Height;
         _input.Width = Width - 10;
         _input.BackColor = BackColor;
+        _input.Centralize();
 
         if (Multiline)
             _input.SetY(0);
-        else
-            _input.Centralize();
+    }
 
-        _input.AddY(-1);
+    /// <inheritdoc/>
+    protected override void LoadComponents()
+    {
+        BackColorChanged += (s, e) => ReDraw();
+        GotFocus += (s, e) => _input.Focus();
+        _input.KeyPress += (s, e) => KeyPressed?.Invoke(_input.Text, e);
+        _input.TextChanged += Input_TextChanged;
+        _input.KeyDown += (s, e) => KeyDown?.Invoke(_input, e);
+        _input.KeyUp += (s, e) => KeyUp?.Invoke(_input, e);
+        _input.KeyPress += (s, e) => KeyPress?.Invoke(_input, e);
+
+        ReDraw();
     }
 
     private void Input_TextChanged(object? sender, EventArgs e)

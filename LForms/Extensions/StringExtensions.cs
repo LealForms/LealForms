@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -39,4 +40,13 @@ public static class StringExtensions
     public static string ReplaceNewLineBy(this string text, string value)
         => text.Replace("\r\n", "\n").Replace("\r", "\n").Replace("\n", value);
 
+    /// <summary>
+    /// Determines whether a specified string is <c>null</c>, empty, or consists only of white-space characters.
+    /// </summary>
+    /// <param name="text">The string to evaluate.</param>
+    /// <returns>
+    /// <c>true</c> if the string is <c>null</c>, empty, or consists only of white-space characters; otherwise, <c>false</c>.
+    /// </returns>
+    public static bool IsNullOrEmptyOrWhiteSpace([NotNullWhen(false)] this string? text)
+        => string.IsNullOrEmpty(text) || string.IsNullOrWhiteSpace(text);
 }
