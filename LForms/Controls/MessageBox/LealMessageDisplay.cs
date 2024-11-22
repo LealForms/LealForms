@@ -29,10 +29,15 @@ public class LealMessageDisplay : LealForm
             this.TrySetDarkMode();
     }
 
-    public required string Message { get; set; }
+    public required string? Message { get; set; }
     public new Font Font { get; set; }
     public required IconType IconType { get; set; } = IconType.None;
     public required List<LealMessageBoxButton> LealMessageBoxButtons { get; set; }
+
+    public override void ReDraw()
+    {
+        this.CentralizeWithSpacingChildrensOfTypeByX<LealButton>(15);
+    }
 
     public override void LoadComponents()
     {
@@ -44,6 +49,7 @@ public class LealMessageDisplay : LealForm
             TextAlign = ContentAlignment.TopLeft,
         };
         this.Add(messageLabel);
+
         messageLabel.DockFillWithPadding(10, 10, 70, 5);
 
         LealMessageBoxButtons.ForEach(button =>
@@ -54,8 +60,7 @@ public class LealMessageDisplay : LealForm
                 DialogResult = button.DialogResult,
             };
             this.Add(buttonControl);
-            buttonControl.SetY(this.Height - buttonControl.Height - 10);
+            buttonControl.SetY(Height - buttonControl.Height - 10);
         });
-        this.CentralizeWithSpacingChildrensOfTypeByX<LealButton>(15);
     }
 }
