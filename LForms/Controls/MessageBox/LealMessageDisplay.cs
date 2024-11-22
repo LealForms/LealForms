@@ -29,10 +29,10 @@ public class LealMessageDisplay : LealForm
             this.TrySetDarkMode();
     }
 
-    public string Message { get; }
-    public new Font Font { get; }
-    public IconType IconType { get; } = IconType.None;
-    public List<LealMessageBoxButton> LealMessageBoxButtons { get; }
+    public required string Message { get; set; }
+    public new Font Font { get; set; }
+    public required IconType IconType { get; set; } = IconType.None;
+    public required List<LealMessageBoxButton> LealMessageBoxButtons { get; set; }
 
     public override void LoadComponents()
     {
