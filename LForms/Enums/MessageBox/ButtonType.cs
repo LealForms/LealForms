@@ -1,57 +1,57 @@
 ﻿namespace LForms.Enums.MessageBox;
 
 /// <summary>
-/// Specifies the type of buttons to display in a message box.
+/// Specifies identifiers to indicate the type of buttons to display in a message box.
 /// </summary>
 public enum ButtonType
 {
     /// <summary>
     /// The message box contains an OK button.
     /// </summary>
-    OK,
+    Ok,
 
     /// <summary>
-    /// The message box contains OK and Cancel buttons.
+    /// The message box contains a Cancel button.
     /// </summary>
-    OKCancel,
+    Cancel,
 
     /// <summary>
-    /// The message box contains a Close button.
+    /// The message box contains a Yes button.
     /// </summary>
-    Close,
+    Yes,
 
     /// <summary>
-    /// The message box contains Yes and No buttons.
+    /// The message box contains a No button.
     /// </summary>
-    YesNo,
+    No,
 
     /// <summary>
-    /// The message box contains Yes, No, and Cancel buttons.
+    /// The message box contains an Abort button.
     /// </summary>
-    YesNoCancel,
+    Abort,
 
     /// <summary>
-    /// The message box contains Retry and Cancel buttons.
+    /// The message box contains a Retry button.
     /// </summary>
-    RetryCancel,
+    Retry,
 
     /// <summary>
-    /// The message box contains Abort, Retry, and Ignore buttons.
+    /// The message box contains an Ignore button.
     /// </summary>
-    AbortRetryIgnore,
+    Ignore,
 
     /// <summary>
-    /// The message box contains Continue button.
+    /// The message box contains a Try Again button.
+    /// </summary>
+    TryAgain,
+
+    /// <summary>
+    /// The message box contains a Continue button.
     /// </summary>
     Continue,
 
     /// <summary>
-    /// The message box contains Cancel, Try Again, and Continue buttons.
+    /// The message box contains a Custom button.
     /// </summary>
-    CancelTryAgainContinue,
-
-    /// <summary>
-    /// The message box contains a custom button.
-    /// </summary>
-    Custom,
+    Custom
 }

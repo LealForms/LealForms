@@ -219,4 +219,11 @@ public static class DrawingExtensions
         // Blend the two averages to get the central color
         return BlendColors(avgColor1, avgColor2, 0.5f);
     }
+
+    /// <summary>
+    /// Calculates the center point of a rectangle.
+    /// </summary>
+    /// <param name="rect">Rectangle from which to calculate the center point.</param>
+    /// <returns>Point representing the center of the rectangle.</returns>
+    public static Point Center(this Rectangle rect) => new(rect.X + rect.Width / 2, rect.Y + rect.Height / 2);
 }
