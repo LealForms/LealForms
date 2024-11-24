@@ -4,6 +4,7 @@ using LForms.Controls.MessageBox;
 using LForms.Controls.Mischellaneous;
 using LForms.Controls.Panels;
 using LForms.Enums.Checkbox;
+using LForms.Enums.MessageBox;
 using LForms.Enums.Switch;
 using LForms.Extensions;
 using LForms.Models;
@@ -82,7 +83,6 @@ public class ExamplesForm : LealForm
         lealCombo.AddItem(new LealComboItem("Test 3", 3));
         lealCombo.AddItem(new LealComboItem("Test 4", 4));
         lealCombo.AddItem(new LealComboItem("Test 5", 5));
-        lealCombo.ItemSelected += (s, e) => e.Show();
 
         backPanel.CentralizeWithSpacingChildrensOfTypeByY<LealButton>(25);
     }
@@ -94,7 +94,16 @@ public class ExamplesForm : LealForm
             _currentApp.Close();
             _currentApp.Dispose();
             _currentApp = null;
-            LealMessageBox.Show("LealForms", "The previous example has been closed.");
+            MessageBox.Show("Test");
+            LealMessageBox.Show("Info", 
+                "The previous app has been closed.", 
+                IconType.None, 
+                [
+                    LealMessageBoxButton.Ok, 
+                    LealMessageBoxButton.Cancel, 
+                    LealMessageBoxButton.Custom("CustomButton", DialogResult.Abort)
+                ]
+            );
         }
 
         _currentApp = form;
