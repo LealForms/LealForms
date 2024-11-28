@@ -4,6 +4,7 @@ using LForms.Controls.Panels;
 using LForms.Enums.MessageBox;
 using LForms.Extensions;
 using LForms.Models;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -21,18 +22,25 @@ public class LealMessageDisplay : LealForm
     private readonly LealPanel _buttonsPanel;
     private readonly Label _messageLabel;
     private readonly List<Button> _buttonPanelList = [];
+    private FlatStyle _buttonFlatStyle = FlatStyle.Flat;
+    private bool _autoSize = false;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="LealMessageDisplay"/> class with the specified initial size.
     /// </summary>
     /// <param name="startSize">The initial size of the message display form.</param>
-    public LealMessageDisplay(Size startSize) : base(redrawOnResize: true)
+    public LealMessageDisplay(Size? startSize) : base(redrawOnResize: true)
     {
-        Size = startSize;
+        if (startSize != null)
+            Size = startSize.Value;
+        else
+            _autoSize = true;
+
         ShowIcon = false;
         MinimizeBox = false;
         MaximizeBox = false;
         ShowInTaskbar = false;
+
         FormBorderStyle = FormBorderStyle.FixedSingle;
         StartPosition = FormStartPosition.CenterScreen;
 
@@ -69,6 +77,25 @@ public class LealMessageDisplay : LealForm
     }
 
     /// <summary>
+    /// Gets or sets the flat style applied to all buttons in the panel.
+    /// </summary>
+    /// <value>
+    /// A <see cref="FlatStyle"/> value that determines the appearance of the buttons.
+    /// </value>
+    /// <remarks>
+    /// When the value is set, all buttons in the <c>_buttonPanelList</c> will be updated to use the specified flat style.
+    /// </remarks>
+    public FlatStyle ButtonFlatStyle
+    {
+        get => _buttonFlatStyle;
+        set
+        {
+            _buttonFlatStyle = value;
+            _buttonPanelList.ForEach(b => b.FlatStyle = value);
+        }
+    }
+
+    /// <summary>
     /// Gets or sets the message text displayed in the message box.
     /// </summary>
     public required string? Message
@@ -98,6 +125,22 @@ public class LealMessageDisplay : LealForm
         });
         _buttonsPanel.CentralizeWithSpacingChildrensOfTypeByX<Button>(15); 
         _messageLabel.DockFillWithPadding(LealConstants.GAP, LealConstants.GAP, (LealConstants.GAP * 2) + 35, LealConstants.GAP);
+
+        if (_autoSize)
+        {
+            var messageSize = TextRenderer.MeasureText(_messageLabel.Text, Font);
+            var buttonsSize = LealMessageBoxButtons.Count * 100;
+            var gapsSize = LealMessageBoxButtons.Count * 15 + (LealConstants.GAP * 2);
+            var messageWidth = messageSize.Width + (LealConstants.GAP * 2);
+
+            if (messageWidth > gapsSize + buttonsSize)
+                Width = messageWidth;
+            else
+                Width = gapsSize + buttonsSize;
+
+            var calculatedHeight = messageSize.Height + (LealConstants.GAP * 4) + _buttonsPanel.Height;
+            Height = Math.Max(200, calculatedHeight);
+        }
     }
 
     /// <inheritdoc/>
@@ -116,6 +159,7 @@ public class LealMessageDisplay : LealForm
                 Width = 100,
                 BackColor = Color.White,
                 Text = button.ButtonText,
+                FlatStyle = FlatStyle.Flat,
                 DialogResult = button.DialogResult,
             };
             _buttonsPanel.Add(btn);

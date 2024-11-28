@@ -1,13 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace LForms.Enums.Switch;
 
-namespace LForms.Enums.Switch;
-
+/// <summary>
+/// Specifies the visual style of a switch control.
+/// </summary>
 public enum SwitchStyle
 {
+    /// <summary>
+    /// A square-shaped switch style.
+    /// </summary>
     Square,
+
+    /// <summary>
+    /// A circular switch style.
+    /// </summary>
     Circle,
 }
