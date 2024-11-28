@@ -94,7 +94,6 @@ public class ExamplesForm : LealForm
             _currentApp.Close();
             _currentApp.Dispose();
             _currentApp = null;
-            MessageBox.Show("Test");
             LealMessageBox.Show("Info", 
                 "The previous app has been closed.", 
                 IconType.None, 
