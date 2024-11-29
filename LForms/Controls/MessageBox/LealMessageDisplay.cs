@@ -1,5 +1,6 @@
 ﻿using LForms.Controls.Buttons;
 using LForms.Controls.Forms;
+using LForms.Controls.Mischellaneous;
 using LForms.Controls.Panels;
 using LForms.Enums.MessageBox;
 using LForms.Extensions;
@@ -21,9 +22,9 @@ public class LealMessageDisplay : LealForm
     private readonly LealPanel _messagePanel;
     private readonly LealPanel _buttonsPanel;
     private readonly Label _messageLabel;
+    private readonly bool _autoSize = false;
     private readonly List<Button> _buttonPanelList = [];
     private FlatStyle _buttonFlatStyle = FlatStyle.Flat;
-    private bool _autoSize = false;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="LealMessageDisplay"/> class with the specified initial size.
@@ -130,7 +131,7 @@ public class LealMessageDisplay : LealForm
         {
             var messageSize = TextRenderer.MeasureText(_messageLabel.Text, Font);
             var buttonsSize = LealMessageBoxButtons.Count * 100;
-            var gapsSize = LealMessageBoxButtons.Count * 15 + (LealConstants.GAP * 2);
+            var gapsSize = LealMessageBoxButtons.Count * 15 + (LealConstants.GAP * 5);
             var messageWidth = messageSize.Width + (LealConstants.GAP * 2);
 
             if (messageWidth > gapsSize + buttonsSize)
@@ -138,8 +139,8 @@ public class LealMessageDisplay : LealForm
             else
                 Width = gapsSize + buttonsSize;
 
-            var calculatedHeight = messageSize.Height + (LealConstants.GAP * 4) + _buttonsPanel.Height;
-            Height = Math.Max(200, calculatedHeight);
+            var calculatedHeight = messageSize.Height + (LealConstants.GAP * 4) + _buttonsPanel.Height + 100;
+            Height = Math.Max(250, calculatedHeight);
         }
     }
 
@@ -150,6 +151,14 @@ public class LealMessageDisplay : LealForm
         _backPanel.Add(_messagePanel);
         _backPanel.Add(_buttonsPanel);
         _messagePanel.Add(_messageLabel);
+
+        var separator = new LealSeparator()
+        {
+            Height = 1,
+            Dock = DockStyle.Top,
+            BackColor = Color.White.Darken(0.15),
+        };
+        this.Add(separator);
 
         LealMessageBoxButtons.ForEach(button =>
         {
