@@ -1,5 +1,4 @@
-﻿using LForms.Controls.Buttons;
-using LForms.Controls.Forms;
+﻿using LForms.Controls.Forms;
 using LForms.Controls.Mischellaneous;
 using LForms.Controls.Panels;
 using LForms.Enums.MessageBox;
@@ -26,11 +25,14 @@ public class LealMessageDisplay : LealForm
     private readonly List<Button> _buttonPanelList = [];
     private FlatStyle _buttonFlatStyle = FlatStyle.Flat;
 
+    private int _spacing = 15;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="LealMessageDisplay"/> class with the specified initial size.
     /// </summary>
     /// <param name="startSize">The initial size of the message display form.</param>
-    public LealMessageDisplay(Size? startSize) : base(redrawOnResize: true)
+    /// <param name="startPosition">The initial position of the message display form.</param>
+    public LealMessageDisplay(Size? startSize, FormStartPosition startPosition) : base(redrawOnResize: true)
     {
         if (startSize != null)
             Size = startSize.Value;
@@ -42,8 +44,8 @@ public class LealMessageDisplay : LealForm
         MaximizeBox = false;
         ShowInTaskbar = false;
 
+        StartPosition = startPosition;
         FormBorderStyle = FormBorderStyle.FixedSingle;
-        StartPosition = FormStartPosition.CenterScreen;
 
         _messageLabel = new Label()
         {
@@ -97,6 +99,19 @@ public class LealMessageDisplay : LealForm
     }
 
     /// <summary>
+    /// Gets or sets the spacing between buttons in the panel.
+    /// </summary>
+    public int Spacing
+    {
+        get => _spacing;
+        set
+        {
+            _spacing = value;
+            ReDraw();
+        }
+    }
+
+    /// <summary>
     /// Gets or sets the message text displayed in the message box.
     /// </summary>
     public required string? Message
@@ -124,14 +139,14 @@ public class LealMessageDisplay : LealForm
             b.DockBottomWithPadding(LealConstants.GAP);
             b.BringToFront();
         });
-        _buttonsPanel.CentralizeWithSpacingChildrensOfTypeByX<Button>(15); 
+        _buttonsPanel.CentralizeWithSpacingChildrensOfTypeByX<Button>(_spacing); 
         _messageLabel.DockFillWithPadding(LealConstants.GAP, LealConstants.GAP, (LealConstants.GAP * 2) + 35, LealConstants.GAP);
 
         if (_autoSize)
         {
             var messageSize = TextRenderer.MeasureText(_messageLabel.Text, Font);
             var buttonsSize = LealMessageBoxButtons.Count * 100;
-            var gapsSize = LealMessageBoxButtons.Count * 15 + (LealConstants.GAP * 5);
+            var gapsSize = LealMessageBoxButtons.Count * _spacing + (_spacing * 5);
             var messageWidth = messageSize.Width + (LealConstants.GAP * 2);
 
             if (messageWidth > gapsSize + buttonsSize)

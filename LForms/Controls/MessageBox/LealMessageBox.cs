@@ -12,111 +12,76 @@ namespace LForms.Controls.MessageBox;
 public static class LealMessageBox
 {
     /// <summary>
-    /// Displays a message box with the specified title and message.
+    /// Displays a customizable message box with the specified configuration, using a default size.
     /// </summary>
-    /// <param name="title">The title of the message box.</param>
-    /// <param name="message">The message to display in the message box.</param>
-    /// <returns>
-    /// A <see cref="DialogResult"/> indicating the result of the dialog interaction.
-    /// </returns>
-    public static DialogResult Show(string? title, string? message)
-        => Show(title, message, IconType.None, [LealMessageBoxButton.Ok]);
-
-    /// <summary>
-    /// Displays a message box with the specified title, message, and icon type.
-    /// </summary>
-    /// <param name="title">The title of the message box.</param>
-    /// <param name="message">The message to display in the message box.</param>
-    /// <param name="iconType">
-    /// The <see cref="IconType"/> to display in the message box (e.g., Information, Warning, Error).
-    /// </param>
-    /// <returns>
-    /// A <see cref="DialogResult"/> indicating the result of the dialog interaction.
-    /// </returns>
-    public static DialogResult Show(string? title, string? message, IconType iconType)
-        => Show(title, message, iconType, [LealMessageBoxButton.Ok]);
-
-    /// <summary>
-    /// Displays a message box with the specified message, icon type, and buttons.
-    /// </summary>
-    /// <param name="message">The message to display in the message box.</param>
-    /// <param name="iconType">
-    /// The <see cref="IconType"/> to display in the message box (e.g., Information, Warning, Error).
-    /// </param>
+    /// <param name="title">The title of the message box. If null, no title will be displayed.</param>
+    /// <param name="message">The main message to display in the message box. If null, no message will be displayed.</param>
+    /// <param name="iconType">Specifies the icon to display in the message box.</param>
     /// <param name="dialogButtons">
-    /// An array of <see cref="LealMessageBoxButton"/> objects representing the buttons to display.
-    /// </param>
-    /// <returns>
-    /// A <see cref="DialogResult"/> indicating the result of the dialog interaction.
-    /// </returns>
-    public static DialogResult Show(string? message, IconType iconType, LealMessageBoxButton[] dialogButtons)
-        => Show(null, message, iconType, dialogButtons);
-
-    /// <summary>
-    /// Displays a message box with the specified title, message, icon type, and buttons.
-    /// </summary>
-    /// <param name="title">The title of the message box.</param>
-    /// <param name="message">The message to display in the message box.</param>
-    /// <param name="iconType">
-    /// The <see cref="IconType"/> to display in the message box (e.g., Information, Warning, Error).
-    /// </param>
-    /// <param name="dialogButtons">
-    /// An array of <see cref="LealMessageBoxButton"/> objects representing the buttons to display.
-    /// </param>
-    /// <returns>
-    /// A <see cref="DialogResult"/> indicating the result of the dialog interaction.
-    /// </returns>
-    public static DialogResult Show(string? title, string? message, IconType iconType, LealMessageBoxButton[] dialogButtons)
-        => Show(title, message, iconType, dialogButtons, FlatStyle.Flat);
-
-    /// <summary>
-    /// Displays a message box with the specified title, message, icon type, buttons, and button flat style.
-    /// </summary>
-    /// <param name="title">The title of the message box.</param>
-    /// <param name="message">The message to display in the message box.</param>
-    /// <param name="iconType">
-    /// The <see cref="IconType"/> to display in the message box (e.g., Information, Warning, Error).
-    /// </param>
-    /// <param name="dialogButtons">
-    /// An array of <see cref="LealMessageBoxButton"/> objects representing the buttons to display.
+    /// An array of <see cref="LealMessageBoxButton"/> representing the buttons to display in the message box.
     /// </param>
     /// <param name="buttonFlatStyle">
-    /// The <see cref="FlatStyle"/> applied to the buttons in the message box.
+    /// The flat style for the buttons displayed in the message box. Determines the appearance of the buttons.
+    /// </param>
+    /// <param name="pacingBetweenButtons">
+    /// The spacing (in pixels) between buttons in the message box. Default value is 15.
+    /// </param>
+    /// <param name="startPosition">
+    /// Specifies the starting position of the message box on the screen. Default is <see cref="FormStartPosition.CenterScreen"/>.
     /// </param>
     /// <returns>
-    /// A <see cref="DialogResult"/> indicating the result of the dialog interaction.
+    /// A <see cref="DialogResult"/> representing the result of the message box interaction, indicating which button was clicked.
     /// </returns>
-    public static DialogResult Show(string? title, string? message, IconType iconType, LealMessageBoxButton[] dialogButtons, FlatStyle buttonFlatStyle) 
-        => Show(title, message, iconType, dialogButtons, buttonFlatStyle, null);
+    public static DialogResult Show(
+        string? title,
+        string? message,
+        IconType iconType,
+        LealMessageBoxButton[] dialogButtons,
+        FlatStyle buttonFlatStyle,
+        int pacingBetweenButtons = 15,
+        FormStartPosition startPosition = FormStartPosition.CenterScreen
+    ) => Show(title, message, iconType, null, dialogButtons, buttonFlatStyle, pacingBetweenButtons, startPosition);
 
     /// <summary>
-    /// Displays a message box with the specified title, message, icon type, buttons, button flat style, and size.
+    /// Displays a customizable message box with the specified configuration.
     /// </summary>
-    /// <param name="title">The title of the message box.</param>
-    /// <param name="message">The message to display in the message box.</param>
-    /// <param name="iconType">
-    /// The <see cref="IconType"/> to display in the message box (e.g., Information, Warning, Error).
-    /// </param>
+    /// <param name="title">The title of the message box. If null, no title will be displayed.</param>
+    /// <param name="message">The main message to display in the message box. If null, no message will be displayed.</param>
+    /// <param name="iconType">Specifies the icon to display in the message box.</param>
+    /// <param name="size">The size of the message box. If null, a default size will be used.</param>
     /// <param name="dialogButtons">
-    /// An array of <see cref="LealMessageBoxButton"/> objects representing the buttons to display.
+    /// An array of <see cref="LealMessageBoxButton"/> representing the buttons to display in the message box.
     /// </param>
     /// <param name="buttonFlatStyle">
-    /// The <see cref="FlatStyle"/> applied to the buttons in the message box.
+    /// The flat style for the buttons displayed in the message box. Determines the appearance of the buttons.
     /// </param>
-    /// <param name="size">
-    /// The <see cref="Size"/> of the message box. If <c>null</c>, the size will be calculated automatically.
+    /// <param name="pacingBetweenButtons">
+    /// The spacing (in pixels) between buttons in the message box. Default value is 15.
+    /// </param>
+    /// <param name="startPosition">
+    /// Specifies the starting position of the message box on the screen. Default is <see cref="FormStartPosition.CenterScreen"/>.
     /// </param>
     /// <returns>
-    /// A <see cref="DialogResult"/> indicating the result of the dialog interaction.
+    /// A <see cref="DialogResult"/> representing the result of the message box interaction, indicating which button was clicked.
     /// </returns>
-    public static DialogResult Show(string? title, string? message, IconType iconType, LealMessageBoxButton[] dialogButtons, FlatStyle buttonFlatStyle, Size? size)
+    public static DialogResult Show(
+        string? title,
+        string? message,
+        IconType iconType,
+        Size? size,
+        LealMessageBoxButton[] dialogButtons,
+        FlatStyle buttonFlatStyle,
+        int pacingBetweenButtons = 15,
+        FormStartPosition startPosition = FormStartPosition.CenterScreen
+        )
     {
-        var messageBoxForm = new LealMessageDisplay(size)
+        var messageBoxForm = new LealMessageDisplay(size, startPosition)
         {
             Text = title,
             Message = message,
             Font = new Font("Rubik", 12),
             IconType = iconType,
+            Spacing = pacingBetweenButtons,
             ButtonFlatStyle = buttonFlatStyle,
             LealMessageBoxButtons = [.. dialogButtons],
         };
