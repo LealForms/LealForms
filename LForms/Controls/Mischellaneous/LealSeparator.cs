@@ -14,7 +14,7 @@ public class LealSeparator : LealPanel
 {
     private readonly Panel _linedPanel;
 
-    private int _lineSpacing = 5;
+    private int _lineSpacing = 0;
     private int _lineThickness = 2;
     private Color _lineColor = Color.Black;
     private Orientation _orientation;
@@ -34,7 +34,7 @@ public class LealSeparator : LealPanel
     /// Gets or sets the spacing between lines in the separator.
     /// Changing this value triggers a redraw.
     /// </summary>
-    /// <value>The spacing between lines, in pixels. The default value is 5.</value>
+    /// <value>The spacing between lines, in pixels. The default value is 0.</value>
     [Category("Appearance")]
     [Description("The spacing between lines in the separator, in pixels.")]
     public int LineSpacing
@@ -118,8 +118,13 @@ public class LealSeparator : LealPanel
 
         _linedPanel.Centralize(this);
         _linedPanel.BackColor = _lineColor;
-        Invalidate();
+        Invalidate(true);
     }
+
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
+    protected override void LoadComponents() => ReDraw();
 
     private void LealSeparator_ControlAdded(object? sender, ControlEventArgs e) => this.Remove(e.Control);
 }
