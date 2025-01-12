@@ -47,7 +47,7 @@ public class ExamplesForm : LealForm
         var stickyNoteButton = new LealButton((s, e) => SwapExample(new StickyNotesForm()))
         {
             Text = "Sticky Notes",
-            Width = 50
+            Width = 250
         };
         backPanel.Add(stickyNoteButton);
         stickyNoteButton.HorizontalCentralize();
@@ -81,6 +81,15 @@ public class ExamplesForm : LealForm
         lealCombo.AddItem(new LealComboItem("Test 3", 3));
         lealCombo.AddItem(new LealComboItem("Test 4", 4));
         lealCombo.AddItem(new LealComboItem("Test 5", 5));
+
+        var separator = new LealSeparator()
+        {
+            Height = 2,
+            Orientation = Orientation.Horizontal,
+        };
+        backPanel.Add(separator);
+        separator.DockLeftRightWithPadding(0, 0);
+        separator.AddY(backPanel.Height - separator.Height - 30);
 
         backPanel.CentralizeWithSpacingChildrensOfTypeByY<LealButton>(25);
     }
