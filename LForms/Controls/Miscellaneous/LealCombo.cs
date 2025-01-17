@@ -11,7 +11,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace LForms.Controls.Mischellaneous;
+namespace LForms.Controls.Miscellaneous;
 
 /// <summary>
 /// Represents a custom combo box control that combines a text box, a dropdown button, 

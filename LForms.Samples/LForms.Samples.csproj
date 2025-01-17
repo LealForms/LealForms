@@ -1,11 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="../LForms/LForms.csproj" />
+    <Compile Remove="CheckBoxSwichesCombos\**" />
+    <EmbeddedResource Remove="CheckBoxSwichesCombos\**" />
+    <None Remove="CheckBoxSwichesCombos\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CheckBoxSwichesCombos\" />
+    <ProjectReference Include="../LForms/LForms.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

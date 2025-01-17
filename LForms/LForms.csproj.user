@@ -11,13 +11,13 @@
     <Compile Update="Controls\Forms\LealModal.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Controls\Mischellaneous\LealCheckbox.cs">
+    <Compile Update="Controls\Miscellaneous\LealCheckbox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="Controls\Mischellaneous\LealCombo.cs">
+    <Compile Update="Controls\Miscellaneous\LealCombo.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="Controls\Mischellaneous\LealSwitch.cs">
+    <Compile Update="Controls\Miscellaneous\LealSwitch.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Update="Controls\Panels\LealCircularPanel.cs">
@@ -35,13 +35,13 @@
     <Compile Update="Controls\Buttons\LealSelectableButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="Controls\Mischellaneous\LealSeparator.cs">
+    <Compile Update="Controls\Miscellaneous\LealSeparator.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="Controls\Mischellaneous\LealTab.cs">
+    <Compile Update="Controls\Miscellaneous\LealTab.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="Controls\Mischellaneous\LealTabManager.cs">
+    <Compile Update="Controls\Miscellaneous\LealTabManager.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Update="Controls\Panels\LealGradientPanel.cs">
