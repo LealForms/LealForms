@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace LForms.Extensions;
+namespace LealForms.Extensions;
 
 /// <summary>
 /// Custom extensions functions for extern DllImport callers

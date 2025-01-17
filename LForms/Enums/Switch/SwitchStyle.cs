@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LForms.Enums.Switch;
+namespace LealForms.Enums.Switch;
 
 public enum SwitchStyle
 {

@@ -1,9 +1,9 @@
-﻿using LForms.Extensions;
+﻿using LealForms.Extensions;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
-namespace LForms.Controls.Panels;
+namespace LealForms.Controls.Panels;
 
 /// <summary>
 /// Represents a circular panel that maintains an equal width and height, ensuring a circular appearance.

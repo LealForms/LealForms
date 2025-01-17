@@ -1,11 +1,11 @@
-﻿using LForms.Controls.Panels;
-using LForms.Extensions;
+﻿using LealForms.Controls.Panels;
+using LealForms.Extensions;
 using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace LForms.Controls.Miscellaneous;
+namespace LealForms.Controls.Miscellaneous;
 
 /// <summary>
 /// Represents a custom panel control that draws a separating line with configurable spacing, thickness, color, and orientation.

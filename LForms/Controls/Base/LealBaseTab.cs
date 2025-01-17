@@ -1,10 +1,10 @@
-﻿using LForms.Controls.Miscellaneous;
-using LForms.Controls.Panels;
-using LForms.Extensions;
+﻿using LealForms.Controls.Miscellaneous;
+using LealForms.Controls.Panels;
+using LealForms.Extensions;
 using System;
 using System.Windows.Forms;
 
-namespace LForms.Controls.Base;
+namespace LealForms.Controls.Base;
 
 /// <summary>
 /// Represents a base class for tabs in the tab management system. Each tab has a name and 

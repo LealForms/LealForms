@@ -1,11 +1,11 @@
-﻿using LForms.Controls.Base;
-using LForms.Extensions;
+﻿using LealForms.Controls.Base;
+using LealForms.Extensions;
 using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace LForms.Controls.Buttons;
+namespace LealForms.Controls.Buttons;
 
 /// <summary>
 /// Represents a selectable button that can change its appearance based on its selected state and trigger an event when selected.

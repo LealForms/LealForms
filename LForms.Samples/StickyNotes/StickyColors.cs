@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace LForms.Samples.StickyNotes;
+namespace LealForms.Samples.StickyNotes;
 
 public static class StickyColors
 {

@@ -1,4 +1,4 @@
-﻿namespace LForms.Enums;
+﻿namespace LealForms.Enums;
 
 /// <summary>
 /// Specifies the rendering priority for the gradient, balancing quality and performance.

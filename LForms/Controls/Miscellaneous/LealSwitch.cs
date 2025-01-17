@@ -1,6 +1,6 @@
-﻿using LForms.Controls.Panels;
-using LForms.Enums.Switch;
-using LForms.Extensions;
+﻿using LealForms.Controls.Panels;
+using LealForms.Enums.Switch;
+using LealForms.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace LForms.Controls.Miscellaneous;
+namespace LealForms.Controls.Miscellaneous;
 
 public class LealSwitch : LealPanel
 {

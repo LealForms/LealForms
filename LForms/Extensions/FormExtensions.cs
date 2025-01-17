@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace LForms.Extensions;
+namespace LealForms.Extensions;
 
 /// <summary>
 /// Custom extensions functions for <see cref="Form"/>s

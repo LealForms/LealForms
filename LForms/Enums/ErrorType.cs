@@ -1,4 +1,4 @@
-﻿namespace LForms.Enums;
+﻿namespace LealForms.Enums;
 
 /// <summary>
 /// Specifies the type of error that can occur in the application.

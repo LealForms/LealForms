@@ -1,8 +1,8 @@
-﻿using LForms.Controls.Buttons;
-using LForms.Controls.Forms;
-using LForms.Controls.Panels;
-using LForms.Controls.TextBoxes;
-using LForms.Extensions;
+﻿using LealForms.Controls.Buttons;
+using LealForms.Controls.Forms;
+using LealForms.Controls.Panels;
+using LealForms.Controls.TextBoxes;
+using LealForms.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,7 +10,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace LForms.Samples.StickyNotes;
+namespace LealForms.Samples.StickyNotes;
 
 public sealed class StickyNotesForm : LealForm
 {

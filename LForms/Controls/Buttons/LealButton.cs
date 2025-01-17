@@ -1,7 +1,7 @@
-﻿using LForms.Controls.Base;
+﻿using LealForms.Controls.Base;
 using System;
 
-namespace LForms.Controls.Buttons;
+namespace LealForms.Controls.Buttons;
 
 /// <summary>
 /// Represents a basic implementation of the <see cref="LealBaseButton"/> class.

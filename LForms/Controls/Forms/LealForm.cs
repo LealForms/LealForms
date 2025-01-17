@@ -1,9 +1,9 @@
-﻿using LForms.Extensions;
+﻿using LealForms.Extensions;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace LForms.Controls.Forms;
+namespace LealForms.Controls.Forms;
 
 /// <summary>
 /// Represents a custom form with default settings and optional dark mode support.

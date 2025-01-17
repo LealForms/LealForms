@@ -1,8 +1,8 @@
-﻿using LForms.Extensions;
+﻿using LealForms.Extensions;
 using System;
 using System.Windows.Forms;
 
-namespace LForms.Controls.Panels;
+namespace LealForms.Controls.Panels;
 
 /// <summary>
 /// Basic implementation for a panel, enables double buffering
