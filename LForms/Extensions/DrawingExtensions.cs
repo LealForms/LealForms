@@ -4,7 +4,7 @@ using System.Drawing.Imaging;
 using System.Drawing;
 using System.Collections.Generic;
 
-namespace LForms.Extensions;
+namespace LealForms.Extensions;
 
 /// <summary>
 /// Custom extensions functions for everything related to <see cref="System.Drawing"/>

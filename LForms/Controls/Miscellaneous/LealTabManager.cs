@@ -1,14 +1,14 @@
-﻿using LForms.Controls.Base;
-using LForms.Controls.Buttons;
-using LForms.Controls.Panels;
-using LForms.Extensions;
+﻿using LealForms.Controls.Base;
+using LealForms.Controls.Buttons;
+using LealForms.Controls.Panels;
+using LealForms.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace LForms.Controls.Miscellaneous;
+namespace LealForms.Controls.Miscellaneous;
 
 /// <summary>
 /// Manages a collection of tabs and their associated buttons within a container.

@@ -5,7 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace LForms.Extensions;
+namespace LealForms.Extensions;
 
 /// <summary>
 /// Custom extension functions for <see cref="Control"/>s

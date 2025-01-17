@@ -1,16 +1,16 @@
-﻿using LForms.Controls.Buttons;
-using LForms.Controls.Forms;
-using LForms.Controls.Miscellaneous;
-using LForms.Controls.Panels;
-using LForms.Enums.Checkbox;
-using LForms.Enums.Switch;
-using LForms.Extensions;
-using LForms.Models;
-using LForms.Samples.StickyNotes;
+﻿using LealForms.Controls.Buttons;
+using LealForms.Controls.Forms;
+using LealForms.Controls.Miscellaneous;
+using LealForms.Controls.Panels;
+using LealForms.Enums.Checkbox;
+using LealForms.Enums.Switch;
+using LealForms.Extensions;
+using LealForms.Models;
+using LealForms.Samples.StickyNotes;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace LForms.Samples;
+namespace LealForms.Samples;
 
 public class ExamplesForm : LealForm
 {

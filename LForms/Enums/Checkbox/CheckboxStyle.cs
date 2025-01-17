@@ -1,4 +1,4 @@
-﻿namespace LForms.Enums.Checkbox;
+﻿namespace LealForms.Enums.Checkbox;
 
 /// <summary>
 /// Defines the types of checkboxes available.

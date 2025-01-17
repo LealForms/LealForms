@@ -1,9 +1,9 @@
-﻿using LForms.Controls.Buttons;
-using LForms.Controls.Forms;
-using LForms.Controls.Panels;
-using LForms.Controls.TextBoxes;
-using LForms.Extensions;
-using LForms.Models;
+﻿using LealForms.Controls.Buttons;
+using LealForms.Controls.Forms;
+using LealForms.Controls.Panels;
+using LealForms.Controls.TextBoxes;
+using LealForms.Extensions;
+using LealForms.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,7 +11,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace LForms.Controls.Miscellaneous;
+namespace LealForms.Controls.Miscellaneous;
 
 /// <summary>
 /// Represents a custom combo box control that combines a text box, a dropdown button, 

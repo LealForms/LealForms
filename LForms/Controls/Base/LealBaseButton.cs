@@ -1,10 +1,10 @@
-﻿using LForms.Controls.Buttons;
-using LForms.Extensions;
+﻿using LealForms.Controls.Buttons;
+using LealForms.Extensions;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace LForms.Controls.Base;
+namespace LealForms.Controls.Base;
 
 /// <summary>
 /// Represents a customizable base button with predefined styles and behaviors.

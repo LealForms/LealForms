@@ -1,12 +1,12 @@
-﻿using LForms.Controls.Panels;
-using LForms.Enums.Checkbox;
-using LForms.Extensions;
+﻿using LealForms.Controls.Panels;
+using LealForms.Enums.Checkbox;
+using LealForms.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace LForms.Controls.Miscellaneous;
+namespace LealForms.Controls.Miscellaneous;
 
 /// <summary>
 /// Represents a customizable checkbox component with options for appearance, size, and label alignment.

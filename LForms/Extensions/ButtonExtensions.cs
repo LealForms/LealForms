@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace LForms.Extensions;
+namespace LealForms.Extensions;
 
 /// <summary>
 /// Custom extension functions for <see cref="Button"/>s

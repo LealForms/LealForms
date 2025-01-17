@@ -1,8 +1,8 @@
-﻿using LForms.Extensions;
+﻿using LealForms.Extensions;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace LForms.Controls.Panels;
+namespace LealForms.Controls.Panels;
 
 /// <summary>
 /// A panel that supports resizing from various edges and corners. 

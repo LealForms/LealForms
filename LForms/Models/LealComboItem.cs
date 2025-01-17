@@ -1,4 +1,4 @@
-﻿namespace LForms.Models;
+﻿namespace LealForms.Models;
 
 /// <summary>
 /// Represents an item in a combo box, with a display text and an associated value.

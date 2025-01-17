@@ -1,9 +1,9 @@
-using LForms.Enums;
-using LForms.Extensions;
+using LealForms.Enums;
+using LealForms.Extensions;
 using System;
 using System.Windows.Forms;
 
-namespace LForms.Samples;
+namespace LealForms.Samples;
 
 public static class Program
 {

@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace LForms;
+namespace LealForms;
 
 /// <summary>
 /// This class defines constants used in the Extensions classes for window messages, parameters etc.

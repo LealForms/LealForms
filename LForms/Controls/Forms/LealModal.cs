@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace LForms.Controls.Forms;
+namespace LealForms.Controls.Forms;
 
 /// <summary>
 /// Represents a custom modal form inheriting from <see cref="LealForm"/>.

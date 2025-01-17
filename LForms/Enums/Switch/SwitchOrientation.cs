@@ -1,4 +1,4 @@
-﻿namespace LForms.Enums.Switch;
+﻿namespace LealForms.Enums.Switch;
 
 public enum SwitchOrientation
 {

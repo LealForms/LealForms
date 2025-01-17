@@ -1,11 +1,11 @@
-﻿using LForms.Enums;
-using LForms.Extensions;
+﻿using LealForms.Enums;
+using LealForms.Extensions;
 using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace LForms.Controls.Panels;
+namespace LealForms.Controls.Panels;
 
 /// <summary>
 /// This control displays a gradient background by blending the specified corner colors.

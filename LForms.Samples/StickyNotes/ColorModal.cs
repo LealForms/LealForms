@@ -1,12 +1,12 @@
-﻿using LForms.Controls.Buttons;
-using LForms.Controls.Forms;
-using LForms.Controls.Panels;
-using LForms.Extensions;
+﻿using LealForms.Controls.Buttons;
+using LealForms.Controls.Forms;
+using LealForms.Controls.Panels;
+using LealForms.Extensions;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace LForms.Samples.StickyNotes;
+namespace LealForms.Samples.StickyNotes;
 
 public class ColorModal(Control owner, Size size, Color selectedColor) : LealModal(size, owner.Location)
 {
