@@ -1,4 +1,12 @@
+
+
+<div align="center">
+
 # LealForms Library
+
+[![NuGet](https://img.shields.io/nuget/v/LealForms.LealForms.svg)](https://www.nuget.org/packages/LealForms.LealForms/)
+
+</div>
 
 LealForms is a C# library designed to simplify the development of beautiful and functional applications using Windows Forms in .NET.
 
@@ -8,8 +16,8 @@ This library provides a set of customizable and user-friendly controls like butt
 
 You can install LealForms via terminal:
 
-```sh
-Install-Package LealForms.LForms
+```bash
+dotnet add package LealForms.LealForms --version 2.0.0
 ```
 
 Or via nuget package manager in Visual Studio
