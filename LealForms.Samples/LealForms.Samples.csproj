@@ -7,7 +7,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LForms\LealForms.csproj" />
+    <ProjectReference Include="..\LealForms\LealForms.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
