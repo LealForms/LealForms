@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace LForms.Controls.Mischellaneous;
+namespace LForms.Controls.Miscellaneous;
 
 /// <summary>
 /// Represents a custom panel control that draws a separating line with configurable spacing, thickness, color, and orientation.

@@ -1,7 +1,7 @@
 ﻿using LForms.Controls.Base;
 using LForms.Controls.Panels;
 
-namespace LForms.Controls.Mischellaneous;
+namespace LForms.Controls.Miscellaneous;
 
 /// <summary>
 /// Represents a standard implementation of the <see cref="LealBaseTab"/> class with a default tab name.

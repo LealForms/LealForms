@@ -8,7 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace LForms.Controls.Mischellaneous;
+namespace LForms.Controls.Miscellaneous;
 
 /// <summary>
 /// Manages a collection of tabs and their associated buttons within a container.

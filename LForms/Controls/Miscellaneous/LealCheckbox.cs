@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace LForms.Controls.Mischellaneous;
+namespace LForms.Controls.Miscellaneous;
 
 /// <summary>
 /// Represents a customizable checkbox component with options for appearance, size, and label alignment.

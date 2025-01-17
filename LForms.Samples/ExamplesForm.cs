@@ -1,6 +1,6 @@
 ﻿using LForms.Controls.Buttons;
 using LForms.Controls.Forms;
-using LForms.Controls.Mischellaneous;
+using LForms.Controls.Miscellaneous;
 using LForms.Controls.Panels;
 using LForms.Enums.Checkbox;
 using LForms.Enums.Switch;

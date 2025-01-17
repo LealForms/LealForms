@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace LForms.Controls.Mischellaneous;
+namespace LForms.Controls.Miscellaneous;
 
 public class LealSwitch : LealPanel
 {

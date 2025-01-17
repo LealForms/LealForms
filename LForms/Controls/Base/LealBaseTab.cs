@@ -1,4 +1,4 @@
-﻿using LForms.Controls.Mischellaneous;
+﻿using LForms.Controls.Miscellaneous;
 using LForms.Controls.Panels;
 using LForms.Extensions;
 using System;
