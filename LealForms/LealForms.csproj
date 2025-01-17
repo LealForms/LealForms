@@ -8,14 +8,14 @@
     <UseWindowsForms>True</UseWindowsForms>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <Title>LealForms.LForms</Title>
-    <PackageId>LealForms.LForms</PackageId>
+    <Title>LealForms.LealForms</Title>
+    <PackageId>LealForms.LealForms</PackageId>
     <Authors>Eduardo Ribeiro Leal</Authors>
     <PackageProjectUrl>https://github.com/LealForms</PackageProjectUrl>
     <PackageIcon>LealForms_Icon.png</PackageIcon>
     <RepositoryUrl>https://github.com/LealForms/LealForms</RepositoryUrl>
-    <Description>LealForms.LForms is a powerful .NET package designed for WindowsForms</Description>
-    <Product>LealForms.LForms</Product>
+    <Description>LealForms.LealForms is a powerful .NET package designed for WindowsForms</Description>
+    <Product>LealForms.LealForms</Product>
     <PackageTags>forms, ui, winforms, gui, lib</PackageTags>
     <PackageReleaseNotes>Please check the release in github to get more details of what changed</PackageReleaseNotes>
     <NeutralLanguage>en</NeutralLanguage>
@@ -23,11 +23,10 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageOutputPath>..\nuget</PackageOutputPath>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <AssemblyVersion>1.4.2</AssemblyVersion>
-    <FileVersion>1.4.2</FileVersion>
-    <Version>1.4.2</Version>
+    <AssemblyVersion>2.0.0</AssemblyVersion>
+    <FileVersion>2.0.0</FileVersion>
+    <Version>2.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
