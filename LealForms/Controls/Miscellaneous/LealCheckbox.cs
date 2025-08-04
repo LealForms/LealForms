@@ -31,6 +31,17 @@ public class LealCheckbox : LealPanel
     private readonly Label _checkedLabel;
 
     /// <summary>
+    /// Delegate method 
+    /// </summary>
+    /// <param name="isChecked">If it's checked or not</param>
+    public delegate void CheckboxChanged(bool isChecked);
+
+    /// <summary>
+    /// Checked event
+    /// </summary>
+    public event CheckboxChanged? OnChecked;
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="LealCheckbox"/> class with default settings.
     /// </summary>
     public LealCheckbox() : base(false, true)
@@ -287,17 +298,18 @@ public class LealCheckbox : LealPanel
             case CheckboxLabelAlignment.CheckBoxLeftLabelRight:
                 width = _checkbox.Width + _gap + _label.Text.GetTextSize(_label.Font).Width;
                 height = Math.Max(_checkbox.Height, _label.Text.GetTextSize(_label.Font).Height);
-                MinimumSize = new Size(width + 5, height);
+                MinimumSize = new Size(width + 1, height);
 
                 _clickableContainer.Height = height;
                 _clickableContainer.Width = (int)(width * 0.3);
                 _clickableContainer.DockTopBottomLeftWithPadding(0, 0, 0);
+                _clickableContainer.SetX(0);
                 _label.DockFillWithPadding(_clickableContainer.Width + _gap, 0, 0, 0);
                 break;
             case CheckboxLabelAlignment.CheckBoxRightLabelLeft:
                 width = _checkbox.Width + _gap + _label.Text.GetTextSize(_label.Font).Width;
                 height = Math.Max(_checkbox.Height, _label.Text.GetTextSize(_label.Font).Height);
-                MinimumSize = new Size(width + 5, height);
+                MinimumSize = new Size(width + 1, height);
 
                 _clickableContainer.Height = height;
                 _clickableContainer.Width = (int)(width * 0.3);
@@ -307,7 +319,7 @@ public class LealCheckbox : LealPanel
             case CheckboxLabelAlignment.CheckBoxTopLabelBottom:
                 width = _label.Text.GetTextSize(_label.Font).Width;
                 height = _checkbox.Height + _gap + _label.Text.GetTextSize(_label.Font).Height;
-                MinimumSize = new Size(width, height + 5);
+                MinimumSize = new Size(width + 1, height);
 
                 _clickableContainer.Height = _checkbox.Height;
                 _clickableContainer.DockTopLeftRightWithPadding(0, 0, 0);
@@ -316,7 +328,7 @@ public class LealCheckbox : LealPanel
             case CheckboxLabelAlignment.CheckBoxBottomLabelTop:
                 width = _label.Text.GetTextSize(_label.Font).Width;
                 height = _checkbox.Height + _gap + _label.Text.GetTextSize(_label.Font).Height;
-                MinimumSize = new Size(width, height + 5);
+                MinimumSize = new Size(width + 1, height);
 
                 _clickableContainer.Height = _checkbox.Height;
                 _clickableContainer.DockBottomLeftRightWithPadding(0, 0, 0);
@@ -344,5 +356,9 @@ public class LealCheckbox : LealPanel
     /// </summary>
     /// <param name="sender">The source of the click event.</param>
     /// <param name="e">The event data.</param>
-    private void CheckBox_Click(object? sender, EventArgs e) => Checked = !Checked;
+    private void CheckBox_Click(object? sender, EventArgs e)
+    {
+        Checked = !Checked;
+        OnChecked?.Invoke(Checked);
+    }
 }
